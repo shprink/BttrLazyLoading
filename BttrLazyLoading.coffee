@@ -1,8 +1,11 @@
 class bttrLazyLoading
-	constructor: (@img, @options = {}) ->
-		@$img = $(@img)
 
-		$.extend @options, {
+	constructor: (@img, options = {}) ->
+		@$img = $(@img)
+		@loaded = false
+		@dpr = window.devicePixelRatio || 1 
+
+		@options = $.extend {
 			original : 
 				width : undefined,
 				height : undefined,
@@ -20,99 +23,80 @@ class bttrLazyLoading
 				width : 1200,
 				src : '',
 			effect : '',
+			event : 'scroll',
 			container : document.body
-		}, @options
-
-		@setOriginalSrc(@$img.data 'bttrlazyloading-original') if @$img.data 'bttrlazyloading-original'
-		@setXsSrc(@$img.data 'bttrlazyloading-xs') if @$img.data 'bttrlazyloading-xs'
-		@setSmSrc(@$img.data 'bttrlazyloading-sm') if @$img.data 'bttrlazyloading-sm'
-		@setMdSrc(@$img.data 'bttrlazyloading-md') if @$img.data 'bttrlazyloading-md'
-		@setLgSrc(@$img.data 'bttrlazyloading-lg') if @$img.data 'bttrlazyloading-lg'
+		}, options
 
 		console.log @options
 
-		@$img.one "appear", ()->
-			console.log 'haha'
+		@setOriginal({ src: @$img.data 'bttrlazyloading-original' }) if @$img.data 'bttrlazyloading-original'
+		@setXs({ src: @$img.data 'bttrlazyloading-xs'}) if @$img.data 'bttrlazyloading-xs'
+		@setSm({ src: @$img.data 'bttrlazyloading-sm'}) if @$img.data 'bttrlazyloading-sm'
+		@setMd({ src: @$img.data 'bttrlazyloading-md'}) if @$img.data 'bttrlazyloading-md'
+		@setLg({ src: @$img.data 'bttrlazyloading-lg'}) if @$img.data 'bttrlazyloading-lg'
+		
+		@_setupEvents()
 
-		$(window).bind "resize", () =>
-			@update()
+		@update()
 
 	###
 	Private Functions
 	###
 
-	_getDefaultOptions: () ->
-	
+	_setupEvents: () ->
+		@$img.bind @options.event, () ->
+			@update()
+
+		@$img.one "appear", ()->
+			@update()
+
+		$(window).bind "resize", () =>
+			@update()
+
+	_getSrc: () ->
+		ww = window.innerWidth
+		if (ww * @dpr) < @options.xs.width
+			src = @options.xs.src
+		else if (ww * @dpr) < @options.sm.width
+			src = @options.sm.src
+		else if (ww * @dpr) < @options.md.width
+			src = @options.md.src
+		else
+			src = @options.lg.src
+		src
+
 	###
 	public Functions
 	###
 
 	update : () ->
-		console.log 'updating'
+		if !@loaded
+			console.log @_getSrc(), 'loading'
+			@$img.attr 'src', @_getSrc()
+			@loaded = true
+		else
+			console.log 'updating'
 
-	setOriginalSrc : (src) ->
-		@options.original.src = src
+	setOriginal : (original = {}) ->
+		$.extend(@options.original, original);
 
-	getOriginalSrc : () ->
-		@options.original.src
+	setXs : (xs = {}) ->
+		$.extend(@options.xs, xs);
 
+	setSm : (sm = {}) ->
+		$.extend(@options.sm, sm);
 
-	setXsSrc : (src) ->
-		@options.xs.src = src
+	setMd : (md = {}) ->
+		$.extend(@options.md, md);
 
-	getXsSrc : () ->
-		@options.xs.src
-
-	setXsImg : (img) ->
-		@options.xs.img = img
-
-	getXsImg : () ->
-		@options.xs.img
-
-
-	setSmSrc : (src) ->
-		@options.sm.src = src
-
-	getSmSrc : () ->
-		@options.sm.src
-
-	setSmImg : (img) ->
-		@options.sm.img = img
-
-	getSmImg : () ->
-		@options.sm.img
-
-
-	setMdSrc : (src) ->
-		@options.md.src = src
-
-	getMdSrc : () ->
-		@options.md.src
-
-	setMdImg : (img) ->
-		@options.md.img = img
-
-	getMdImg : () ->
-		@options.md.img
-
-
-	setLgSrc : (src) ->
-		@options.lg.src = src
-
-	getLgSrc : () ->
-		@options.lg.src
-
-	setLgImg : (img) ->
-		@options.lg.img = img
-
-	getLgImg : () ->
-		@options.lg.img
+	setLg : (lg = {}) ->
+		$.extend(@options.lg, lg);
 
 jQuery.fn.extend
 	bttrlazyloading: (options) ->
 		this.each () ->
 			$this = $(this)
-			instance = bttrLazyLoading(this, options)
+			instance = new bttrLazyLoading(this, options)
 			$this.data 'bttrlazyloading', instance
 			console.log 'here'
 		return this

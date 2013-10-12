@@ -7,19 +7,20 @@ and open the template in the editor.
 	<head>
 		<title></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
 		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<script src="../bttrlazyloading.js"></script>
 	</head>
 	<body>
-		<img src="" class="bttrlazyloading" 
-			 data-bttrlazyloading-original="/path/to/original"
-			 data-bttrlazyloading-xs="/path/to/xs"
-			 data-bttrlazyloading-sm="/path/to/sm"
-			 data-bttrlazyloading-md="/path/to/md"
-			 data-bttrlazyloading-lg="/path/to/lg" 
-			 />
-		<img src="" class="bttrlazyloading" />
-		<img src="" class="bttrlazyloading" />
+		<div class="container">
+			<img src="" class="bttrlazyloading img-thumbnail img-responsive" 
+				 data-bttrlazyloading-original="/path/to/original"
+				 data-bttrlazyloading-xs="http://placehold.it/768x200"
+				 data-bttrlazyloading-sm="http://placehold.it/992x200"
+				 data-bttrlazyloading-md="http://placehold.it/1200x200"
+				 data-bttrlazyloading-lg="http://placehold.it/1500x200" 
+				 />
+		</div>
 		<script type="text/javascript">
 			$('.bttrlazyloading').bttrlazyloading();
 		</script>
