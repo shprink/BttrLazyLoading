@@ -10,27 +10,27 @@
       }
       this.$img = $(this.img);
       this.loaded = false;
-      this.levels = ['xs', 'sm', 'md', 'lg'];
+      this.sizes = ['xs', 'sm', 'md', 'lg'];
       this.options = $.extend({
         xs: {
           width: 768,
-          src: '',
-          srcRetina: ''
+          src: null,
+          srcRetina: null
         },
         sm: {
           width: 768,
-          src: '',
-          srcRetina: ''
+          src: null,
+          srcRetina: null
         },
         md: {
           width: 992,
-          src: '',
-          srcRetina: ''
+          src: null,
+          srcRetina: null
         },
         lg: {
           width: 1200,
-          src: '',
-          srcRetina: ''
+          src: null,
+          srcRetina: null
         },
         effect: {
           type: 'fadeIn',
@@ -38,8 +38,8 @@
         },
         event: 'scroll',
         container: window,
-        onBeforeLoad: function() {},
-        onAfterLoad: function() {},
+        onBeforeLoad: function(bttrLazyLoading) {},
+        onAfterLoad: function(bttrLazyLoading) {},
         threshold: 0,
         placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
       }, options);
@@ -61,6 +61,8 @@
       });
       this._setupEvents();
       this.update();
+      console.log(JSON.stringify(this._getAvailableSizes()));
+      console.log(JSON.stringify(this._getAvailableRetinaSizes()));
     }
 
     /*
@@ -78,13 +80,13 @@
         _this.$img[_this.options.effect.type](_this.options.effect.duration);
         _this.loaded = _this._getToBeLoadedObject();
         if (typeof _this.options.onAfterLoad === 'function') {
-          return _this.options.onAfterLoad();
+          return _this.options.onAfterLoad(_this);
         }
       });
       this.$img.one('bttrLoad', function() {
         if (!_this.loaded) {
           if (typeof _this.options.onBeforeLoad === 'function') {
-            _this.options.onBeforeLoad();
+            _this.options.onBeforeLoad(_this);
           }
           return setTimeout(function() {
             var toBeLoaded;
@@ -100,6 +102,42 @@
         console.log('resize event');
         return _this.update();
       });
+    };
+
+    bttrLazyLoading.prototype._getAvailableSizes = function() {
+      var sizes;
+      sizes = [];
+      if (this.options.xs.src !== null) {
+        sizes.push('xs');
+      }
+      if (this.options.sm.src !== null) {
+        sizes.push('sm');
+      }
+      if (this.options.md.src !== null) {
+        sizes.push('md');
+      }
+      if (this.options.lg.src !== null) {
+        sizes.push('lg');
+      }
+      return sizes;
+    };
+
+    bttrLazyLoading.prototype._getAvailableRetinaSizes = function() {
+      var sizes;
+      sizes = [];
+      if (this.options.xs.srcRetina !== null) {
+        sizes.push('xs');
+      }
+      if (this.options.sm.srcRetina !== null) {
+        sizes.push('sm');
+      }
+      if (this.options.md.srcRetina !== null) {
+        sizes.push('md');
+      }
+      if (this.options.lg.srcRetina !== null) {
+        sizes.push('lg');
+      }
+      return sizes;
     };
 
     bttrLazyLoading.prototype._getToBeLoadedObject = function() {
@@ -153,7 +191,6 @@
     };
 
     bttrLazyLoading.prototype.setThreshold = function(threshold) {
-      console.log('threshold');
       return this.options.threshold = threshold;
     };
 
@@ -165,12 +202,10 @@
     };
 
     bttrLazyLoading.prototype.setXsSrc = function(xsSrc) {
-      console.log('setXsSrc');
       return this.options.xs.src = xsSrc;
     };
 
     bttrLazyLoading.prototype.setXsSrcRetina = function(xsSrc) {
-      console.log('setXsSrcRetina');
       return this.options.xs.srcRetina = xsSrc;
     };
 
@@ -182,12 +217,10 @@
     };
 
     bttrLazyLoading.prototype.setSmSrc = function(smSrc) {
-      console.log('setSmSrc');
       return this.options.sm.src = smSrc;
     };
 
     bttrLazyLoading.prototype.setSmSrcRetina = function(smSrc) {
-      console.log('setSmSrcRetina');
       return this.options.sm.srcRetina = smSrc;
     };
 
@@ -199,12 +232,10 @@
     };
 
     bttrLazyLoading.prototype.setMdSrc = function(mdSrc) {
-      console.log('setMdSrc');
       return this.options.md.src = mdSrc;
     };
 
     bttrLazyLoading.prototype.setMdSrcRetina = function(mdSrc) {
-      console.log('setMdSrcRetina');
       return this.options.md.srcRetina = mdSrc;
     };
 
@@ -216,12 +247,10 @@
     };
 
     bttrLazyLoading.prototype.setLgSrc = function(lgSrc) {
-      console.log('setLgSrc');
       return this.options.lg.src = lgSrc;
     };
 
     bttrLazyLoading.prototype.setLgSrcRetina = function(lgSrc) {
-      console.log('setLgSrcRetina');
       return this.options.lg.srcRetina = lgSrc;
     };
 
