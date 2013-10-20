@@ -70,7 +70,7 @@ class bttrLazyLoading
 		@$img.one 'bttrLoad', () =>
 			if !@loaded
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
-				src = @_getSrcForCurrentScreen()
+				src = @_getScreenSrc()
 				@loaded = src
 				if (@dpr > 1)
 					@$img.attr 'src', @_getRetinaSrc src
@@ -83,7 +83,7 @@ class bttrLazyLoading
 		$(window).bind "resize", () =>
 			@update()
 
-	_getSrcForCurrentScreen: () ->
+	_getScreenSrc: () ->
 		ww = window.innerWidth
 		if (ww * @dpr) < @options.xs.width
 			@_getLargestExistingSrc 'xs'
@@ -149,7 +149,7 @@ class bttrLazyLoading
 				@$img.trigger 'bttrLoad'
 		else
 			if @_isVisible()
-				src = @_getSrcForCurrentScreen()
+				src = @_getScreenSrc()
 				console.log src, 'update'
 				if src and @loaded isnt src
 					@loaded = src

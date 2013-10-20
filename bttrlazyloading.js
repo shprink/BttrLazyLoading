@@ -82,7 +82,7 @@
           if (typeof _this.options.onBeforeLoad === 'function') {
             _this.options.onBeforeLoad(_this.$img, _this);
           }
-          src = _this._getSrcForCurrentScreen();
+          src = _this._getScreenSrc();
           _this.loaded = src;
           if (_this.dpr > 1) {
             return _this.$img.attr('src', _this._getRetinaSrc(src));
@@ -99,7 +99,7 @@
       });
     };
 
-    bttrLazyLoading.prototype._getSrcForCurrentScreen = function() {
+    bttrLazyLoading.prototype._getScreenSrc = function() {
       var ww, _ref, _ref1;
       ww = window.innerWidth;
       if ((ww * this.dpr) < this.options.xs.width) {
@@ -185,7 +185,7 @@
         }
       } else {
         if (this._isVisible()) {
-          src = this._getSrcForCurrentScreen();
+          src = this._getScreenSrc();
           console.log(src, 'update');
           if (src && this.loaded !== src) {
             this.loaded = src;
