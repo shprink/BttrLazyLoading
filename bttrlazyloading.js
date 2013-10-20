@@ -14,28 +14,21 @@
       this.options = $.extend({
         xs: {
           width: 768,
-          src: null,
-          srcRetina: null
+          src: null
         },
         sm: {
           width: 768,
-          src: null,
-          srcRetina: null
+          src: null
         },
         md: {
           width: 992,
-          src: null,
-          srcRetina: null
+          src: null
         },
         lg: {
           width: 1200,
-          src: null,
-          srcRetina: null
+          src: null
         },
-        effect: {
-          type: 'fadeIn',
-          duration: 200
-        },
+        transitionDuration: 200,
         event: 'scroll',
         container: window,
         onBeforeLoad: function($img, bttrLazyLoading) {},
@@ -45,7 +38,7 @@
         placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
       }, options);
       this.container = $(this.options.container);
-      this.dpr = this.container.devicePixelRatio || 1;
+      this.dpr = window.devicePixelRatio || 1;
       $.each(this.$img.data(), function(i, v) {
         var method;
         if (v) {
@@ -75,8 +68,10 @@
         return this.update();
       });
       this.$img.bind('load', function() {
-        _this.$img.hide();
-        _this.$img[_this.options.effect.type](_this.options.effect.duration);
+        _this.$img.css('opacity', 0);
+        _this.$img.animate({
+          opacity: 1
+        }, _this.options.transitionDuration);
         if (typeof _this.options.onAfterLoad === 'function') {
           return _this.options.onAfterLoad(_this.$img, _this);
         }
@@ -89,7 +84,11 @@
           }
           src = _this._getSrcForCurrentScreen();
           _this.loaded = src;
-          return _this.$img.attr('src', src);
+          if (_this.dpr > 1) {
+            return _this.$img.attr('src', _this._getRetinaSrc(src));
+          } else {
+            return _this.$img.attr('src', src);
+          }
         }
       });
       $(window).bind(this.options.event, function() {
@@ -114,30 +113,30 @@
       }
     };
 
-    bttrLazyLoading.prototype._getSrc = function(ScreenSize, quality) {
-      console.log(ScreenSize, 'ScreenSize');
-      if (typeof this.options[ScreenSize][quality] !== 'undefined' && this.options[ScreenSize][quality] !== null) {
-        return this.options[ScreenSize][quality];
+    bttrLazyLoading.prototype._getRetinaSrc = function(src) {
+      return src.replace(/\.\w+$/, function(match) {
+        return "@2x" + match;
+      });
+    };
+
+    bttrLazyLoading.prototype._getSrc = function(ScreenSize) {
+      if (typeof this.options[ScreenSize].src !== 'undefined' && this.options[ScreenSize].src !== null) {
+        return this.options[ScreenSize].src;
       }
       return '';
     };
 
     bttrLazyLoading.prototype._getLargestExistingSrc = function(range) {
-      var i, index, max, quality, src, srcTemp, _i, _j;
+      var i, index, max, src, srcTemp, _i, _j;
       index = this.ranges.indexOf(range);
-      if (this.dpr > 1) {
-        quality = 'srcRetina';
-      } else {
-        quality = 'src';
-      }
-      src = this._getSrc(range, quality);
+      src = this._getSrc(range);
       if (src !== '') {
         return src;
       }
       max = this.ranges.length - 1;
       for (i = _i = index; index <= max ? _i <= max : _i >= max; i = index <= max ? ++_i : --_i) {
         range = this.ranges[i];
-        srcTemp = this._getSrc(range, quality);
+        srcTemp = this._getSrc(range);
         if (srcTemp) {
           src = srcTemp;
         }
@@ -147,7 +146,7 @@
       }
       for (i = _j = 0; 0 <= index ? _j <= index : _j >= index; i = 0 <= index ? ++_j : --_j) {
         range = this.ranges[i];
-        srcTemp = this._getSrc(range, quality);
+        srcTemp = this._getSrc(range);
         if (srcTemp) {
           src = srcTemp;
         }
@@ -190,7 +189,11 @@
           console.log(src, 'update');
           if (src && this.loaded !== src) {
             this.loaded = src;
-            return this.$img.attr('src', src);
+            if (this.dpr > 1) {
+              return this.$img.attr('src', this._getRetinaSrc(src));
+            } else {
+              return this.$img.attr('src', src);
+            }
           }
         }
       }
@@ -198,6 +201,10 @@
 
     bttrLazyLoading.prototype.setThreshold = function(threshold) {
       return this.options.threshold = threshold;
+    };
+
+    bttrLazyLoading.prototype.setTransitionDuration = function(transitionDuration) {
+      return this.options.transitionDuration = transitionDuration;
     };
 
     bttrLazyLoading.prototype.setXs = function(xs) {
@@ -211,10 +218,6 @@
       return this.options.xs.src = xsSrc;
     };
 
-    bttrLazyLoading.prototype.setXsSrcRetina = function(xsSrc) {
-      return this.options.xs.srcRetina = xsSrc;
-    };
-
     bttrLazyLoading.prototype.setSm = function(sm) {
       if (sm == null) {
         sm = {};
@@ -224,10 +227,6 @@
 
     bttrLazyLoading.prototype.setSmSrc = function(smSrc) {
       return this.options.sm.src = smSrc;
-    };
-
-    bttrLazyLoading.prototype.setSmSrcRetina = function(smSrc) {
-      return this.options.sm.srcRetina = smSrc;
     };
 
     bttrLazyLoading.prototype.setMd = function(md) {
@@ -241,10 +240,6 @@
       return this.options.md.src = mdSrc;
     };
 
-    bttrLazyLoading.prototype.setMdSrcRetina = function(mdSrc) {
-      return this.options.md.srcRetina = mdSrc;
-    };
-
     bttrLazyLoading.prototype.setLg = function(lg) {
       if (lg == null) {
         lg = {};
@@ -254,10 +249,6 @@
 
     bttrLazyLoading.prototype.setLgSrc = function(lgSrc) {
       return this.options.lg.src = lgSrc;
-    };
-
-    bttrLazyLoading.prototype.setLgSrcRetina = function(lgSrc) {
-      return this.options.lg.srcRetina = lgSrc;
     };
 
     return bttrLazyLoading;

@@ -7,23 +7,17 @@ class bttrLazyLoading
 		@options = $.extend {
 			xs :
 				width : 768,
-				src : null,
-				srcRetina : null,
+				src : null
 			sm :
 				width : 768,
-				src : null,
-				srcRetina : null,
+				src : null
 			md :
 				width  : 992,
-				src : null,
-				srcRetina : null,
+				src : null
 			lg :
 				width : 1200,
-				src : null,
-				srcRetina : null,
-			effect :
-				type : 'fadeIn',
-				duration : 200
+				src : null
+			transitionDuration : 200
 			event : 'scroll',
 			container : window,
 			onBeforeLoad : ($img, bttrLazyLoading) ->
@@ -38,7 +32,7 @@ class bttrLazyLoading
 		}, options
 
 		@container = $(@options.container)
-		@dpr = @container.devicePixelRatio || 1 
+		@dpr = window.devicePixelRatio || 1 
 
 		# Set options based on Jquery Data available
 		$.each @$img.data(), (i, v) =>
@@ -67,8 +61,10 @@ class bttrLazyLoading
 			@update()
 
 		@$img.bind 'load', () =>
-			@$img.hide();
-			@$img[@options.effect.type](@options.effect.duration);
+			@$img.css 'opacity', 0
+			@$img.animate
+				opacity : 1
+			, @options.transitionDuration
 			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
 
 		@$img.one 'bttrLoad', () =>
@@ -76,7 +72,10 @@ class bttrLazyLoading
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
 				src = @_getSrcForCurrentScreen()
 				@loaded = src
-				@$img.attr 'src', src
+				if (@dpr > 1)
+					@$img.attr 'src', @_getRetinaSrc src
+				else
+					@$img.attr 'src', src
 
 		$(window).bind  @options.event, () =>
 			@update()
@@ -94,33 +93,36 @@ class bttrLazyLoading
 			@_getLargestExistingSrc 'md'
 		else if @options.lg.width <= (ww * @dpr)
 			@_getLargestExistingSrc 'lg'
+			
+	_getRetinaSrc: (src)->
+		src.replace(/\.\w+$/, (match)->
+				return "@2x" + match
+			)
 
-	_getSrc: (ScreenSize, quality)->
-		console.log ScreenSize, 'ScreenSize'
-		if typeof @options[ScreenSize][quality] isnt 'undefined' and @options[ScreenSize][quality] isnt null
-			return @options[ScreenSize][quality]
+	_getSrc: (ScreenSize)->
+		if typeof @options[ScreenSize].src isnt 'undefined' and @options[ScreenSize].src isnt null
+			return @options[ScreenSize].src
 		return ''
 
 	_getLargestExistingSrc: (range)->
 		index = @ranges.indexOf(range)
-		if (@dpr > 1) then quality = 'srcRetina' else quality = 'src'
 
 		# Check if the right img exist
-		src = @_getSrc(range, quality)
+		src = @_getSrc(range)
 		return src if src isnt ''
 
 		# If not we check if a bigger img exist
 		max = @ranges.length - 1
 		for i in [index .. max]
 			range = @ranges[i]
-			srcTemp = @_getSrc(range, quality)
+			srcTemp = @_getSrc(range)
 			src =  srcTemp if srcTemp
 		return src if src isnt ''
 
 		# If not we start back from the smallest img
 		for i in [0 .. index]
 			range = @ranges[i]
-			srcTemp = @_getSrc(range, quality)
+			srcTemp = @_getSrc(range)
 			src =  srcTemp if srcTemp
 		return src if src isnt ''
 
@@ -151,12 +153,17 @@ class bttrLazyLoading
 				console.log src, 'update'
 				if src and @loaded isnt src
 					@loaded = src
-					@$img.attr 'src', src
+					if (@dpr > 1)
+						@$img.attr 'src', @_getRetinaSrc src
+					else
+						@$img.attr 'src', src
 			
 
 	setThreshold : (threshold) ->
-		#console.log 'threshold'
 		@options.threshold = threshold
+
+	setTransitionDuration : (transitionDuration) ->
+		@options.transitionDuration = transitionDuration
 
 	setXs : (xs = {}) ->
 		$.extend(@options.xs, xs);
@@ -164,10 +171,6 @@ class bttrLazyLoading
 	setXsSrc : (xsSrc) ->
 		#console.log 'setXsSrc'
 		@options.xs.src = xsSrc
-		
-	setXsSrcRetina : (xsSrc) ->
-		#console.log 'setXsSrcRetina'
-		@options.xs.srcRetina = xsSrc
 
 	setSm : (sm = {}) ->
 		$.extend(@options.sm, sm);
@@ -175,10 +178,6 @@ class bttrLazyLoading
 	setSmSrc : (smSrc) ->
 		#console.log 'setSmSrc'
 		@options.sm.src = smSrc
-		
-	setSmSrcRetina : (smSrc) ->
-		#console.log 'setSmSrcRetina'
-		@options.sm.srcRetina = smSrc
 
 	setMd : (md = {}) ->
 		$.extend(@options.md, md);
@@ -186,10 +185,6 @@ class bttrLazyLoading
 	setMdSrc : (mdSrc) ->
 		#console.log 'setMdSrc'
 		@options.md.src = mdSrc
-		
-	setMdSrcRetina : (mdSrc) ->
-		#console.log 'setMdSrcRetina'
-		@options.md.srcRetina = mdSrc
 
 	setLg : (lg = {}) ->
 		$.extend(@options.lg, lg);
@@ -197,10 +192,6 @@ class bttrLazyLoading
 	setLgSrc : (lgSrc) ->
 		#console.log 'setLgSrc'
 		@options.lg.src = lgSrc
-		
-	setLgSrcRetina : (lgSrc) ->
-		#console.log 'setLgSrcRetina'
-		@options.lg.srcRetina = lgSrc
 
 jQuery.fn.extend
 	bttrlazyloading: (options) ->
