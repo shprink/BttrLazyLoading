@@ -4,6 +4,7 @@
   bttrLazyLoading = (function() {
     function bttrLazyLoading(img, options) {
       var _this = this;
+
       this.img = img;
       if (options == null) {
         options = {};
@@ -41,6 +42,7 @@
       this.dpr = window.devicePixelRatio || 1;
       $.each(this.$img.data(), function(i, v) {
         var method;
+
         if (v) {
           method = 'set' + i.replace('bttrlazyloading', '');
           if (typeof _this[method] !== 'undefined') {
@@ -48,6 +50,8 @@
           }
         }
       });
+      console.log(this.$img.width());
+      console.log(this.$img.height());
       this.$img.css({
         'background-image': "url('" + this.options.placeholder + "')",
         'background-repeat': 'no-repeat',
@@ -64,6 +68,7 @@
 
     bttrLazyLoading.prototype._setupEvents = function() {
       var _this = this;
+
       this.$img.bind(this.options.event, function() {
         return this.update();
       });
@@ -72,18 +77,22 @@
         _this.$img.animate({
           opacity: 1
         }, _this.options.transitionDuration);
+        _this.$img.attr('width', _this.$img[0].naturalWidth);
+        _this.$img.attr('height', _this.$img[0].naturalHeight);
+        _this.loaded = _this.$img.attr('src');
         if (typeof _this.options.onAfterLoad === 'function') {
           return _this.options.onAfterLoad(_this.$img, _this);
         }
       });
       this.$img.one('bttrLoad', function() {
         var src;
+
         if (!_this.loaded) {
           if (typeof _this.options.onBeforeLoad === 'function') {
             _this.options.onBeforeLoad(_this.$img, _this);
           }
           src = _this._getScreenSrc();
-          _this.loaded = src;
+          console.log(src, 'bttrLoad src');
           if (_this.dpr > 1) {
             return _this.$img.attr('src', _this._getRetinaSrc(src));
           } else {
@@ -101,6 +110,7 @@
 
     bttrLazyLoading.prototype._getScreenSrc = function() {
       var ww, _ref, _ref1;
+
       ww = window.innerWidth;
       if ((ww * this.dpr) < this.options.xs.width) {
         return this._getLargestExistingSrc('xs');
@@ -128,6 +138,7 @@
 
     bttrLazyLoading.prototype._getLargestExistingSrc = function(range) {
       var i, index, max, src, srcTemp, _i, _j;
+
       index = this.ranges.indexOf(range);
       src = this._getSrc(range);
       if (src !== '') {
@@ -162,6 +173,7 @@
 
     bttrLazyLoading.prototype._isVisible = function() {
       var eb, et, wb, wt;
+
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -179,6 +191,7 @@
 
     bttrLazyLoading.prototype.update = function() {
       var src;
+
       if (!this.loaded) {
         if (this._isVisible()) {
           return this.$img.trigger('bttrLoad');
@@ -259,6 +272,7 @@
     bttrlazyloading: function(options) {
       this.each(function() {
         var $this, instance;
+
         $this = $(this);
         if (!$this.hasClass('bttrlazyloading-done')) {
           instance = new bttrLazyLoading(this, options);

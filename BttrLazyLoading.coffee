@@ -40,10 +40,8 @@ class bttrLazyLoading
 				method = 'set' + i.replace 'bttrlazyloading', ''
 				this[method](v) if typeof this[method] isnt 'undefined'
 
-		#@$img.attr 'src', @options.placeholder					if	!@$img.attr 'src' && @options.placeholder
-		#@$img.css 'width',	@$img.data 'bttrlazyloading-width'	if  @$img.data 'bttrlazyloading-width'
-		#@$img.css 'height',	@$img.data 'bttrlazyloading-height'	if  @$img.data 'bttrlazyloading-height'
-
+		console.log @$img.width()
+		console.log @$img.height()
 		@$img.css
 			'background-image'						: "url('" + @options.placeholder + "')",
 			'background-repeat'						: 'no-repeat',
@@ -65,13 +63,18 @@ class bttrLazyLoading
 			@$img.animate
 				opacity : 1
 			, @options.transitionDuration
+			# Does not work on IE8
+			@$img.attr 'width', @$img[0].naturalWidth
+			@$img.attr 'height', @$img[0].naturalHeight
+			@loaded = @$img.attr 'src'
 			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
 
 		@$img.one 'bttrLoad', () =>
 			if !@loaded
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
 				src = @_getScreenSrc()
-				@loaded = src
+				console.log src, 'bttrLoad src'
+				
 				if (@dpr > 1)
 					@$img.attr 'src', @_getRetinaSrc src
 				else
