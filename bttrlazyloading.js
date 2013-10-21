@@ -4,7 +4,6 @@
   bttrLazyLoading = (function() {
     function bttrLazyLoading(img, options) {
       var _this = this;
-
       this.img = img;
       if (options == null) {
         options = {};
@@ -42,7 +41,6 @@
       this.dpr = window.devicePixelRatio || 1;
       $.each(this.$img.data(), function(i, v) {
         var method;
-
         if (v) {
           method = 'set' + i.replace('bttrlazyloading', '');
           if (typeof _this[method] !== 'undefined') {
@@ -68,7 +66,6 @@
 
     bttrLazyLoading.prototype._setupEvents = function() {
       var _this = this;
-
       this.$img.bind(this.options.event, function() {
         return this.update();
       });
@@ -86,7 +83,6 @@
       });
       this.$img.one('bttrLoad', function() {
         var src;
-
         if (!_this.loaded) {
           if (typeof _this.options.onBeforeLoad === 'function') {
             _this.options.onBeforeLoad(_this.$img, _this);
@@ -110,7 +106,6 @@
 
     bttrLazyLoading.prototype._getScreenSrc = function() {
       var ww, _ref, _ref1;
-
       ww = window.innerWidth;
       if ((ww * this.dpr) < this.options.xs.width) {
         return this._getLargestExistingSrc('xs');
@@ -138,7 +133,6 @@
 
     bttrLazyLoading.prototype._getLargestExistingSrc = function(range) {
       var i, index, max, src, srcTemp, _i, _j;
-
       index = this.ranges.indexOf(range);
       src = this._getSrc(range);
       if (src !== '') {
@@ -173,7 +167,6 @@
 
     bttrLazyLoading.prototype._isVisible = function() {
       var eb, et, wb, wt;
-
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -191,7 +184,6 @@
 
     bttrLazyLoading.prototype.update = function() {
       var src;
-
       if (!this.loaded) {
         if (this._isVisible()) {
           return this.$img.trigger('bttrLoad');
@@ -214,6 +206,24 @@
 
     bttrLazyLoading.prototype.setThreshold = function(threshold) {
       return this.options.threshold = threshold;
+    };
+
+    bttrLazyLoading.prototype.setEvent = function(event) {
+      if (event == null) {
+        event = '';
+      }
+      return this.options.event = event;
+    };
+
+    bttrLazyLoading.prototype.setContainer = function(container) {
+      return this.options.container = container;
+    };
+
+    bttrLazyLoading.prototype.setPlaceholder = function(placeholder) {
+      if (placeholder == null) {
+        placeholder = '';
+      }
+      return this.options.placeholder = placeholder;
     };
 
     bttrLazyLoading.prototype.setTransitionDuration = function(transitionDuration) {
@@ -270,9 +280,8 @@
 
   jQuery.fn.extend({
     bttrlazyloading: function(options) {
-      this.each(function() {
+      return this.each(function() {
         var $this, instance;
-
         $this = $(this);
         if (!$this.hasClass('bttrlazyloading-done')) {
           instance = new bttrLazyLoading(this, options);
@@ -280,7 +289,6 @@
           return $this.data('bttrlazyloading', instance);
         }
       });
-      return this;
     }
   });
 

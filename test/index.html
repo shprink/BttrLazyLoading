@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="../bower_components/jasmine/lib/jasmine-core/jasmine.css">
+		<script type="text/javascript" src="../bower_components/jasmine/lib/jasmine-core/jasmine.js"></script>
+		<script type="text/javascript" src="../bower_components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
+		<script src="../bower_components/jquery/jquery.min.js"></script>
+		<script src="../bttrlazyloading.js"></script>
+		<!-- SPEC -->
+		<script type="text/javascript">
+			$( document ).ready(function() {
+				describe("Jquery Data", function() {
+					var obj = $("#test").bttrlazyloading().data('bttrlazyloading');
+
+					it("set the right image src", function() {
+						expect(obj.options.xs.src).toEqual("../demo/img/768x200.gif");
+						expect(obj.options.sm.src).toEqual("../demo/img/345x250.gif");
+						expect(obj.options.md.src).toEqual("../demo/img/455x350.gif");
+						expect(obj.options.lg.src).toEqual("../demo/img/360x300.gif");
+					});
+
+					it("set the right options", function() {
+						expect(obj.options.transitionDuration).toEqual(1000)	;
+						expect(obj.options.event).toEqual("mouseover");
+						expect(obj.options.container).toEqual("document.body");
+						expect(obj.options.threshold).toEqual(500);
+						expect(obj.options.placeholder).toEqual("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
+					})
+				});
+			});
+		</script>
+		<script type="text/javascript">
+			(function() {
+				var jasmineEnv = jasmine.getEnv();
+				jasmineEnv.updateInterval = 1000;
+
+				var trivialReporter = new jasmine.TrivialReporter();
+
+				jasmineEnv.addReporter(trivialReporter);
+
+				jasmineEnv.specFilter = function(spec) {
+					return trivialReporter.specFilter(spec);
+				};
+
+				var currentWindowOnload = window.onload;
+
+				window.onload = function() {
+					if (currentWindowOnload) {
+						currentWindowOnload();
+					}
+					execJasmine();
+				};
+
+				function execJasmine() {
+					jasmineEnv.execute();
+				}
+
+			})();
+		</script>
+	</head>
+	<body>
+		<img id="test" src="" width="200" height="200"
+			 data-bttrlazyloading-xs-src="../demo/img/768x200.gif"
+			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
+			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
+			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
+			 data-bttrlazyloading-transition-duration="1000"
+			 data-bttrlazyloading-event="mouseover"
+			 data-bttrlazyloading-container="document.body"
+			 data-bttrlazyloading-threshold="500"
+			 data-bttrlazyloading-placeholder="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+			 />
+	</body>
+</html>

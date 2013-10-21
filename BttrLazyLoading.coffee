@@ -164,6 +164,15 @@ class bttrLazyLoading
 
 	setThreshold : (threshold) ->
 		@options.threshold = threshold
+		
+	setEvent : (event = '') ->
+		@options.event = event
+		
+	setContainer : (container) ->
+		@options.container = container
+		
+	setPlaceholder : (placeholder = '') ->
+		@options.placeholder = placeholder
 
 	setTransitionDuration : (transitionDuration) ->
 		@options.transitionDuration = transitionDuration
@@ -198,11 +207,10 @@ class bttrLazyLoading
 
 jQuery.fn.extend
 	bttrlazyloading: (options) ->
-		this.each () ->
+		return this.each () ->
 			$this = $(this)
 			# Already instanciated?
 			if !$this.hasClass 'bttrlazyloading-done'
 				instance = new bttrLazyLoading this, options
 				$this.addClass 'bttrlazyloading-done'
 				$this.data 'bttrlazyloading', instance
-		return this
