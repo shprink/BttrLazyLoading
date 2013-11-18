@@ -10,7 +10,7 @@
 		<script src="../bttrlazyloading.js"></script>
 		<!-- SPEC -->
 		<script type="text/javascript">
-			$( document ).ready(function() {
+			$(document).ready(function() {
 				describe("Jquery Data", function() {
 					var obj = $("#test").bttrlazyloading().data('bttrlazyloading');
 
@@ -22,12 +22,50 @@
 					});
 
 					it("set the right options", function() {
-						expect(obj.options.transitionDuration).toEqual(1000)	;
+						expect(obj.options.transitionDuration).toEqual(1000);
 						expect(obj.options.event).toEqual("mouseover");
 						expect(obj.options.container).toEqual("document.body");
 						expect(obj.options.threshold).toEqual(500);
 						expect(obj.options.placeholder).toEqual("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
-					})
+					});
+
+					it("has the default ranges", function() {
+						expect(obj.options.ranges.xs).toEqual(767);
+						expect(obj.options.ranges.sm).toEqual(768);
+						expect(obj.options.ranges.md).toEqual(992);
+						expect(obj.options.ranges.lg).toEqual(1200);
+					});
+
+					it("set the default global ranges", function() {
+						$.bttrlazyloading.setDefaultRanges({
+							'xs': 5,
+							'sm': 6,
+							'md': 7,
+							'lg': 8
+						});
+						var obj2 = $("#test2").bttrlazyloading().data('bttrlazyloading');
+
+						expect(obj2.options.ranges.xs).toEqual(5);
+						expect(obj2.options.ranges.sm).toEqual(6);
+						expect(obj2.options.ranges.md).toEqual(7);
+						expect(obj2.options.ranges.lg).toEqual(8);
+					});
+
+					it("set the default ranges", function() {
+						var obj2 = $("#test3").bttrlazyloading({
+							ranges: {
+								'xs': 1,
+								'sm': 2,
+								'md': 3,
+								'lg': 4
+							}
+						}).data('bttrlazyloading');
+
+						expect(obj2.options.ranges.xs).toEqual(1);
+						expect(obj2.options.ranges.sm).toEqual(2);
+						expect(obj2.options.ranges.md).toEqual(3);
+						expect(obj2.options.ranges.lg).toEqual(4);
+					});
 				});
 			});
 		</script>
@@ -71,6 +109,20 @@
 			 data-bttrlazyloading-container="document.body"
 			 data-bttrlazyloading-threshold="500"
 			 data-bttrlazyloading-placeholder="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+			 />
+
+		<img id="test2" src="" width="200" height="200"
+			 data-bttrlazyloading-xs-src="../demo/img/768x200.gif"
+			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
+			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
+			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
+			 />
+
+		<img id="test3" src="" width="200" height="200"
+			 data-bttrlazyloading-xs-src="../demo/img/768x200.gif"
+			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
+			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
+			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
 			 />
 	</body>
 </html>

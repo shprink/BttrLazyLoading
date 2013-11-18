@@ -1,22 +1,18 @@
-class bttrLazyLoading
+$ = jQuery
 
-	constructor: (@img, options = {}) ->
-		@$img = $(@img)
-		@loaded = false
-		@ranges = ['xs','sm', 'md', 'lg']
-		@options = $.extend {
+class BttrLazyLoading
+
+	@DEFAULT: {
 			xs :
-				width : 768,
 				src : null
 			sm :
-				width : 768,
 				src : null
 			md :
-				width  : 992,
 				src : null
 			lg :
-				width : 1200,
 				src : null
+			ranges : undefined
+			retinaEnabled : undefined
 			transitionDuration : 200
 			event : 'scroll',
 			container : window,
@@ -29,7 +25,21 @@ class bttrLazyLoading
 				return
 			threshold : 0,
 			placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
-		}, options
+		}
+
+	constructor: (@img, options = {}) ->
+		@$img = $(@img)
+		@loaded = false
+		@rangesOrder = ['xs','sm', 'md', 'lg']
+		
+		defaultOptions = this.constructor.DEFAULT
+
+		# Mergin Global options
+		defaultOptions.ranges = $.bttrlazyloading.constructor.ranges
+		defaultOptions.retinaEnabled = $.bttrlazyloading.constructor.retinaEnabled
+
+		@options = $.extend defaultOptions, options
+		console.log @options
 
 		@container = $(@options.container)
 		@dpr = window.devicePixelRatio || 1 
@@ -43,9 +53,9 @@ class bttrLazyLoading
 		console.log @$img.width()
 		console.log @$img.height()
 		@$img.css
-			'background-image'						: "url('" + @options.placeholder + "')",
-			'background-repeat'						: 'no-repeat',
-			'background-position'					: 'center'
+			'background-image'		: "url('" + @options.placeholder + "')",
+			'background-repeat'		: 'no-repeat',
+			'background-position'	: 'center'
 		
 		@_setupEvents()
 
@@ -59,6 +69,7 @@ class bttrLazyLoading
 			@update()
 
 		@$img.bind 'load', () =>
+			@$img.addClass 'bttrlazyloading-loaded'
 			@$img.css 'opacity', 0
 			@$img.animate
 				opacity : 1
@@ -74,8 +85,8 @@ class bttrLazyLoading
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
 				src = @_getScreenSrc()
 				console.log src, 'bttrLoad src'
-				
-				if (@dpr > 1)
+
+				if (@dpr > 1 && @options.retinaEnabled)
 					@$img.attr 'src', @_getRetinaSrc src
 				else
 					@$img.attr 'src', src
@@ -88,13 +99,13 @@ class bttrLazyLoading
 
 	_getScreenSrc: () ->
 		ww = window.innerWidth
-		if (ww * @dpr) < @options.xs.width
+		if (ww * @dpr) <= @options.ranges.xs
 			@_getLargestExistingSrc 'xs'
-		else if @options.sm.width <= (ww * @dpr) < @options.md.width
+		else if @options.ranges.sm <= (ww * @dpr) < @options.ranges.md
 			@_getLargestExistingSrc 'sm'
-		else if @options.md.width <= (ww * @dpr) < @options.lg.width
+		else if @options.ranges.md <= (ww * @dpr) < @options.ranges.lg
 			@_getLargestExistingSrc 'md'
-		else if @options.lg.width <= (ww * @dpr)
+		else if @options.ranges.lg <= (ww * @dpr)
 			@_getLargestExistingSrc 'lg'
 			
 	_getRetinaSrc: (src)->
@@ -102,29 +113,29 @@ class bttrLazyLoading
 				return "@2x" + match
 			)
 
-	_getSrc: (ScreenSize)->
-		if typeof @options[ScreenSize].src isnt 'undefined' and @options[ScreenSize].src isnt null
-			return @options[ScreenSize].src
+	_getSrc: (range)->
+		if typeof @options[range].src isnt 'undefined' and @options[range].src isnt null
+			return @options[range].src
 		return ''
 
 	_getLargestExistingSrc: (range)->
-		index = @ranges.indexOf(range)
+		index = @rangesOrder.indexOf(range)
 
 		# Check if the right img exist
 		src = @_getSrc(range)
 		return src if src isnt ''
 
 		# If not we check if a bigger img exist
-		max = @ranges.length - 1
+		max = @rangesOrder.length - 1
 		for i in [index .. max]
-			range = @ranges[i]
+			range = @rangesOrder[i]
 			srcTemp = @_getSrc(range)
 			src =  srcTemp if srcTemp
 		return src if src isnt ''
 
 		# If not we start back from the smallest img
 		for i in [0 .. index]
-			range = @ranges[i]
+			range = @rangesOrder[i]
 			srcTemp = @_getSrc(range)
 			src =  srcTemp if srcTemp
 		return src if src isnt ''
@@ -155,8 +166,9 @@ class bttrLazyLoading
 				src = @_getScreenSrc()
 				console.log src, 'update'
 				if src and @loaded isnt src
+					@$img.removeClass 'bttrlazyloading-loaded'
 					@loaded = src
-					if (@dpr > 1)
+					if (@dpr > 1 && @options.retinaEnabled)
 						@$img.attr 'src', @_getRetinaSrc src
 					else
 						@$img.attr 'src', src
@@ -205,12 +217,37 @@ class bttrLazyLoading
 		#console.log 'setLgSrc'
 		@options.lg.src = lgSrc
 
-jQuery.fn.extend
+$.fn.extend
 	bttrlazyloading: (options) ->
 		return this.each () ->
 			$this = $(this)
 			# Already instanciated?
 			if !$this.hasClass 'bttrlazyloading-done'
-				instance = new bttrLazyLoading this, options
+				instance = new BttrLazyLoading this, options
 				$this.addClass 'bttrlazyloading-done'
 				$this.data 'bttrlazyloading', instance
+
+$.fn.bttrlazyloading.Constructor = BttrLazyLoading
+
+class BttrLazyLoadingGlobal
+
+	version : '1.0.0'
+	@ranges : 
+		'xs' : 767
+		'sm' : 768
+		'md' : 992
+		'lg' : 1200
+	
+	@retinaEnabled : false
+
+	setDefaultRanges : (object = {}) ->
+		$.extend this.constructor.ranges, object
+		this
+
+	setRetina : (boolean) ->
+		if typeof boolean == 'boolean'
+			this.constructor.retinaEnabled = boolean
+		this
+
+$.bttrlazyloading = new BttrLazyLoadingGlobal()
+	
