@@ -23,15 +23,8 @@ class BttrLazyLoading
 				method = 'set' + i.replace 'bttrlazyloading', ''
 				this[method](v) if typeof this[method] isnt 'undefined'
 
-		imgObject = @_getScreenSrc()
-		console.log imgObject, 'imgObject start'
-#		@$img.attr 'width', @$img[0].naturalWidth
-#		@$img.attr 'height', @$img[0].naturalHeight
-			
+		imgObject = @_getImgObject()
 		@$img.css
-			'background-image'		: "url('" + @options.placeholder + "')"
-			'background-repeat'		: 'no-repeat'
-			'background-position'	: 'center'
 			'width'					: imgObject.width
 			'height'				: imgObject.height
 
@@ -52,20 +45,19 @@ class BttrLazyLoading
 			@loaded = @$img.attr 'src'
 			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
 
-		@$img.one 'bttrLoad', () =>
-			if !@loaded
-				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
-				imgObject = @_getScreenSrc()
-				console.log imgObject, 'bttrLoad imgObject'
-				setTimeout () =>
-					if (@dpr > 1 && @options.retinaEnabled)
-						@$img.attr 'src', @_getRetinaSrc imgObject.src
-					else
-						@$img.attr 'src', imgObject.src
-					@$img.css
-						'width'		: 'auto'
-						'height'	: 'auto'
-				, 3000
+		@$img.on 'bttrLoad', () =>
+			@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
+			imgObject = @_getImgObject()
+			console.log imgObject, 'bttrLoad imgObject'
+			#setTimeout () =>
+			if (@dpr > 1 && @options.retinaEnabled)
+				@$img.attr 'src', @_getRetinaSrc imgObject.src
+			else
+				@$img.attr 'src', imgObject.src
+			@$img.css
+				'width'		: ''
+				'height'	: ''
+				#, 1000
 
 		$(window).bind  @options.event, () =>
 			@update()
@@ -73,46 +65,46 @@ class BttrLazyLoading
 		$(window).bind "resize", () =>
 			@update()
 
-	_getScreenSrc: () ->
+	_getImgObject: () ->
 		ww = window.innerWidth
 		if (ww * @dpr) <= @options.ranges.xs
-			@_getLargestExistingRangeObject 'xs'
+			@_getLargestImgObject 'xs'
 		else if @options.ranges.sm <= (ww * @dpr) < @options.ranges.md
-			@_getLargestExistingRangeObject 'sm'
+			@_getLargestImgObject 'sm'
 		else if @options.ranges.md <= (ww * @dpr) < @options.ranges.lg
-			@_getLargestExistingRangeObject 'md'
+			@_getLargestImgObject 'md'
 		else if @options.ranges.lg <= (ww * @dpr)
-			@_getLargestExistingRangeObject 'lg'
+			@_getLargestImgObject 'lg'
 			
 	_getRetinaSrc: (src)->
 		src.replace(/\.\w+$/, (match)->
 				return "@2x" + match
 			)
 
-	_getRangeObject: (range)->
+	_getImgObjectPerRange: (range)->
 		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
 			return @options.img[range]
 		return false
 
-	_getLargestExistingRangeObject: (range)->
+	_getLargestImgObject: (range)->
 		index = @rangesOrder.indexOf(range)
 
 		# Check if the right img exist
-		src = @_getRangeObject(range)
+		src = @_getImgObjectPerRange(range)
 		return src if typeof src == 'object'
 
 		# If not we check if a bigger img exist
 		max = @rangesOrder.length - 1
 		for i in [index .. max]
 			range = @rangesOrder[i]
-			srcTemp = @_getRangeObject(range)
+			srcTemp = @_getImgObjectPerRange(range)
 			src =  srcTemp if srcTemp
 		return src if typeof src == 'object'
 
 		# If not we start back from the smallest img
 		for i in [0 .. index]
 			range = @rangesOrder[i]
-			srcTemp = @_getRangeObject(range)
+			srcTemp = @_getImgObjectPerRange(range)
 			src =  srcTemp if srcTemp
 		return src if typeof src == 'object'
 
@@ -134,21 +126,24 @@ class BttrLazyLoading
 	###
 
 	update : () ->
-		if !@loaded
-			if @_isVisible()
-				@$img.trigger 'bttrLoad'
-		else
-			if @_isVisible()
-				imgObject = @_getScreenSrc()
-				console.log imgObject, 'update imgObject'
+		if @_isVisible()
+			imgObject = @_getImgObject()
+			if !@loaded
+				@$img.css
+					'background-image'		: "url('" + @options.placeholder + "')"
+					'background-repeat'		: 'no-repeat'
+					'background-position'	: 'center'
+					'width'					: imgObject.width
+					'height'				: imgObject.height
+			else
 				if imgObject.src and @loaded isnt imgObject.src
 					@$img.removeClass 'bttrlazyloading-loaded'
-					@loaded = imgObject.src
-					if (@dpr > 1 && @options.retinaEnabled)
-						@$img.attr 'src', @_getRetinaSrc imgObjectsrc
-					else
-						@$img.attr 'src', imgObject.src
-			
+					@$img.removeClass 'animated ' + @options.transition if @options.transition
+					@$img.removeAttr 'src'
+					@$img.css
+						'width'		: imgObject.width
+						'height'	: imgObject.height
+			@$img.trigger 'bttrLoad'			
 
 	setThreshold : (threshold) ->
 		@options.threshold = threshold

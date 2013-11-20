@@ -28,12 +28,8 @@
           }
         }
       });
-      imgObject = this._getScreenSrc();
-      console.log(imgObject, 'imgObject start');
+      imgObject = this._getImgObject();
       this.$img.css({
-        'background-image': "url('" + this.options.placeholder + "')",
-        'background-repeat': 'no-repeat',
-        'background-position': 'center',
         'width': imgObject.width,
         'height': imgObject.height
       });
@@ -61,26 +57,22 @@
           return _this.options.onAfterLoad(_this.$img, _this);
         }
       });
-      this.$img.one('bttrLoad', function() {
+      this.$img.on('bttrLoad', function() {
         var imgObject;
-        if (!_this.loaded) {
-          if (typeof _this.options.onBeforeLoad === 'function') {
-            _this.options.onBeforeLoad(_this.$img, _this);
-          }
-          imgObject = _this._getScreenSrc();
-          console.log(imgObject, 'bttrLoad imgObject');
-          return setTimeout(function() {
-            if (_this.dpr > 1 && _this.options.retinaEnabled) {
-              _this.$img.attr('src', _this._getRetinaSrc(imgObject.src));
-            } else {
-              _this.$img.attr('src', imgObject.src);
-            }
-            return _this.$img.css({
-              'width': 'auto',
-              'height': 'auto'
-            });
-          }, 3000);
+        if (typeof _this.options.onBeforeLoad === 'function') {
+          _this.options.onBeforeLoad(_this.$img, _this);
         }
+        imgObject = _this._getImgObject();
+        console.log(imgObject, 'bttrLoad imgObject');
+        if (_this.dpr > 1 && _this.options.retinaEnabled) {
+          _this.$img.attr('src', _this._getRetinaSrc(imgObject.src));
+        } else {
+          _this.$img.attr('src', imgObject.src);
+        }
+        return _this.$img.css({
+          'width': '',
+          'height': ''
+        });
       });
       $(window).bind(this.options.event, function() {
         return _this.update();
@@ -90,17 +82,17 @@
       });
     };
 
-    BttrLazyLoading.prototype._getScreenSrc = function() {
+    BttrLazyLoading.prototype._getImgObject = function() {
       var ww, _ref, _ref1;
       ww = window.innerWidth;
       if ((ww * this.dpr) <= this.options.ranges.xs) {
-        return this._getLargestExistingRangeObject('xs');
+        return this._getLargestImgObject('xs');
       } else if ((this.options.ranges.sm <= (_ref = ww * this.dpr) && _ref < this.options.ranges.md)) {
-        return this._getLargestExistingRangeObject('sm');
+        return this._getLargestImgObject('sm');
       } else if ((this.options.ranges.md <= (_ref1 = ww * this.dpr) && _ref1 < this.options.ranges.lg)) {
-        return this._getLargestExistingRangeObject('md');
+        return this._getLargestImgObject('md');
       } else if (this.options.ranges.lg <= (ww * this.dpr)) {
-        return this._getLargestExistingRangeObject('lg');
+        return this._getLargestImgObject('lg');
       }
     };
 
@@ -110,24 +102,24 @@
       });
     };
 
-    BttrLazyLoading.prototype._getRangeObject = function(range) {
+    BttrLazyLoading.prototype._getImgObjectPerRange = function(range) {
       if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
         return this.options.img[range];
       }
       return false;
     };
 
-    BttrLazyLoading.prototype._getLargestExistingRangeObject = function(range) {
+    BttrLazyLoading.prototype._getLargestImgObject = function(range) {
       var i, index, max, src, srcTemp, _i, _j;
       index = this.rangesOrder.indexOf(range);
-      src = this._getRangeObject(range);
+      src = this._getImgObjectPerRange(range);
       if (typeof src === 'object') {
         return src;
       }
       max = this.rangesOrder.length - 1;
       for (i = _i = index; index <= max ? _i <= max : _i >= max; i = index <= max ? ++_i : --_i) {
         range = this.rangesOrder[i];
-        srcTemp = this._getRangeObject(range);
+        srcTemp = this._getImgObjectPerRange(range);
         if (srcTemp) {
           src = srcTemp;
         }
@@ -137,7 +129,7 @@
       }
       for (i = _j = 0; 0 <= index ? _j <= index : _j >= index; i = 0 <= index ? ++_j : --_j) {
         range = this.rangesOrder[i];
-        srcTemp = this._getRangeObject(range);
+        srcTemp = this._getImgObjectPerRange(range);
         if (srcTemp) {
           src = srcTemp;
         }
@@ -170,24 +162,30 @@
 
     BttrLazyLoading.prototype.update = function() {
       var imgObject;
-      if (!this.loaded) {
-        if (this._isVisible()) {
-          return this.$img.trigger('bttrLoad');
-        }
-      } else {
-        if (this._isVisible()) {
-          imgObject = this._getScreenSrc();
-          console.log(imgObject, 'update imgObject');
+      if (this._isVisible()) {
+        imgObject = this._getImgObject();
+        if (!this.loaded) {
+          this.$img.css({
+            'background-image': "url('" + this.options.placeholder + "')",
+            'background-repeat': 'no-repeat',
+            'background-position': 'center',
+            'width': imgObject.width,
+            'height': imgObject.height
+          });
+        } else {
           if (imgObject.src && this.loaded !== imgObject.src) {
             this.$img.removeClass('bttrlazyloading-loaded');
-            this.loaded = imgObject.src;
-            if (this.dpr > 1 && this.options.retinaEnabled) {
-              return this.$img.attr('src', this._getRetinaSrc(imgObjectsrc));
-            } else {
-              return this.$img.attr('src', imgObject.src);
+            if (this.options.transition) {
+              this.$img.removeClass('animated ' + this.options.transition);
             }
+            this.$img.removeAttr('src');
+            this.$img.css({
+              'width': imgObject.width,
+              'height': imgObject.height
+            });
           }
         }
+        return this.$img.trigger('bttrLoad');
       }
     };
 

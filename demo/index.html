@@ -117,10 +117,11 @@ and open the template in the editor.
 				-ms-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
 				-o-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
 				transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
+				margin-top: 50px;
 			}
 			#resizer {
 				position:fixed;
-				top:0;
+				top:50px;
 				left:0;
 				right:0;
 				z-index:99;
@@ -162,23 +163,43 @@ and open the template in the editor.
 		</style>
 	</head>
 	<body>
-		<div style="position:fixed;top:0;z-index:99;width:100%;">
-			<div id="resizer" class="bounceInDown animated">
-				<ul class="button-group list-unstyled">
-					<li><button class="hidden-xs btn btn-info" title="Fullscreen" data-viewport-width="100%" data-viewport-height="100%"><i class="icon-fullscreen"></i></button></li>
-					
-					<li><button class="desktop-only hidden-sm hidden-xs hidden-md btn btn-default" title="Desktop" data-viewport-width="1920px" data-viewport-height="1080px"><i class="icon-desktop"></i></button></li>
-					<li><button class="desktop-only hidden-sm hidden-xs hidden-md active btn btn-default" title="13 ' MacBook Pro" data-viewport-width="1280px" data-viewport-height="800px"><i class="icon-laptop"></i></button></li>
-					<li><button class="hidden-sm hidden-xs hidden-md btn btn-default" title="iPad" data-rotate="true" data-viewport-width="1024px" data-viewport-height="768px"><i class="icon-tablet"></i></button></li>
-					<li><button class="hidden-sm hidden-xs hidden-md btn btn-default" title="Android Tablet" data-rotate="true" data-viewport-width="1280px" data-viewport-height="720px"><i class="android icon-tablet"></i></button></li>
-					<li><button class="hidden-xs btn btn-default" title="Android Phone" data-rotate="true" data-viewport-width="720px" data-viewport-height="480px"><i class="android icon-mobile-phone"></i></button></li>
-					<li><button class="hidden-xs btn btn-default" title="iPhone" data-rotate="true" data-viewport-width="640px" data-viewport-height="320px"><i class="icon-mobile-phone"></i></button></li>
-
-					<li><button class="rotate btn btn-success hidden-xs" title="Toggle Landscape/Portrait"><i class="icon-refresh"></i></button></li>
-					<li><button id="closeResizer" class="btn btn-danger"><i class="icon-remove"></i></button></li>
-					</ul>
-				</div>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="?url=presentation.html">BttrLazyLoading</a>
 			</div>
-			<iframe id="resizerFrame" src="demo.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
-			</body>
-		</html>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="?url=animation.html">Animations</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div id="resizer" class="bounceInDown animated">
+			<ul class="button-group list-unstyled">
+				<li><button class="hidden-xs btn btn-info" title="Fullscreen" data-viewport-width="100%" data-viewport-height="100%"><i class="icon-fullscreen"></i></button></li>
+
+				<li><button class="desktop-only hidden-sm hidden-xs hidden-md btn btn-default" title="Desktop" data-viewport-width="1920px" data-viewport-height="1080px"><i class="icon-desktop"></i></button></li>
+				<li><button class="desktop-only hidden-sm hidden-xs hidden-md active btn btn-default" title="13 ' MacBook Pro" data-viewport-width="1280px" data-viewport-height="800px"><i class="icon-laptop"></i></button></li>
+				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default" title="Android Tablet" data-rotate="true" data-viewport-width="1280px" data-viewport-height="720px"><i class="android icon-tablet"></i></button></li>
+				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default" title="iPad" data-rotate="true" data-viewport-width="1024px" data-viewport-height="768px"><i class="icon-tablet"></i></button></li>
+				<li><button class="hidden-xs btn btn-default" title="Android Phone" data-rotate="true" data-viewport-width="720px" data-viewport-height="480px"><i class="android icon-mobile-phone"></i></button></li>
+				<li><button class="hidden-xs btn btn-default" title="iPhone" data-rotate="true" data-viewport-width="640px" data-viewport-height="320px"><i class="icon-mobile-phone"></i></button></li>
+
+				<li><button class="rotate btn btn-success hidden-xs" title="Toggle Landscape/Portrait"><i class="icon-refresh"></i></button></li>
+				<li><button id="closeResizer" class="btn btn-danger"><i class="icon-remove"></i></button></li>
+			</ul>
+		</div>
+		<iframe id="resizerFrame" src="demo.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
+	</body>
+</html>
