@@ -15,14 +15,14 @@
 					var obj = $("#test").bttrlazyloading().data('bttrlazyloading');
 
 					it("set the right image src", function() {
-						expect(obj.options.xs.src).toEqual("../demo/img/768x200.gif");
-						expect(obj.options.sm.src).toEqual("../demo/img/345x250.gif");
-						expect(obj.options.md.src).toEqual("../demo/img/455x350.gif");
-						expect(obj.options.lg.src).toEqual("../demo/img/360x300.gif");
+						expect(obj.options.img.xs.src).toEqual("../demo/img/768x200.gif");
+						expect(obj.options.img.sm.src).toEqual("../demo/img/345x250.gif");
+						expect(obj.options.img.md.src).toEqual("../demo/img/455x350.gif");
+						expect(obj.options.img.lg.src).toEqual("../demo/img/360x300.gif");
 					});
 
 					it("set the right options", function() {
-						expect(obj.options.transitionDuration).toEqual(1000);
+						expect(obj.options.transition).toEqual('rotatedIn');
 						expect(obj.options.event).toEqual("mouseover");
 						expect(obj.options.container).toEqual("document.body");
 						expect(obj.options.threshold).toEqual(500);
@@ -37,11 +37,13 @@
 					});
 
 					it("set the default global ranges", function() {
-						$.bttrlazyloading.setDefaultRanges({
-							'xs': 5,
-							'sm': 6,
-							'md': 7,
-							'lg': 8
+						$.bttrlazyloading.setOptions({
+							ranges : {
+								'xs': 5,
+								'sm': 6,
+								'md': 7,
+								'lg': 8
+							}
 						});
 						var obj2 = $("#test2").bttrlazyloading().data('bttrlazyloading');
 
@@ -104,7 +106,7 @@
 			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
 			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
 			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
-			 data-bttrlazyloading-transition-duration="1000"
+			 data-bttrlazyloading-transition="rotatedIn"
 			 data-bttrlazyloading-event="mouseover"
 			 data-bttrlazyloading-container="document.body"
 			 data-bttrlazyloading-threshold="500"
