@@ -34,7 +34,9 @@
         'height': imgObject.height
       });
       this._setupEvents();
-      this.update();
+      setTimeout(function() {
+        return _this.update();
+      }, 100);
     }
 
     /*
@@ -58,21 +60,22 @@
         }
       });
       this.$img.on('bttrLoad', function() {
-        var imgObject;
-        if (typeof _this.options.onBeforeLoad === 'function') {
-          _this.options.onBeforeLoad(_this.$img, _this);
-        }
-        imgObject = _this._getImgObject();
-        console.log(imgObject, 'bttrLoad imgObject');
-        if (_this.dpr > 1 && _this.options.retinaEnabled) {
-          _this.$img.attr('src', _this._getRetinaSrc(imgObject.src));
-        } else {
-          _this.$img.attr('src', imgObject.src);
-        }
-        return _this.$img.css({
-          'width': '',
-          'height': ''
-        });
+        return setTimeout(function() {
+          var imgObject;
+          if (typeof _this.options.onBeforeLoad === 'function') {
+            _this.options.onBeforeLoad(_this.$img, _this);
+          }
+          imgObject = _this._getImgObject();
+          if (_this.dpr > 1 && _this.options.retinaEnabled) {
+            _this.$img.attr('src', _this._getRetinaSrc(imgObject.src));
+          } else {
+            _this.$img.attr('src', imgObject.src);
+          }
+          return _this.$img.css({
+            'width': '',
+            'height': ''
+          });
+        }, _this.options.delay);
       });
       $(window).bind(this.options.event, function() {
         return _this.update();
@@ -198,6 +201,10 @@
         event = '';
       }
       return this.options.event = event;
+    };
+
+    BttrLazyLoading.prototype.setDelay = function(delay) {
+      return this.options.delay = delay;
     };
 
     BttrLazyLoading.prototype.setContainer = function(container) {
@@ -347,6 +354,7 @@
       },
       retinaEnabled: false,
       transition: 'bounceIn',
+      delay: 0,
       event: 'scroll',
       container: window,
       onBeforeLoad: function($img, bttrLazyLoading) {},

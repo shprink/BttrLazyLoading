@@ -29,8 +29,10 @@ class BttrLazyLoading
 			'height'				: imgObject.height
 
 		@_setupEvents()
-
-		@update()
+		
+		setTimeout () =>
+			@update()
+		, 100
 
 	###
 	Private Functions
@@ -45,19 +47,18 @@ class BttrLazyLoading
 			@loaded = @$img.attr 'src'
 			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
 
-		@$img.on 'bttrLoad', () =>
-			@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
-			imgObject = @_getImgObject()
-			console.log imgObject, 'bttrLoad imgObject'
-			#setTimeout () =>
-			if (@dpr > 1 && @options.retinaEnabled)
-				@$img.attr 'src', @_getRetinaSrc imgObject.src
-			else
-				@$img.attr 'src', imgObject.src
-			@$img.css
-				'width'		: ''
-				'height'	: ''
-				#, 1000
+		@$img.on 'bttrLoad', () =>		
+			setTimeout () =>
+				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
+				imgObject = @_getImgObject()	
+				if (@dpr > 1 && @options.retinaEnabled)
+					@$img.attr 'src', @_getRetinaSrc imgObject.src
+				else
+					@$img.attr 'src', imgObject.src
+				@$img.css
+					'width'		: ''
+					'height'	: ''
+			, @options.delay
 
 		$(window).bind  @options.event, () =>
 			@update()
@@ -150,6 +151,9 @@ class BttrLazyLoading
 		
 	setEvent : (event = '') ->
 		@options.event = event
+		
+	setDelay : (delay) ->
+		@options.delay = delay
 		
 	setContainer : (container) ->
 		@options.container = container
@@ -248,6 +252,7 @@ class BttrLazyLoadingGlobal
 			'lg' : 1200
 		retinaEnabled : false
 		transition: 'bounceIn'
+		delay: 0
 		event : 'scroll',
 		container : window,
 		onBeforeLoad : ($img, bttrLazyLoading) ->
