@@ -4,21 +4,27 @@
   $ = jQuery;
 
   BttrLazyLoading = (function() {
+    var _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _getRetinaSrc, _isVisible, _setupEvents;
+
+    BttrLazyLoading.rangesOrder = ['xs', 'sm', 'md', 'lg'];
+
+    BttrLazyLoading.dpr = 1;
+
     function BttrLazyLoading(img, options) {
       var defaultOptions, imgObject,
         _this = this;
-      this.img = img;
       if (options == null) {
         options = {};
       }
-      this.$img = $(this.img);
+      this.$img = $(img);
       this.loaded = false;
-      this.rangesOrder = ['xs', 'sm', 'md', 'lg'];
+      this.cache = {};
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
       this.options = $.extend(defaultOptions, options);
-      console.log(this.options);
       this.container = $(this.options.container);
-      this.dpr = window.devicePixelRatio || 1;
+      if (typeof window.devicePixelRatio === 'number') {
+        this.constructor.dpr = window.devicePixelRatio;
+      }
       $.each(this.$img.data(), function(i, v) {
         var method;
         if (v) {
@@ -28,12 +34,12 @@
           }
         }
       });
-      imgObject = this._getImgObject();
+      imgObject = _getImgObject.call(this);
       this.$img.css({
         'width': imgObject.width,
         'height': imgObject.height
       });
-      this._setupEvents();
+      _setupEvents.call(this);
       setTimeout(function() {
         return _this.update();
       }, 100);
@@ -44,7 +50,7 @@
     */
 
 
-    BttrLazyLoading.prototype._setupEvents = function() {
+    _setupEvents = function() {
       var _this = this;
       this.$img.bind(this.options.event, function() {
         return this.update();
@@ -65,9 +71,9 @@
           if (typeof _this.options.onBeforeLoad === 'function') {
             _this.options.onBeforeLoad(_this.$img, _this);
           }
-          imgObject = _this._getImgObject();
-          if (_this.dpr > 1 && _this.options.retinaEnabled) {
-            _this.$img.attr('src', _this._getRetinaSrc(imgObject.src));
+          imgObject = _getImgObject.call(_this);
+          if (_this.constructor.dpr > 1 && _this.options.retinaEnabled) {
+            _this.$img.attr('src', _getRetinaSrc(imgObject.src));
           } else {
             _this.$img.attr('src', imgObject.src);
           }
@@ -77,6 +83,11 @@
           });
         }, _this.options.delay);
       });
+      this.$img.on('error', function() {
+        if (typeof _this.options.onError === 'function') {
+          return _this.options.onError(_this.$img, _this);
+        }
+      });
       $(window).bind(this.options.event, function() {
         return _this.update();
       });
@@ -85,68 +96,79 @@
       });
     };
 
-    BttrLazyLoading.prototype._getImgObject = function() {
+    _getRangeFromScreenSize = function() {
       var ww, _ref, _ref1;
       ww = window.innerWidth;
-      if ((ww * this.dpr) <= this.options.ranges.xs) {
-        return this._getLargestImgObject('xs');
-      } else if ((this.options.ranges.sm <= (_ref = ww * this.dpr) && _ref < this.options.ranges.md)) {
-        return this._getLargestImgObject('sm');
-      } else if ((this.options.ranges.md <= (_ref1 = ww * this.dpr) && _ref1 < this.options.ranges.lg)) {
-        return this._getLargestImgObject('md');
-      } else if (this.options.ranges.lg <= (ww * this.dpr)) {
-        return this._getLargestImgObject('lg');
+      if ((ww * this.constructor.dpr) <= this.options.ranges.xs) {
+        return 'xs';
+      } else if ((this.options.ranges.sm <= (_ref = ww * this.constructor.dpr) && _ref < this.options.ranges.md)) {
+        return 'sm';
+      } else if ((this.options.ranges.md <= (_ref1 = ww * this.constructor.dpr) && _ref1 < this.options.ranges.lg)) {
+        return 'md';
+      } else if (this.options.ranges.lg <= (ww * this.constructor.dpr)) {
+        return 'lg';
       }
     };
 
-    BttrLazyLoading.prototype._getRetinaSrc = function(src) {
+    _getImgObject = function() {
+      var rangeFromScreenSize;
+      rangeFromScreenSize = _getRangeFromScreenSize.call(this);
+      if (typeof this.cache[rangeFromScreenSize] === 'undefined') {
+        this.cache[rangeFromScreenSize] = _getLargestImgObject.call(this, rangeFromScreenSize);
+      }
+      return this.cache[rangeFromScreenSize];
+    };
+
+    _getRetinaSrc = function(src) {
       return src.replace(/\.\w+$/, function(match) {
         return "@2x" + match;
       });
     };
 
-    BttrLazyLoading.prototype._getImgObjectPerRange = function(range) {
+    _getImgObjectPerRange = function(range) {
       if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
         return this.options.img[range];
       }
       return false;
     };
 
-    BttrLazyLoading.prototype._getLargestImgObject = function(range) {
-      var i, index, max, src, srcTemp, _i, _j;
-      index = this.rangesOrder.indexOf(range);
-      src = this._getImgObjectPerRange(range);
+    _getLargestImgObject = function(range) {
+      var i, index, max, src, srcTemp, _i, _j, _ref, _ref1;
+      console.log('_getLargestImgObject');
+      index = this.constructor.rangesOrder.indexOf(range);
+      src = _getImgObjectPerRange.call(this, range);
       if (typeof src === 'object') {
         return src;
       }
-      max = this.rangesOrder.length - 1;
-      for (i = _i = index; index <= max ? _i <= max : _i >= max; i = index <= max ? ++_i : --_i) {
-        range = this.rangesOrder[i];
-        srcTemp = this._getImgObjectPerRange(range);
-        if (srcTemp) {
-          src = srcTemp;
+      max = this.constructor.rangesOrder.length - 1;
+      if (max !== index) {
+        for (i = _i = _ref = index + 1; _ref <= max ? _i <= max : _i >= max; i = _ref <= max ? ++_i : --_i) {
+          range = this.constructor.rangesOrder[i];
+          srcTemp = _getImgObjectPerRange.call(this, range);
+          if (srcTemp) {
+            src = srcTemp;
+          }
+        }
+        if (typeof src === 'object') {
+          return src;
         }
       }
-      if (typeof src === 'object') {
-        return src;
-      }
-      for (i = _j = 0; 0 <= index ? _j <= index : _j >= index; i = 0 <= index ? ++_j : --_j) {
-        range = this.rangesOrder[i];
-        srcTemp = this._getImgObjectPerRange(range);
-        if (srcTemp) {
-          src = srcTemp;
+      if (index !== 0) {
+        for (i = _j = 0, _ref1 = index - 1; 0 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+          range = this.constructor.rangesOrder[i];
+          srcTemp = _getImgObjectPerRange.call(this, range);
+          if (srcTemp) {
+            src = srcTemp;
+          }
         }
-      }
-      if (typeof src === 'object') {
-        return src;
-      }
-      if (typeof this.options.onError === 'function') {
-        this.options.onError(this.$img, this);
+        if (typeof src === 'object') {
+          return src;
+        }
       }
       return '';
     };
 
-    BttrLazyLoading.prototype._isVisible = function() {
+    _isVisible = function() {
       var eb, et, wb, wt;
       if (this.$img.is(':hidden')) {
         return false;
@@ -165,8 +187,8 @@
 
     BttrLazyLoading.prototype.update = function() {
       var imgObject;
-      if (this._isVisible()) {
-        imgObject = this._getImgObject();
+      if (_isVisible.call(this)) {
+        imgObject = _getImgObject.call(this);
         if (!this.loaded) {
           this.$img.css({
             'background-image': "url('" + this.options.placeholder + "')",
@@ -321,7 +343,7 @@
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '1.0.0';
+    BttrLazyLoadingGlobal.prototype.version = '0.0.0';
 
     BttrLazyLoadingGlobal.options = {
       img: {

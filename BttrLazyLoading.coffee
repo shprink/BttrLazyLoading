@@ -2,20 +2,20 @@ $ = jQuery
 
 class BttrLazyLoading
 
-	#@DEFAULT: 
+	@rangesOrder = ['xs','sm', 'md', 'lg']
+	@dpr = 1
 
-	constructor: (@img, options = {}) ->
-		@$img = $(@img)
+	constructor: (img, options = {}) ->
+		@$img = $(img)
 		@loaded = false
-		@rangesOrder = ['xs','sm', 'md', 'lg']
-		
+		@cache	= {}
+
 		defaultOptions = $.extend true, {}, $.bttrlazyloading.constructor.options
 
 		@options = $.extend defaultOptions, options
-		console.log @options
 
 		@container = $(@options.container)
-		@dpr = window.devicePixelRatio || 1 
+		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
 
 		# Set options based on Jquery Data available
 		$.each @$img.data(), (i, v) =>
@@ -23,13 +23,13 @@ class BttrLazyLoading
 				method = 'set' + i.replace 'bttrlazyloading', ''
 				this[method](v) if typeof this[method] isnt 'undefined'
 
-		imgObject = @_getImgObject()
+		imgObject = _getImgObject.call @
 		@$img.css
 			'width'					: imgObject.width
 			'height'				: imgObject.height
 
-		@_setupEvents()
-		
+		_setupEvents.call @
+
 		setTimeout () =>
 			@update()
 		, 100
@@ -37,7 +37,7 @@ class BttrLazyLoading
 	###
 	Private Functions
 	###
-	_setupEvents: () ->
+	_setupEvents = () ->
 		@$img.bind @options.event, () ->
 			@update()
 
@@ -47,12 +47,12 @@ class BttrLazyLoading
 			@loaded = @$img.attr 'src'
 			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
 
-		@$img.on 'bttrLoad', () =>		
+		@$img.on 'bttrLoad', () =>
 			setTimeout () =>
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
-				imgObject = @_getImgObject()	
-				if (@dpr > 1 && @options.retinaEnabled)
-					@$img.attr 'src', @_getRetinaSrc imgObject.src
+				imgObject = _getImgObject.call @
+				if (@constructor.dpr > 1 && @options.retinaEnabled)
+					@$img.attr 'src', _getRetinaSrc imgObject.src
 				else
 					@$img.attr 'src', imgObject.src
 				@$img.css
@@ -60,59 +60,70 @@ class BttrLazyLoading
 					'height'	: ''
 			, @options.delay
 
+		@$img.on 'error', () =>
+			@options.onError(@$img, this) if typeof @options.onError is 'function'
+
 		$(window).bind  @options.event, () =>
 			@update()
 
 		$(window).bind "resize", () =>
 			@update()
 
-	_getImgObject: () ->
+	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
-		if (ww * @dpr) <= @options.ranges.xs
-			@_getLargestImgObject 'xs'
-		else if @options.ranges.sm <= (ww * @dpr) < @options.ranges.md
-			@_getLargestImgObject 'sm'
-		else if @options.ranges.md <= (ww * @dpr) < @options.ranges.lg
-			@_getLargestImgObject 'md'
-		else if @options.ranges.lg <= (ww * @dpr)
-			@_getLargestImgObject 'lg'
-			
-	_getRetinaSrc: (src)->
+		if (ww * @constructor.dpr) <= @options.ranges.xs
+			'xs'
+		else if @options.ranges.sm <= (ww * @constructor.dpr) < @options.ranges.md
+			'sm'
+		else if @options.ranges.md <= (ww * @constructor.dpr) < @options.ranges.lg
+			'md'
+		else if @options.ranges.lg <= (ww * @constructor.dpr)
+			'lg'
+
+	_getImgObject =  () ->
+		rangeFromScreenSize = _getRangeFromScreenSize.call @
+		if typeof @cache[rangeFromScreenSize] == 'undefined'
+			@cache[rangeFromScreenSize] = _getLargestImgObject.call @, rangeFromScreenSize
+		@cache[rangeFromScreenSize]
+
+	_getRetinaSrc = (src)->
 		src.replace(/\.\w+$/, (match)->
 				return "@2x" + match
 			)
 
-	_getImgObjectPerRange: (range)->
+	_getImgObjectPerRange = (range)->
 		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
 			return @options.img[range]
 		return false
 
-	_getLargestImgObject: (range)->
-		index = @rangesOrder.indexOf(range)
+	_getLargestImgObject = (range)->
+		console.log '_getLargestImgObject'
+		index = @constructor.rangesOrder.indexOf(range)
 
 		# Check if the right img exist
-		src = @_getImgObjectPerRange(range)
+		src = _getImgObjectPerRange.call @, range
 		return src if typeof src == 'object'
 
 		# If not we check if a bigger img exist
-		max = @rangesOrder.length - 1
-		for i in [index .. max]
-			range = @rangesOrder[i]
-			srcTemp = @_getImgObjectPerRange(range)
-			src =  srcTemp if srcTemp
-		return src if typeof src == 'object'
+		max = @constructor.rangesOrder.length - 1
+		if max isnt index
+			for i in [index + 1.. max]
+				range = @constructor.rangesOrder[i]
+				srcTemp = _getImgObjectPerRange.call @, range
+				src =  srcTemp if srcTemp
+			return src if typeof src == 'object'
 
 		# If not we start back from the smallest img
-		for i in [0 .. index]
-			range = @rangesOrder[i]
-			srcTemp = @_getImgObjectPerRange(range)
-			src =  srcTemp if srcTemp
-		return src if typeof src == 'object'
-
-		@options.onError(@$img, this) if typeof @options.onError is 'function'
+		# If index = 0 we already tried all possibilites
+		if index isnt 0
+			for i in [0 .. index - 1]
+				range = @constructor.rangesOrder[i]
+				srcTemp = _getImgObjectPerRange.call @, range
+				src =  srcTemp if srcTemp
+			return src if typeof src == 'object'
 		return ''
 
-	_isVisible: () ->
+	_isVisible = () ->
 		if @$img.is ':hidden'
 			return false
 
@@ -127,8 +138,8 @@ class BttrLazyLoading
 	###
 
 	update : () ->
-		if @_isVisible()
-			imgObject = @_getImgObject()
+		if _isVisible.call @
+			imgObject = _getImgObject.call @
 			if !@loaded
 				@$img.css
 					'background-image'		: "url('" + @options.placeholder + "')"
@@ -226,7 +237,7 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.0'		
+	version : '0.0.0'		
 	@options =
 		img :
 			xs :
@@ -260,7 +271,6 @@ class BttrLazyLoadingGlobal
 		onAfterLoad : ($img, bttrLazyLoading) ->
 			return
 		onError : ($img, bttrLazyLoading) ->
-			#$img.remove()
 			return
 		threshold : 0,
 		placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
