@@ -87,9 +87,8 @@ class BttrLazyLoading
 		@cache[rangeFromScreenSize]
 
 	_getRetinaSrc = (src)->
-		src.replace(/\.\w+$/, (match)->
-				return "@2x" + match
-			)
+		src.replace /\.\w+$/, (match)->
+			'@2x' + match
 
 	_getImgObjectPerRange = (range)->
 		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null

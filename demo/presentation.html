@@ -4,6 +4,7 @@
 		<title></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
 		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
 		<script src="../bttrlazyloading.js"></script>
@@ -11,10 +12,98 @@
 	<body>
 		<div class="container">
 			<div class="row row-offcanvas row-offcanvas-right">
+				<br/><br/>
 				<div class="col-xs-12 col-sm-12">
 					<div class="jumbotron">
-						<h1>Hello, world!</h1>
-						<p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+						<h1>BttrLazyLoading</h1>
+						<p>A JQuery plugin for Image Responsive Lazy Loading</p>
+					</div>
+					<div class="alert alert-info">
+						<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
+					</div>
+					<div class="page-header">
+						<h2>Options</h2>
+					</div>
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th style="width: 100px;">Name</th>
+								<th style="width: 200px;">type</th>
+								<th style="width: 200px;">default</th>
+								<th>description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>ranges</td>
+								<td>object</td>
+								<td>{'xs' : 767, 'sm' : 768, 'md' : 992, 'lg' : 1200}</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>delay</td>
+								<td>integer</td>
+								<td>0</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>threshold</td>
+								<td>integer</td>
+								<td>0</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>transition</td>
+								<td>string</td>
+								<td>"bounceIn"</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>event</td>
+								<td>string</td>
+								<td>"scroll"</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>placeholder</td>
+								<td>string (image base64)</td>
+								<td>"data:image/gif;base64..."</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>container</td>
+								<td>string (CSS selector)</td>
+								<td>window</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>retinaEnabled</td>
+								<td>boolean</td>
+								<td>false</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>onBeforeLoad</td>
+								<td>function($image, Object inst)</td>
+								<td>null</td>
+								<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+							</tr>
+							<tr>
+								<td>onAfterLoad</td>
+								<td>function($image, Object inst)</td>
+								<td>null</td>
+								<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+							</tr>
+							<tr>
+								<td>onError</td>
+								<td>function($image, Object inst)</td>
+								<td>null</td>
+								<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="page-header">
+						<h2>Events</h2>
 					</div>
 					<div class="row">
 						<div class="col-6 col-sm-6 col-lg-4">

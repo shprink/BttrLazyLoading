@@ -10,6 +10,7 @@ and open the template in the editor.
 		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
 		<script src="../bower_components/jquery/jquery.min.js"></script>
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
 			// Script stolen from http://groundwork.sidereel.com/groundwork/
 			// Great work dude!
@@ -165,12 +166,19 @@ and open the template in the editor.
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="?url=presentation.html">BttrLazyLoading</a>
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://bttrlazyloading.julienrenaux.fr/">BttrLazyLoading</a>
+				<p class="navbar-text visible-xs">by <a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></p>
 			</div>
+			<p class="navbar-text navbar-right hidden-xs">Responsive lazy loading by <a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></p>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="?url=animation.html">Animations</a></li>
-					<li><a href="?url=options.html">Options</a></li>
+					<li><a href="?url=demos.html">Demos</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -186,9 +194,9 @@ and open the template in the editor.
 				<li><button class="hidden-xs btn btn-default" title="iPhone" data-rotate="true" data-viewport-width="640px" data-viewport-height="320px"><i class="icon-mobile-phone"></i></button></li>
 
 				<li><button class="rotate btn btn-success hidden-xs" title="Toggle Landscape/Portrait"><i class="icon-refresh"></i></button></li>
-				<li><button id="closeResizer" class="btn btn-danger"><i class="icon-remove"></i></button></li>
+				<!--<li><button id="closeResizer" class="btn btn-danger"><i class="icon-remove"></i></button></li>-->
 			</ul>
 		</div>
-		<iframe id="resizerFrame" src="demo.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
+		<iframe id="resizerFrame" src="presentation.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
 	</body>
 </html>
