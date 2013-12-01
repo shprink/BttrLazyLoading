@@ -5,11 +5,46 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
-		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
+		<script src="../bower_components/jquery/jquery.min.js"></script>
+		<script src="../bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
 		<script src="../bttrlazyloading.js"></script>
+		<style>
+			#back-to-top{
+				font-size: 30px;
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				cursor: pointer;
+			}
+			.panel-heading h3{
+				margin: 0px;
+			}
+			
+			.panel-heading .pull-right{
+				margin-top: 4px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(function() {
+				$('#back-to-top').click(function(event) {
+					$.smoothScroll({
+						scrollTarget: 'body'
+					});
+				});
+				$('section table a').click(function(event) {
+					event.preventDefault();
+					var link = this;
+					$.smoothScroll({
+						scrollTarget: link.hash,
+						offset: -20
+					});
+				});
+
+			});
+		</script>
 	</head>
-	<body>
+	<body id="top">
 		<div class="container">
 			<div class="row row-offcanvas row-offcanvas-right">
 				<br/><br/>
@@ -21,87 +56,174 @@
 					<div class="alert alert-info">
 						<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
 					</div>
-					<div class="page-header">
-						<h2>Options</h2>
-					</div>
-					<table class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th style="width: 100px;">Name</th>
-								<th style="width: 200px;">type</th>
-								<th style="width: 200px;">default</th>
-								<th>description</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>ranges</td>
-								<td>object</td>
-								<td>{'xs' : 767, 'sm' : 768, 'md' : 992, 'lg' : 1200}</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>delay</td>
-								<td>integer</td>
-								<td>0</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>threshold</td>
-								<td>integer</td>
-								<td>0</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>transition</td>
-								<td>string</td>
-								<td>"bounceIn"</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>event</td>
-								<td>string</td>
-								<td>"scroll"</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>placeholder</td>
-								<td>string (image base64)</td>
-								<td>"data:image/gif;base64..."</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>container</td>
-								<td>string (CSS selector)</td>
-								<td>window</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>retinaEnabled</td>
-								<td>boolean</td>
-								<td>false</td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>onBeforeLoad</td>
-								<td>function($image, Object inst)</td>
-								<td>null</td>
-								<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-							</tr>
-							<tr>
-								<td>onAfterLoad</td>
-								<td>function($image, Object inst)</td>
-								<td>null</td>
-								<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-							</tr>
-							<tr>
-								<td>onError</td>
-								<td>function($image, Object inst)</td>
-								<td>null</td>
-								<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-							</tr>
-						</tbody>
-					</table>
+					<section id="options">
+						<div class="page-header">
+							<h2>Options</h2>
+						</div>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 100px;">Name</th>
+									<th style="width: 200px;">type</th>
+									<th style="width: 200px;">default</th>
+									<th>description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a class="option-link" href="#option-ranges">ranges</a></td>
+									<td>object</td>
+									<td>{'xs' : 767, 'sm' : 768, 'md' : 992, 'lg' : 1200}</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-delay">delay</a></td>
+									<td>integer</td>
+									<td>0</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-threshold">threshold</a></td>
+									<td>integer</td>
+									<td>0</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-transition">transition</a></td>
+									<td>string</td>
+									<td>"bounceIn"</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-event">event</a></td>
+									<td>string</td>
+									<td>"scroll"</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-placeholder">placeholder</a></td>
+									<td>string (image base64)</td>
+									<td>"data:image/gif;base64..."</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-container">container</a></td>
+									<td>string (CSS selector)</td>
+									<td>window</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-retinaEnabled">retinaEnabled</a></td>
+									<td>boolean</td>
+									<td>false</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><a href="#option-onBeforeLoad">onBeforeLoad</a></td>
+									<td>function($image, Object inst)</td>
+									<td>null</td>
+									<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+								</tr>
+								<tr>
+									<td><a href="#option-onAfterLoad">onAfterLoad</a></td>
+									<td>function($image, Object inst)</td>
+									<td>null</td>
+									<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+								</tr>
+								<tr>
+									<td><a href="#option-onError">onError</a></td>
+									<td>function($image, Object inst)</td>
+									<td>null</td>
+									<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="panel panel-default">
+							<div class="panel-heading"><div class="pull-right"><b>Type: Object</b></div><h3 id="option-ranges">ranges</h3></div>
+							<div class="panel-body">
+<pre>
+$(".selector").bttrlazyloading({
+	ranges: {
+		xs: 767,
+		sm: 768,
+		md: 992,
+		lg: 1200
+	}
+});
+</pre>
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-delay">delay</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-threshold">threshold</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-transition">transition</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-event">event</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-placeholder">placeholder</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-container">container</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-retinaEnabled">retinaEnabled</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-onBeforeLoad">onBeforeLoad</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-onAfterLoad">onAfterLoad</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading"><h3 id="option-onError">onError</h3></div>
+							<div class="panel-body">
+								Panel content
+							</div>
+						</div>
+					</section>
 					<div class="page-header">
 						<h2>Events</h2>
 					</div>
@@ -118,6 +240,9 @@
 								 data-bttrlazyloading-md-height="350"
 								 data-bttrlazyloading-lg-width="360"
 								 data-bttrlazyloading-lg-height="300"
+								 data-bttrlazyloading-container="document.body"
+								 data-bttrlazyloading-threshold="500"
+								 data-bttrlazyloading-xs='{"width":200}'
 								 />
 							<h2>Heading</h2>
 							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -296,5 +421,6 @@
 					$('.bttrlazyloading').bttrlazyloading({});
 				</script>
 			</div>
+			<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
 	</body>
 </html>

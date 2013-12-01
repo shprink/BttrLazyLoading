@@ -15,10 +15,17 @@
 					var obj = $("#test").bttrlazyloading().data('bttrlazyloading');
 
 					it("set the right image src", function() {
-						expect(obj.options.img.xs.src).toEqual("../demo/img/768x200.gif");
-						expect(obj.options.img.sm.src).toEqual("../demo/img/345x250.gif");
-						expect(obj.options.img.md.src).toEqual("../demo/img/455x350.gif");
-						expect(obj.options.img.lg.src).toEqual("../demo/img/360x300.gif");
+						expect(obj.options.xs.src).toEqual("../demo/img/768x200.gif");
+						expect(obj.options.sm.src).toEqual("../demo/img/345x250.gif");
+						expect(obj.options.md.src).toEqual("../demo/img/455x350.gif");
+						expect(obj.options.lg.src).toEqual("../demo/img/360x300.gif");
+					});
+
+					it("set the right ranges", function() {
+						expect(obj.options.xs.range).toEqual(1);
+						expect(obj.options.sm.range).toEqual(2);
+						expect(obj.options.md.range).toEqual(3);
+						expect(obj.options.lg.range).toEqual(4);
 					});
 
 					it("set the right options", function() {
@@ -29,44 +36,47 @@
 						expect(obj.options.placeholder).toEqual("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
 					});
 
-					it("has the default ranges", function() {
-						expect(obj.options.ranges.xs).toEqual(767);
-						expect(obj.options.ranges.sm).toEqual(768);
-						expect(obj.options.ranges.md).toEqual(992);
-						expect(obj.options.ranges.lg).toEqual(1200);
-					});
-
 					it("set the default global ranges", function() {
 						$.bttrlazyloading.setOptions({
-							ranges : {
-								'xs': 5,
-								'sm': 6,
-								'md': 7,
-								'lg': 8
+							xs: {
+								range: 5
+							},
+							sm: {
+								range: 6
+							},
+							md: {
+								range: 7
+							},
+							lg: {
+								range: 8
 							}
 						});
 						var obj2 = $("#test2").bttrlazyloading().data('bttrlazyloading');
-
-						expect(obj2.options.ranges.xs).toEqual(5);
-						expect(obj2.options.ranges.sm).toEqual(6);
-						expect(obj2.options.ranges.md).toEqual(7);
-						expect(obj2.options.ranges.lg).toEqual(8);
+						expect(obj2.options.xs.range).toEqual(5);
+						expect(obj2.options.sm.range).toEqual(6);
+						expect(obj2.options.md.range).toEqual(7);
+						expect(obj2.options.lg.range).toEqual(8);
 					});
 
 					it("set the default ranges", function() {
 						var obj2 = $("#test3").bttrlazyloading({
-							ranges: {
-								'xs': 1,
-								'sm': 2,
-								'md': 3,
-								'lg': 4
+							xs: {
+								range: 1
+							},
+							sm: {
+								range: 2
+							},
+							md: {
+								range: 3
+							},
+							lg: {
+								range: 4
 							}
 						}).data('bttrlazyloading');
-
-						expect(obj2.options.ranges.xs).toEqual(1);
-						expect(obj2.options.ranges.sm).toEqual(2);
-						expect(obj2.options.ranges.md).toEqual(3);
-						expect(obj2.options.ranges.lg).toEqual(4);
+						expect(obj2.options.xs.range).toEqual(1);
+						expect(obj2.options.sm.range).toEqual(2);
+						expect(obj2.options.md.range).toEqual(3);
+						expect(obj2.options.lg.range).toEqual(4);
 					});
 				});
 			});
@@ -106,6 +116,10 @@
 			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
 			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
 			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
+			 data-bttrlazyloading-xs-range="1"
+			 data-bttrlazyloading-sm-range="2"
+			 data-bttrlazyloading-md-range="3"
+			 data-bttrlazyloading-lg-range="4"
 			 data-bttrlazyloading-transition="rotatedIn"
 			 data-bttrlazyloading-event="mouseover"
 			 data-bttrlazyloading-container="document.body"
@@ -113,18 +127,8 @@
 			 data-bttrlazyloading-placeholder="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 			 />
 
-		<img id="test2" src="" width="200" height="200"
-			 data-bttrlazyloading-xs-src="../demo/img/768x200.gif"
-			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
-			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
-			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
-			 />
+		<img id="test2" src="" width="200" height="200"/>
 
-		<img id="test3" src="" width="200" height="200"
-			 data-bttrlazyloading-xs-src="../demo/img/768x200.gif"
-			 data-bttrlazyloading-sm-src="../demo/img/345x250.gif"
-			 data-bttrlazyloading-md-src="../demo/img/455x350.gif"
-			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
-			 />
+		<img id="test3" src="" width="200" height="200"/>
 	</body>
 </html>

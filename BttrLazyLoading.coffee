@@ -17,12 +17,9 @@ class BttrLazyLoading
 		@container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
 
-		# Set options based on Jquery Data available
-		$.each @$img.data(), (i, v) =>
-			if v
-				method = 'set' + i.replace 'bttrlazyloading', ''
-				this[method](v) if typeof this[method] isnt 'undefined'
+		_setOptionsFromData.call @
 
+		console.log @options
 		imgObject = _getImgObject.call @
 		@$img.css
 			'width'					: imgObject.width
@@ -37,6 +34,22 @@ class BttrLazyLoading
 	###
 	Private Functions
 	###
+	_setOptionsFromData = () ->
+		# Set options based on Jquery Data available
+		$.each @$img.data(), (i, v) =>
+			if v
+				# making sure we only use bttrlazyloading data
+				if i.indexOf('bttrlazyloading') isnt 0
+					false
+				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
+				if i.length > 1
+					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
+				else
+					if $.inArray(i[0], @constructor.rangesOrder) > -1 and typeof v is 'object'
+						$.extend(@options[i[0]], v)
+					else
+						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
+
 	_setupEvents = () ->
 		@$img.bind @options.event, () ->
 			@update()
@@ -71,13 +84,13 @@ class BttrLazyLoading
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
-		if (ww * @constructor.dpr) <= @options.ranges.xs
+		if (ww * @constructor.dpr) <= @options.xs.range
 			'xs'
-		else if @options.ranges.sm <= (ww * @constructor.dpr) < @options.ranges.md
+		else if @options.sm.range <= (ww * @constructor.dpr) < @options.md.range
 			'sm'
-		else if @options.ranges.md <= (ww * @constructor.dpr) < @options.ranges.lg
+		else if @options.md.range <= (ww * @constructor.dpr) < @options.lg.range
 			'md'
-		else if @options.ranges.lg <= (ww * @constructor.dpr)
+		else if @options.lg.range <= (ww * @constructor.dpr)
 			'lg'
 
 	_getImgObject =  () ->
@@ -91,8 +104,8 @@ class BttrLazyLoading
 			'@2x' + match
 
 	_getImgObjectPerRange = (range)->
-		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
-			return @options.img[range]
+		if typeof @options[range].src isnt 'undefined' and @options[range].src isnt null
+			return @options[range]
 		return false
 
 	_getLargestImgObject = (range)->
@@ -156,72 +169,6 @@ class BttrLazyLoading
 						'height'	: imgObject.height
 			@$img.trigger 'bttrLoad'			
 
-	setThreshold : (threshold) ->
-		@options.threshold = threshold
-		
-	setEvent : (event = '') ->
-		@options.event = event
-		
-	setDelay : (delay) ->
-		@options.delay = delay
-		
-	setContainer : (container) ->
-		@options.container = container
-		
-	setPlaceholder : (placeholder = '') ->
-		@options.placeholder = placeholder
-
-	setTransition : (transition) ->
-		@options.transition = transition
-
-	setXs : (xs = {}) ->
-		$.extend(@options.img.xs, xs);
-		
-	setXsSrc : (xsSrc) ->
-		@options.img.xs.src = xsSrc
-		
-	setXsWidth : (width) ->
-		@options.img.xs.width = width
-		
-	setXsHeight : (height) ->
-		@options.img.xs.height = height
-
-	setSm : (sm = {}) ->
-		$.extend(@options.img.sm, sm);
-		
-	setSmSrc : (smSrc) ->
-		@options.img.sm.src = smSrc
-		
-	setSmWidth : (width) ->
-		@options.img.sm.width = width
-		
-	setSmHeight : (height) ->
-		@options.img.sm.height = height
-
-	setMd : (md = {}) ->
-		$.extend(@options.img.md, md);
-		
-	setMdSrc : (mdSrc) ->
-		@options.img.md.src = mdSrc
-		
-	setMdWidth : (width) ->
-		@options.img.md.width = width
-		
-	setMdHeight : (height) ->
-		@options.img.md.height = height
-
-	setLg : (lg = {}) ->
-		$.extend(@options.img.lg, lg);
-		
-	setLgSrc : (lgSrc) ->
-		@options.img.lg.src = lgSrc
-		
-	setLgWidth : (width) ->
-		@options.img.lg.width = width
-		
-	setLgHeight : (height) ->
-		@options.img.lg.height = height
-
 $.fn.extend
 	bttrlazyloading: (options) ->
 		return this.each () ->
@@ -238,28 +185,26 @@ class BttrLazyLoadingGlobal
 
 	version : '0.0.0'		
 	@options =
-		img :
-			xs :
-				src : null
-				width : 100
-				height : 100
-			sm :
-				src : null
-				width : 100
-				height : 100
-			md :
-				src : null
-				width : 100
-				height : 100
-			lg :
-				src : null
-				width : 100
-				height : 100
-		ranges : 
-			'xs' : 767
-			'sm' : 768
-			'md' : 992
-			'lg' : 1200
+		xs :
+			range : 767
+			src : null
+			width : 100
+			height : 100
+		sm :
+			range : 768
+			src : null
+			width : 100
+			height : 100
+		md :
+			range : 992
+			src : null
+			width : 100
+			height : 100
+		lg :
+			range : 1200
+			src : null
+			width : 100
+			height : 100
 		retinaEnabled : false
 		transition: 'bounceIn'
 		delay: 0

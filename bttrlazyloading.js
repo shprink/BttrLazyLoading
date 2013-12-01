@@ -4,7 +4,7 @@
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _getRetinaSrc, _isVisible, _setupEvents;
+    var _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _getRetinaSrc, _isVisible, _setOptionsFromData, _setupEvents;
 
     BttrLazyLoading.rangesOrder = ['xs', 'sm', 'md', 'lg'];
 
@@ -25,15 +25,8 @@
       if (typeof window.devicePixelRatio === 'number') {
         this.constructor.dpr = window.devicePixelRatio;
       }
-      $.each(this.$img.data(), function(i, v) {
-        var method;
-        if (v) {
-          method = 'set' + i.replace('bttrlazyloading', '');
-          if (typeof _this[method] !== 'undefined') {
-            return _this[method](v);
-          }
-        }
-      });
+      _setOptionsFromData.call(this);
+      console.log(this.options);
       imgObject = _getImgObject.call(this);
       this.$img.css({
         'width': imgObject.width,
@@ -49,6 +42,31 @@
     	Private Functions
     */
 
+
+    _setOptionsFromData = function() {
+      var _this = this;
+      return $.each(this.$img.data(), function(i, v) {
+        if (v) {
+          if (i.indexOf('bttrlazyloading') !== 0) {
+            false;
+          }
+          i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
+          if (i.length > 1) {
+            if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
+              return _this.options[i[0]][i[1]] = v;
+            }
+          } else {
+            if ($.inArray(i[0], _this.constructor.rangesOrder) > -1 && typeof v === 'object') {
+              return $.extend(_this.options[i[0]], v);
+            } else {
+              if (typeof _this.options[i[0]] !== 'undefined') {
+                return _this.options[i[0]] = v;
+              }
+            }
+          }
+        }
+      });
+    };
 
     _setupEvents = function() {
       var _this = this;
@@ -99,13 +117,13 @@
     _getRangeFromScreenSize = function() {
       var ww, _ref, _ref1;
       ww = window.innerWidth;
-      if ((ww * this.constructor.dpr) <= this.options.ranges.xs) {
+      if ((ww * this.constructor.dpr) <= this.options.xs.range) {
         return 'xs';
-      } else if ((this.options.ranges.sm <= (_ref = ww * this.constructor.dpr) && _ref < this.options.ranges.md)) {
+      } else if ((this.options.sm.range <= (_ref = ww * this.constructor.dpr) && _ref < this.options.md.range)) {
         return 'sm';
-      } else if ((this.options.ranges.md <= (_ref1 = ww * this.constructor.dpr) && _ref1 < this.options.ranges.lg)) {
+      } else if ((this.options.md.range <= (_ref1 = ww * this.constructor.dpr) && _ref1 < this.options.lg.range)) {
         return 'md';
-      } else if (this.options.ranges.lg <= (ww * this.constructor.dpr)) {
+      } else if (this.options.lg.range <= (ww * this.constructor.dpr)) {
         return 'lg';
       }
     };
@@ -121,13 +139,13 @@
 
     _getRetinaSrc = function(src) {
       return src.replace(/\.\w+$/, function(match) {
-        return "@2x" + match;
+        return '@2x' + match;
       });
     };
 
     _getImgObjectPerRange = function(range) {
-      if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
-        return this.options.img[range];
+      if (typeof this.options[range].src !== 'undefined' && this.options[range].src !== null) {
+        return this.options[range];
       }
       return false;
     };
@@ -214,112 +232,6 @@
       }
     };
 
-    BttrLazyLoading.prototype.setThreshold = function(threshold) {
-      return this.options.threshold = threshold;
-    };
-
-    BttrLazyLoading.prototype.setEvent = function(event) {
-      if (event == null) {
-        event = '';
-      }
-      return this.options.event = event;
-    };
-
-    BttrLazyLoading.prototype.setDelay = function(delay) {
-      return this.options.delay = delay;
-    };
-
-    BttrLazyLoading.prototype.setContainer = function(container) {
-      return this.options.container = container;
-    };
-
-    BttrLazyLoading.prototype.setPlaceholder = function(placeholder) {
-      if (placeholder == null) {
-        placeholder = '';
-      }
-      return this.options.placeholder = placeholder;
-    };
-
-    BttrLazyLoading.prototype.setTransition = function(transition) {
-      return this.options.transition = transition;
-    };
-
-    BttrLazyLoading.prototype.setXs = function(xs) {
-      if (xs == null) {
-        xs = {};
-      }
-      return $.extend(this.options.img.xs, xs);
-    };
-
-    BttrLazyLoading.prototype.setXsSrc = function(xsSrc) {
-      return this.options.img.xs.src = xsSrc;
-    };
-
-    BttrLazyLoading.prototype.setXsWidth = function(width) {
-      return this.options.img.xs.width = width;
-    };
-
-    BttrLazyLoading.prototype.setXsHeight = function(height) {
-      return this.options.img.xs.height = height;
-    };
-
-    BttrLazyLoading.prototype.setSm = function(sm) {
-      if (sm == null) {
-        sm = {};
-      }
-      return $.extend(this.options.img.sm, sm);
-    };
-
-    BttrLazyLoading.prototype.setSmSrc = function(smSrc) {
-      return this.options.img.sm.src = smSrc;
-    };
-
-    BttrLazyLoading.prototype.setSmWidth = function(width) {
-      return this.options.img.sm.width = width;
-    };
-
-    BttrLazyLoading.prototype.setSmHeight = function(height) {
-      return this.options.img.sm.height = height;
-    };
-
-    BttrLazyLoading.prototype.setMd = function(md) {
-      if (md == null) {
-        md = {};
-      }
-      return $.extend(this.options.img.md, md);
-    };
-
-    BttrLazyLoading.prototype.setMdSrc = function(mdSrc) {
-      return this.options.img.md.src = mdSrc;
-    };
-
-    BttrLazyLoading.prototype.setMdWidth = function(width) {
-      return this.options.img.md.width = width;
-    };
-
-    BttrLazyLoading.prototype.setMdHeight = function(height) {
-      return this.options.img.md.height = height;
-    };
-
-    BttrLazyLoading.prototype.setLg = function(lg) {
-      if (lg == null) {
-        lg = {};
-      }
-      return $.extend(this.options.img.lg, lg);
-    };
-
-    BttrLazyLoading.prototype.setLgSrc = function(lgSrc) {
-      return this.options.img.lg.src = lgSrc;
-    };
-
-    BttrLazyLoading.prototype.setLgWidth = function(width) {
-      return this.options.img.lg.width = width;
-    };
-
-    BttrLazyLoading.prototype.setLgHeight = function(height) {
-      return this.options.img.lg.height = height;
-    };
-
     return BttrLazyLoading;
 
   })();
@@ -346,33 +258,29 @@
     BttrLazyLoadingGlobal.prototype.version = '0.0.0';
 
     BttrLazyLoadingGlobal.options = {
-      img: {
-        xs: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        sm: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        md: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        lg: {
-          src: null,
-          width: 100,
-          height: 100
-        }
+      xs: {
+        range: 767,
+        src: null,
+        width: 100,
+        height: 100
       },
-      ranges: {
-        'xs': 767,
-        'sm': 768,
-        'md': 992,
-        'lg': 1200
+      sm: {
+        range: 768,
+        src: null,
+        width: 100,
+        height: 100
+      },
+      md: {
+        range: 992,
+        src: null,
+        width: 100,
+        height: 100
+      },
+      lg: {
+        range: 1200,
+        src: null,
+        width: 100,
+        height: 100
       },
       retinaEnabled: false,
       transition: 'bounceIn',
