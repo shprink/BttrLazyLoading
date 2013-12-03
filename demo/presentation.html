@@ -3,11 +3,12 @@
 	<head>
 		<title></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
 		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<script src="../bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="../bttrlazyloading.js"></script>
 		<style>
 			#back-to-top{
@@ -20,9 +21,14 @@
 			.panel-heading h3{
 				margin: 0px;
 			}
-			
+
 			.panel-heading .pull-right{
 				margin-top: 4px;
+			}
+			.navbar.affix {
+				position: fixed;
+				top: 0;
+				width: 100%;
 			}
 		</style>
 		<script type="text/javascript">
@@ -32,15 +38,14 @@
 						scrollTarget: 'body'
 					});
 				});
-				$('section table a').click(function(event) {
+				$('.smooth-scroll').click(function(event) {
 					event.preventDefault();
 					var link = this;
 					$.smoothScroll({
 						scrollTarget: link.hash,
-						offset: -20
+						offset: -50
 					});
 				});
-
 			});
 		</script>
 	</head>
@@ -49,17 +54,19 @@
 			<div class="row row-offcanvas row-offcanvas-right">
 				<br/><br/>
 				<div class="col-xs-12 col-sm-12">
+					<br/>
 					<div class="jumbotron">
 						<h1>BttrLazyLoading</h1>
-						<p>A JQuery plugin for Image Responsive Lazy Loading</p>
+						<p>A responsive lazy loading JQuery plugin for Bootstrap 3 (but not only..)</p>
 					</div>
 					<div class="alert alert-info">
 						<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
 					</div>
-					<section id="options">
+					<section id="global-options">
 						<div class="page-header">
-							<h2>Options</h2>
+							<h2>Global options</h2>
 						</div>
+						<p>Global options are options that you can define for the whole page. It is most of the time used before any BttrLazyLoading instanciation.</p>
 						<table class="table table-bordered table-striped">
 							<thead>
 								<tr>
@@ -70,12 +77,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td><a class="option-link" href="#option-ranges">ranges</a></td>
-									<td>object</td>
-									<td>{'xs' : 767, 'sm' : 768, 'md' : 992, 'lg' : 1200}</td>
-									<td></td>
-								</tr>
 								<tr>
 									<td><a href="#option-delay">delay</a></td>
 									<td>integer</td>
@@ -138,10 +139,45 @@
 								</tr>
 							</tbody>
 						</table>
+
+					</section>
+					<section id="global-ranges">
+						<div class="page-header">
+							<h2>Global ranges</h2>
+						</div>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th style="width: 100px;">Name</th>
+									<th style="width: 100px;">type</th>
+									<th style="width: 200px;">default</th>
+									<th>description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>ranges</td>
+									<td>object</td>
+									<td><pre>{<br/> 'xs' : 767,<br/> 'sm' : 768,<br/> 'md' : 992,<br/> 'lg' : 1200<br/> }</pre></td>
+									<td>
+										<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px). It defines from the user screen when a certain size of an image is needed.</p>
+										<p>For most needs, the default values (Bootstrap 3 grid) is enough.</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<section id="global-methods">
+						<div class="page-header">
+							<h2>Global methods</h2>
+						</div>
+						<div class="alert alert-info">
+							<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
+						</div>
 						<div class="panel panel-default">
-							<div class="panel-heading"><div class="pull-right"><b>Type: Object</b></div><h3 id="option-ranges">ranges</h3></div>
+							<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setRanges">setRanges()</h3></div>
 							<div class="panel-body">
-<pre>
+								<pre>
 $(".selector").bttrlazyloading({
 	ranges: {
 		xs: 767,
@@ -150,83 +186,119 @@ $(".selector").bttrlazyloading({
 		lg: 1200
 	}
 });
-</pre>
+								</pre>
 							</div>
 						</div>
-						
+
 						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-delay">delay</h3></div>
+							<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setOptions">setOptions()</h3></div>
 							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-threshold">threshold</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-transition">transition</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-event">event</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-placeholder">placeholder</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-container">container</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-retinaEnabled">retinaEnabled</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-onBeforeLoad">onBeforeLoad</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-onAfterLoad">onAfterLoad</h3></div>
-							<div class="panel-body">
-								Panel content
-							</div>
-						</div>
-						
-						<div class="panel panel-default">
-							<div class="panel-heading"><h3 id="option-onError">onError</h3></div>
-							<div class="panel-body">
-								Panel content
+								<pre>
+$.bttrlazyloading.setOptions({
+	img: {...},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+});
+								</pre>
 							</div>
 						</div>
 					</section>
-					<div class="page-header">
-						<h2>Events</h2>
-					</div>
+					<section id="options">
+						<div class="page-header">
+							<h2>Options</h2>
+						</div>
+						<p>BttrLazyLoading options are the same as the <a class="smooth-scroll" href="#global-options">global options</a> and can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</p>
+						<h3>Set options via jQuery data</h3>
+						<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
+						<pre>
+&lt;img id=&quot;test&quot;
+	data-bttrlazyloading-xs-src=&quot;../demo/img/768x200.gif&quot;
+	data-bttrlazyloading-xs-width=&quot;768&quot;
+	data-bttrlazyloading-xs-height=&quot;200&quot;
+	data-bttrlazyloading-sm-src=&quot;../demo/img/345x250.gif&quot;
+	data-bttrlazyloading-sm-width=&quot;345&quot;
+	data-bttrlazyloading-sm-height=&quot;250&quot;
+	data-bttrlazyloading-md-src=&quot;../demo/img/455x350.gif&quot;
+	data-bttrlazyloading-md-width=&quot;455&quot;
+	data-bttrlazyloading-md-height=&quot;350&quot;
+	data-bttrlazyloading-lg-src=&quot;../demo/img/360x300.gif&quot;
+	data-bttrlazyloading-lg-width=&quot;360&quot;
+	data-bttrlazyloading-lg-height=&quot;300&quot;
+	data-bttrlazyloading-transition=&quot;rotatedIn&quot;
+	data-bttrlazyloading-retina=&quot;true&quot;
+	data-bttrlazyloading-delay=&quot;2000&quot;
+	data-bttrlazyloading-event=&quot;mouseover&quot;
+	data-bttrlazyloading-container=&quot;document.body&quot;
+	data-bttrlazyloading-threshold=&quot;500&quot;
+	data-bttrlazyloading-placeholder=&quot;data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==&quot;
+/&gt;</pre>
+						<div class="alert alert-info">Please not that the following examples are equivalent:</div>
+						<pre>
+&lt;img id=&quot;test&quot;
+	data-bttrlazyloading-xs-src=&quot;../demo/img/768x200.gif&quot;
+	data-bttrlazyloading-xs-width=&quot;768&quot;
+	data-bttrlazyloading-xs-height=&quot;200&quot;
+/&gt;</pre>
+						<pre>
+&lt;img id=&quot;test&quot;
+	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;../demo/img/768x200.gif&quot;, &quot;width&quot; : 768,  &quot;height&quot; : 200}&#39;
+/&gt;</pre>
+						<h3>Set options on Instanciation</h3>
+						<pre>
+$("#test").bttrlazyloading({
+	img: {
+		xs: {
+			src: "../demo/img/768x200.gif",
+			width: 111,
+			height: 222
+		},
+		sm: {
+			src: "../demo/img/345x250.gif",
+			width: 333,
+			height: 444
+		},
+		md: {
+			src: "../demo/img/455x350.gif",
+			width: 555,
+			height: 666
+		},
+		lg: {
+			src: "../demo/img/360x300.gif",
+			width: 777,
+			height: 888
+		}
+	},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+})</pre>
+					</section>
+					<section id="events">
+						<div class="page-header">
+							<h2>Events</h2>
+						</div>
+					</section>
 					<div class="row">
 						<div class="col-6 col-sm-6 col-lg-4">
 							<img class="bttrlazyloading"
@@ -421,6 +493,34 @@ $(".selector").bttrlazyloading({
 					$('.bttrlazyloading').bttrlazyloading({});
 				</script>
 			</div>
-			<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
+		</div>
+		<nav class="navbar navbar-default navbar-inverse" role="navigation" data-spy="affix" data-offset-top="0">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="navbar-menu">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Global <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a class="smooth-scroll" href="#global-options">Options</a></li>
+							<li><a class="smooth-scroll"  href="#global-ranges">Ranges</a></li>
+							<li><a class="smooth-scroll"  href="#global-methods">Methods</a></li>
+						</ul>
+					</li>
+					<li><a class="smooth-scroll" href="#options">Options</a></li>
+					<li><a class="smooth-scroll" href="#events">Events</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</nav>
+		<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
 	</body>
 </html>

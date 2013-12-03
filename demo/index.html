@@ -7,8 +7,10 @@ and open the template in the editor.
 	<head>
 		<title></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/animate.css/animate.min.css" />
 		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
@@ -105,6 +107,10 @@ and open the template in the editor.
 				color:#fff;
 				background-color: #d9edf7;
 			}
+			body{
+				background-color: #505050;
+				background-image: url(img/tweed.png);
+			}
 			#resizerFrame {
 				width:100%;
 				max-width:100%;
@@ -118,17 +124,16 @@ and open the template in the editor.
 				-ms-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
 				-o-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
 				transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
-				margin-top: 50px;
+				margin-top: 45px;
 			}
 			#resizer {
 				position:fixed;
-				top:50px;
-				left:0;
-				right:0;
+				top:45px;
+				left: 50%;
 				z-index:99;
-				width:100%;
+				width: 380px;
 				text-align:center;
-				margin:0 auto;
+				margin-left: -190px;
 			}
 			#resizer ul {
 				font-size: 17px;
@@ -182,21 +187,21 @@ and open the template in the editor.
 				</ul>
 			</div>
 		</nav>
-		<div id="resizer" class="bounceInDown animated">
+		<div id="resizer" class="slideInDown animated">
 			<ul class="button-group list-unstyled">
-				<li><button class="hidden-xs btn btn-info" title="Fullscreen" data-viewport-width="100%" data-viewport-height="100%"><i class="fa fa-expand"></i></button></li>
+				<li><button class="hidden-xs btn btn-info btn-sm" title="Fullscreen" data-viewport-width="100%" data-viewport-height="100%"><i class="fa fa-expand"></i></button></li>
 
-				<li><button class="desktop-only hidden-sm hidden-xs hidden-md btn btn-default" title="Desktop" data-viewport-width="1920px" data-viewport-height="1080px"><i class="fa fa-desktop"></i></button></li>
-				<li><button class="desktop-only hidden-sm hidden-xs hidden-md active btn btn-default" title="13 ' MacBook Pro" data-viewport-width="1280px" data-viewport-height="800px"><i class="fa fa-laptop"></i></button></li>
-				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default" title="Android Tablet" data-rotate="true" data-viewport-width="1280px" data-viewport-height="720px"><i class="android fa fa-tablet"></i></button></li>
-				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default" title="iPad" data-rotate="true" data-viewport-width="1024px" data-viewport-height="768px"><i class="fa fa-tablet"></i></button></li>
-				<li><button class="hidden-xs btn btn-default" title="Android Phone" data-rotate="true" data-viewport-width="720px" data-viewport-height="480px"><i class="android fa fa-mobile-phone"></i></button></li>
-				<li><button class="hidden-xs btn btn-default" title="iPhone" data-rotate="true" data-viewport-width="640px" data-viewport-height="320px"><i class="fa fa-mobile-phone"></i></button></li>
+				<li><button class="desktop-only hidden-sm hidden-xs hidden-md btn btn-default btn-sm" title="Desktop" data-viewport-width="1920px" data-viewport-height="1080px"><i class="fa fa-desktop"></i></button></li>
+				<li><button class="desktop-only hidden-sm hidden-xs hidden-md active btn btn-default btn-sm" title="13 ' MacBook Pro" data-viewport-width="1280px" data-viewport-height="800px"><i class="fa fa-laptop"></i></button></li>
+				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default btn-sm" title="Android Tablet" data-rotate="true" data-viewport-width="1280px" data-viewport-height="720px"><i class="android fa fa-tablet"></i></button></li>
+				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default btn-sm" title="iPad" data-rotate="true" data-viewport-width="1024px" data-viewport-height="768px"><i class="fa fa-tablet"></i></button></li>
+				<li><button class="hidden-xs btn btn-default btn-sm" title="Android Phone" data-rotate="true" data-viewport-width="720px" data-viewport-height="480px"><i class="android fa fa-mobile-phone"></i></button></li>
+				<li><button class="hidden-xs btn btn-default btn-sm" title="iPhone" data-rotate="true" data-viewport-width="640px" data-viewport-height="320px"><i class="fa fa-mobile-phone"></i></button></li>
 
-				<li><button class="rotate btn btn-success hidden-xs" title="Toggle Landscape/Portrait"><i class="fa fa-refresh"></i></button></li>
+				<li><button class="rotate btn btn-success hidden-xs btn-sm" title="Toggle Landscape/Portrait"><i class="fa fa-refresh"></i></button></li>
 				<!--<li><button id="closeResizer" class="btn btn-danger"><i class="fa fa-remove"></i></button></li>-->
 			</ul>
 		</div>
-		<iframe id="resizerFrame" src="presentation.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
+		<iframe id="resizerFrame" class="bounceIn animated" src="presentation.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
 	</body>
 </html>

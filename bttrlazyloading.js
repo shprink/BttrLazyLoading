@@ -21,6 +21,7 @@
       this.cache = {};
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
       this.options = $.extend(defaultOptions, options);
+      this.ranges = $.bttrlazyloading.constructor.ranges;
       this.container = $(this.options.container);
       if (typeof window.devicePixelRatio === 'number') {
         this.constructor.dpr = window.devicePixelRatio;
@@ -52,12 +53,12 @@
           }
           i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
           if (i.length > 1) {
-            if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
-              return _this.options[i[0]][i[1]] = v;
+            if (typeof _this.options.img[i[0]][i[1]] !== 'undefined') {
+              return _this.options.img[i[0]][i[1]] = v;
             }
           } else {
             if ($.inArray(i[0], _this.constructor.rangesOrder) > -1 && typeof v === 'object') {
-              return $.extend(_this.options[i[0]], v);
+              return $.extend(_this.options.img[i[0]], v);
             } else {
               if (typeof _this.options[i[0]] !== 'undefined') {
                 return _this.options[i[0]] = v;
@@ -90,7 +91,7 @@
             _this.options.onBeforeLoad(_this.$img, _this);
           }
           imgObject = _getImgObject.call(_this);
-          if (_this.constructor.dpr > 1 && _this.options.retinaEnabled) {
+          if (_this.constructor.dpr > 1 && _this.options.retina) {
             _this.$img.attr('src', _getRetinaSrc(imgObject.src));
           } else {
             _this.$img.attr('src', imgObject.src);
@@ -117,13 +118,13 @@
     _getRangeFromScreenSize = function() {
       var ww, _ref, _ref1;
       ww = window.innerWidth;
-      if ((ww * this.constructor.dpr) <= this.options.xs.range) {
+      if ((ww * this.constructor.dpr) <= this.ranges.xs) {
         return 'xs';
-      } else if ((this.options.sm.range <= (_ref = ww * this.constructor.dpr) && _ref < this.options.md.range)) {
+      } else if ((this.ranges.sm <= (_ref = ww * this.constructor.dpr) && _ref < this.ranges.md)) {
         return 'sm';
-      } else if ((this.options.md.range <= (_ref1 = ww * this.constructor.dpr) && _ref1 < this.options.lg.range)) {
+      } else if ((this.ranges.md <= (_ref1 = ww * this.constructor.dpr) && _ref1 < this.ranges.lg)) {
         return 'md';
-      } else if (this.options.lg.range <= (ww * this.constructor.dpr)) {
+      } else if (this.ranges.lg <= (ww * this.constructor.dpr)) {
         return 'lg';
       }
     };
@@ -144,8 +145,8 @@
     };
 
     _getImgObjectPerRange = function(range) {
-      if (typeof this.options[range].src !== 'undefined' && this.options[range].src !== null) {
-        return this.options[range];
+      if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
+        return this.options.img[range];
       }
       return false;
     };
@@ -257,41 +258,46 @@
 
     BttrLazyLoadingGlobal.prototype.version = '0.0.0';
 
+    BttrLazyLoadingGlobal.ranges = {
+      xs: 767,
+      sm: 768,
+      md: 992,
+      lg: 1200
+    };
+
     BttrLazyLoadingGlobal.options = {
-      xs: {
-        range: 767,
-        src: null,
-        width: 100,
-        height: 100
+      img: {
+        xs: {
+          src: null,
+          width: 100,
+          height: 100
+        },
+        sm: {
+          src: null,
+          width: 100,
+          height: 100
+        },
+        md: {
+          src: null,
+          width: 100,
+          height: 100
+        },
+        lg: {
+          src: null,
+          width: 100,
+          height: 100
+        }
       },
-      sm: {
-        range: 768,
-        src: null,
-        width: 100,
-        height: 100
-      },
-      md: {
-        range: 992,
-        src: null,
-        width: 100,
-        height: 100
-      },
-      lg: {
-        range: 1200,
-        src: null,
-        width: 100,
-        height: 100
-      },
-      retinaEnabled: false,
+      retina: false,
       transition: 'bounceIn',
       delay: 0,
       event: 'scroll',
       container: window,
+      threshold: 0,
+      placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
       onBeforeLoad: function($img, bttrLazyLoading) {},
       onAfterLoad: function($img, bttrLazyLoading) {},
-      onError: function($img, bttrLazyLoading) {},
-      threshold: 0,
-      placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
+      onError: function($img, bttrLazyLoading) {}
     };
 
     BttrLazyLoadingGlobal.prototype.setOptions = function(object) {
@@ -299,6 +305,14 @@
         object = {};
       }
       $.extend(true, this.constructor.options, object);
+      return this;
+    };
+
+    BttrLazyLoadingGlobal.prototype.setRanges = function(object) {
+      if (object == null) {
+        object = {};
+      }
+      $.extend(true, this.constructor.ranges, object);
       return this;
     };
 

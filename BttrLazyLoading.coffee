@@ -12,7 +12,8 @@ class BttrLazyLoading
 
 		defaultOptions = $.extend true, {}, $.bttrlazyloading.constructor.options
 
-		@options = $.extend defaultOptions, options
+		@options	= $.extend defaultOptions, options
+		@ranges		= $.bttrlazyloading.constructor.ranges
 
 		@container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
@@ -43,10 +44,10 @@ class BttrLazyLoading
 					false
 				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
 				if i.length > 1
-					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
+					@options.img[i[0]][i[1]] = v if typeof @options.img[i[0]][i[1]] isnt 'undefined'
 				else
 					if $.inArray(i[0], @constructor.rangesOrder) > -1 and typeof v is 'object'
-						$.extend(@options[i[0]], v)
+						$.extend(@options.img[i[0]], v)
 					else
 						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
 
@@ -64,7 +65,7 @@ class BttrLazyLoading
 			setTimeout () =>
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
 				imgObject = _getImgObject.call @
-				if (@constructor.dpr > 1 && @options.retinaEnabled)
+				if (@constructor.dpr > 1 && @options.retina)
 					@$img.attr 'src', _getRetinaSrc imgObject.src
 				else
 					@$img.attr 'src', imgObject.src
@@ -84,13 +85,13 @@ class BttrLazyLoading
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
-		if (ww * @constructor.dpr) <= @options.xs.range
+		if (ww * @constructor.dpr) <= @ranges.xs
 			'xs'
-		else if @options.sm.range <= (ww * @constructor.dpr) < @options.md.range
+		else if @ranges.sm <= (ww * @constructor.dpr) < @ranges.md
 			'sm'
-		else if @options.md.range <= (ww * @constructor.dpr) < @options.lg.range
+		else if @ranges.md <= (ww * @constructor.dpr) < @ranges.lg
 			'md'
-		else if @options.lg.range <= (ww * @constructor.dpr)
+		else if @ranges.lg <= (ww * @constructor.dpr)
 			'lg'
 
 	_getImgObject =  () ->
@@ -104,8 +105,8 @@ class BttrLazyLoading
 			'@2x' + match
 
 	_getImgObjectPerRange = (range)->
-		if typeof @options[range].src isnt 'undefined' and @options[range].src isnt null
-			return @options[range]
+		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
+			return @options.img[range]
 		return false
 
 	_getLargestImgObject = (range)->
@@ -183,44 +184,51 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '0.0.0'		
+	version : '0.0.0'	
+	@ranges = 
+		xs : 767
+		sm : 768
+		md : 992
+		lg : 1200
+
 	@options =
-		xs :
-			range : 767
-			src : null
-			width : 100
-			height : 100
-		sm :
-			range : 768
-			src : null
-			width : 100
-			height : 100
-		md :
-			range : 992
-			src : null
-			width : 100
-			height : 100
-		lg :
-			range : 1200
-			src : null
-			width : 100
-			height : 100
-		retinaEnabled : false
+		img: 
+			xs :
+				src : null
+				width : 100
+				height : 100
+			sm :
+				src : null
+				width : 100
+				height : 100
+			md :
+				src : null
+				width : 100
+				height : 100
+			lg :
+				src : null
+				width : 100
+				height : 100
+		retina : false
 		transition: 'bounceIn'
 		delay: 0
 		event : 'scroll',
 		container : window,
-		onBeforeLoad : ($img, bttrLazyLoading) ->
-			return
-		onAfterLoad : ($img, bttrLazyLoading) ->
-			return
-		onError : ($img, bttrLazyLoading) ->
-			return
 		threshold : 0,
 		placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
+		#onBeforeLoad : ($img, bttrLazyLoading) ->
+		onBeforeLoad : null
+		#onAfterLoad : ($img, bttrLazyLoading) ->
+		onAfterLoad : null
+		#onError : ($img, bttrLazyLoading) ->
+		onError : null
 
 	setOptions : (object = {}) ->
 		$.extend true, this.constructor.options, object
+		this
+
+	setRanges : (object = {}) ->
+		$.extend true, this.constructor.ranges, object
 		this
 
 $.bttrlazyloading = new BttrLazyLoadingGlobal()
