@@ -70,9 +70,6 @@
 
     _setupEvents = function() {
       var _this = this;
-      this.$img.bind(this.options.event, function() {
-        return this.update();
-      });
       this.$img.bind('load', function() {
         _this.$img.addClass('bttrlazyloading-loaded');
         if (_this.options.animation) {

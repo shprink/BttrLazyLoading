@@ -51,9 +51,6 @@ class BttrLazyLoading
 						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
 
 	_setupEvents = () ->
-		@$img.bind @options.event, () ->
-			@update()
-
 		@$img.bind 'load', () =>
 			@$img.addClass 'bttrlazyloading-loaded'
 			@$img.addClass 'animated ' + @options.animation if @options.animation
