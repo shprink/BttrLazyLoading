@@ -30,6 +30,10 @@
 				top: 0;
 				width: 100%;
 			}
+			.alert {
+				font-size: 15px;
+				font-weight: 500;
+			}
 		</style>
 		<script type="text/javascript">
 			$(function() {
@@ -43,141 +47,350 @@
 					var link = this;
 					$.smoothScroll({
 						scrollTarget: link.hash,
-						offset: -50
+						offset: -60
 					});
+				});
+				// Set global options to use the same set of image within this page ;)
+				$.bttrlazyloading.setOptions({
+					img: {
+						xs: {
+							src: "../demo/img/720x200.gif",
+							width: 720,
+							height: 200
+						},
+						sm: {
+							src: "../demo/img/360x200.gif",
+							width: 360,
+							height: 200
+						},
+						md: {
+							src: "../demo/img/470x200.gif",
+							width: 470,
+							height: 200
+						},
+						lg: {
+							src: "../demo/img/570x200.gif",
+							width: 570,
+							height: 200
+						}
+					},
+					delay: 2000,
+					triggermanually: true
 				});
 			});
 		</script>
 	</head>
 	<body id="top">
 		<div class="container">
-			<div class="row row-offcanvas row-offcanvas-right">
-				<br/><br/>
-				<div class="col-xs-12 col-sm-12">
-					<br/>
-					<div class="jumbotron">
-						<h1>BttrLazyLoading</h1>
-						<p>A responsive lazy loading JQuery plugin for Bootstrap 3 (but not only..)</p>
+			<br/><br/><br/>
+			<div class="jumbotron">
+				<h1>BttrLazyLoading</h1>
+				<p>A responsive lazy loading JQuery plugin for Bootstrap 3 (but not only..)</p>
+			</div>
+			<div class="alert alert-info">
+				<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
+			</div>
+			<div class="alert alert-info">A 2 secondes delay has been added to all images for the demo.</div>
+			<section id="global-options">
+				<div class="page-header">
+					<h2>Global options</h2>
+				</div>
+				<p>Global options are options that you can define for the whole page. It is most of the time used before any BttrLazyLoading instanciation.</p>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 100px;">Name</th>
+							<th style="width: 200px;">type</th>
+							<th style="width: 200px;">default</th>
+							<th>description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><a href="#option-delay" class="smooth-scroll">delay</a></td>
+							<td>integer</td>
+							<td>0</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-threshold" class="smooth-scroll">threshold</a></td>
+							<td>integer</td>
+							<td>0</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-animation" class="smooth-scroll">animation</a></td>
+							<td>string</td>
+							<td>"bounceIn"</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-event" class="smooth-scroll">event</a></td>
+							<td>string</td>
+							<td>"scroll"</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-placeholder" class="smooth-scroll">placeholder</a></td>
+							<td>string (image base64)</td>
+							<td>"data:image/gif;base64..."</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-container" class="smooth-scroll">container</a></td>
+							<td>string (CSS selector)</td>
+							<td>window</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-retina" class="smooth-scroll">retina</a></td>
+							<td>boolean</td>
+							<td>false</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><a href="#option-triggermanually" class="smooth-scroll">triggermanually</a></td>
+							<td>boolean</td>
+							<td>false</td>
+							<td>Whether or not to trigger the first image load manually.</td>
+						</tr>
+						<tr>
+							<td><a href="#option-updatemanually" class="smooth-scroll">updatemanually</a></td>
+							<td>boolean</td>
+							<td>false</td>
+							<td>Whether or not to trigger the image update (Window resize) manually.</td>
+						</tr>
+						<tr>
+							<td><a href="#option-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></td>
+							<td>function($image, Object inst)</td>
+							<td>null</td>
+							<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+						</tr>
+						<tr>
+							<td><a href="#option-onAfterLoad" class="smooth-scroll">onAfterLoad</a></td>
+							<td>function($image, Object inst)</td>
+							<td>null</td>
+							<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+						</tr>
+						<tr>
+							<td><a href="#option-onError" class="smooth-scroll">onError</a></td>
+							<td>function($image, Object inst)</td>
+							<td>null</td>
+							<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Type: Integer</b></div>
+						<h3 id="option-delay">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-delay">
+								<i class="fa fa-play"></i>
+							</button> delay
+						</h3>
 					</div>
-					<div class="alert alert-info">
-						<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
-					</div>
-					<section id="global-options">
-						<div class="page-header">
-							<h2>Global options</h2>
-						</div>
-						<p>Global options are options that you can define for the whole page. It is most of the time used before any BttrLazyLoading instanciation.</p>
-						<table class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th style="width: 100px;">Name</th>
-									<th style="width: 200px;">type</th>
-									<th style="width: 200px;">default</th>
-									<th>description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="#option-delay">delay</a></td>
-									<td>integer</td>
-									<td>0</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-threshold">threshold</a></td>
-									<td>integer</td>
-									<td>0</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-transition">transition</a></td>
-									<td>string</td>
-									<td>"bounceIn"</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-event">event</a></td>
-									<td>string</td>
-									<td>"scroll"</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-placeholder">placeholder</a></td>
-									<td>string (image base64)</td>
-									<td>"data:image/gif;base64..."</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-container">container</a></td>
-									<td>string (CSS selector)</td>
-									<td>window</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-retinaEnabled">retinaEnabled</a></td>
-									<td>boolean</td>
-									<td>false</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><a href="#option-onBeforeLoad">onBeforeLoad</a></td>
-									<td>function($image, Object inst)</td>
-									<td>null</td>
-									<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-								</tr>
-								<tr>
-									<td><a href="#option-onAfterLoad">onAfterLoad</a></td>
-									<td>function($image, Object inst)</td>
-									<td>null</td>
-									<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-								</tr>
-								<tr>
-									<td><a href="#option-onError">onError</a></td>
-									<td>function($image, Object inst)</td>
-									<td>null</td>
-									<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-								</tr>
-							</tbody>
-						</table>
-
-					</section>
-					<section id="global-ranges">
-						<div class="page-header">
-							<h2>Global ranges</h2>
-						</div>
-						<table class="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th style="width: 100px;">Name</th>
-									<th style="width: 100px;">type</th>
-									<th style="width: 200px;">default</th>
-									<th>description</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>ranges</td>
-									<td>object</td>
-									<td><pre>{<br/> 'xs' : 767,<br/> 'sm' : 768,<br/> 'md' : 992,<br/> 'lg' : 1200<br/> }</pre></td>
-									<td>
-										<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px). It defines from the user screen when a certain size of an image is needed.</p>
-										<p>For most needs, the default values (Bootstrap 3 grid) is enough.</p>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</section>
-					<section id="global-methods">
-						<div class="page-header">
-							<h2>Global methods</h2>
-						</div>
-						<div class="alert alert-info">
-							<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
-						</div>
-						<div class="panel panel-default">
-							<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setRanges">setRanges()</h3></div>
-							<div class="panel-body">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-delay" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-delay').bttrlazyloading({
+											delay: 4000
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>Set the delay to 4 secondes:</p>
 								<pre>
+$('#img-option-delay').bttrlazyloading({
+	delay: 4000
+});</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Type: Integer</b></div>
+						<h3 id="option-threshold">threshold</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-threshold" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-threshold').bttrlazyloading({
+											threshold: -500,
+											triggermanually: false
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>The image will be automatically triggered after you scrolled 500px down from the top of the image.</p>
+								<pre>
+$('#img-option-threshold').bttrlazyloading({
+	threshold: -500
+});</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String</b></div>
+						<h3 id="option-animation">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-animation">
+								<i class="fa fa-play"></i>
+							</button> animation
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-animation" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-animation').bttrlazyloading({
+											animation: 'slideInLeft'
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>Here we will use the 'slideInLeft' animation to show how to overwrite the default "bounceIn" animation. You have access to all of the following animation created by <a href="https://daneden.me/animate/" title="animate" target="_blank" >Animate.css</a></p>
+								<div class="alert alert-info">['flipInX', 'flipInY', 'fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUpBig', 'fadeInDownBig', 'fadeInLeftBig', 'fadeInRightBig', 'slideInDown', 'slideInLeft', 'slideInRight', 'bounceIn', 'bounceInDown', 'bounceInUp', 'bounceInLeft', 'bounceInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'lightSpeedIn', 'rollIn']</div>
+								<pre>
+$('#img-option-animation').bttrlazyloading({
+	animation: 'slideInLeft'
+});</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String</b></div>
+						<h3 id="option-event">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-event">
+								<i class="fa fa-play"></i>
+							</button> event
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-event" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-event').bttrlazyloading({
+											triggermanually: true
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>Set the delay to 4 secondes:</p>
+								<pre>
+$('#img-option-event').bttrlazyloading({
+	delay: 4000
+});</pre>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-placeholder">placeholder</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-container">container</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-retina">retina</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-triggermanually">triggermanually</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-updatemanually">updatemanually</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-onBeforeLoad">onBeforeLoad</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-onAfterLoad">onAfterLoad</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading"><h3 id="option-onError">onError</h3></div>
+						<div class="panel-body">
+							Panel content
+						</div>
+					</div>
+			</section>
+			<section id="global-ranges">
+				<div class="page-header">
+					<h2>Global ranges</h2>
+				</div>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 100px;">Name</th>
+							<th style="width: 100px;">type</th>
+							<th style="width: 200px;">default</th>
+							<th>description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ranges</td>
+							<td>object</td>
+							<td><pre>{<br/> 'xs' : 767,<br/> 'sm' : 768,<br/> 'md' : 992,<br/> 'lg' : 1200<br/> }</pre></td>
+							<td>
+								<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px). It defines from the user screen when a certain size of an image is needed.</p>
+								<p>For most needs, the default values (Bootstrap 3 grid) is enough.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<section id="global-methods">
+				<div class="page-header">
+					<h2>Global methods</h2>
+				</div>
+				<div class="alert alert-info">
+					<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setRanges">setRanges()</h3></div>
+					<div class="panel-body">
+						<pre>
 $(".selector").bttrlazyloading({
 	ranges: {
 		xs: 767,
@@ -186,14 +399,14 @@ $(".selector").bttrlazyloading({
 		lg: 1200
 	}
 });
-								</pre>
-							</div>
-						</div>
+						</pre>
+					</div>
+				</div>
 
-						<div class="panel panel-default">
-							<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setOptions">setOptions()</h3></div>
-							<div class="panel-body">
-								<pre>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setOptions">setOptions()</h3></div>
+					<div class="panel-body">
+						<pre>
 $.bttrlazyloading.setOptions({
 	img: {...},
 	retina: true,
@@ -210,18 +423,18 @@ $.bttrlazyloading.setOptions({
 	onError: function($img, bttrLazyLoading) {
 	}
 });
-								</pre>
-							</div>
-						</div>
-					</section>
-					<section id="options">
-						<div class="page-header">
-							<h2>Options</h2>
-						</div>
-						<p>BttrLazyLoading options are the same as the <a class="smooth-scroll" href="#global-options">global options</a> and can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</p>
-						<h3>Set options via jQuery data</h3>
-						<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
-						<pre>
+						</pre>
+					</div>
+				</div>
+			</section>
+			<section id="options">
+				<div class="page-header">
+					<h2>Options</h2>
+				</div>
+				<p>BttrLazyLoading options are the same as the <a class="smooth-scroll" href="#global-options">global options</a> and can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</p>
+				<h3>Set options via jQuery data</h3>
+				<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
+				<pre>
 &lt;img id=&quot;test&quot;
 	data-bttrlazyloading-xs-src=&quot;../demo/img/768x200.gif&quot;
 	data-bttrlazyloading-xs-width=&quot;768&quot;
@@ -243,19 +456,19 @@ $.bttrlazyloading.setOptions({
 	data-bttrlazyloading-threshold=&quot;500&quot;
 	data-bttrlazyloading-placeholder=&quot;data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==&quot;
 /&gt;</pre>
-						<div class="alert alert-info">Please not that the following examples are equivalent:</div>
-						<pre>
+				<div class="alert alert-info">Please not that the following examples are equivalent:</div>
+				<pre>
 &lt;img id=&quot;test&quot;
 	data-bttrlazyloading-xs-src=&quot;../demo/img/768x200.gif&quot;
 	data-bttrlazyloading-xs-width=&quot;768&quot;
 	data-bttrlazyloading-xs-height=&quot;200&quot;
 /&gt;</pre>
-						<pre>
+				<pre>
 &lt;img id=&quot;test&quot;
 	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;../demo/img/768x200.gif&quot;, &quot;width&quot; : 768,  &quot;height&quot; : 200}&#39;
 /&gt;</pre>
-						<h3>Set options on Instanciation</h3>
-						<pre>
+				<h3>Set options on Instanciation</h3>
+				<pre>
 $("#test").bttrlazyloading({
 	img: {
 		xs: {
@@ -293,206 +506,214 @@ $("#test").bttrlazyloading({
 	onError: function($img, bttrLazyLoading) {
 	}
 })</pre>
-					</section>
-					<section id="events">
-						<div class="page-header">
-							<h2>Events</h2>
-						</div>
-					</section>
-					<div class="row">
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 data-bttrlazyloading-container="document.body"
-								 data-bttrlazyloading-threshold="500"
-								 data-bttrlazyloading-xs='{"width":200}'
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 width = "360"
-								 height = "300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 width = "360"
-								 height = "300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 width = "360"
-								 height = "300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 width = "360"
-								 height = "300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 width = "360"
-								 height = "300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-						<div class="col-6 col-sm-6 col-lg-4">
-							<img class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="img/768x200.gif"
-								 data-bttrlazyloading-xs-width="768"
-								 data-bttrlazyloading-xs-height="200"
-								 data-bttrlazyloading-sm-src="img/345x250.gif"
-								 data-bttrlazyloading-sm-width="345"
-								 data-bttrlazyloading-sm-height="250"
-								 data-bttrlazyloading-md-src="img/455x350.gif"
-								 data-bttrlazyloading-md-width="455"
-								 data-bttrlazyloading-md-height="350"
-								 data-bttrlazyloading-lg-src="img/360x300.gif"
-								 data-bttrlazyloading-lg-width="360"
-								 data-bttrlazyloading-lg-height="300"
-								 width = "360"
-								 height = "300"
-								 />
-							<h2>Heading</h2>
-							<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-							<p><a class="btn btn-default" href="#">View details »</a></p>
-						</div><!--/span-->
-					</div><!--/row-->
+			</section>
+			<section id="events">
+				<div class="page-header">
+					<h2>Events</h2>
+				</div>
+			</section>
+			<div class="row">
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 data-bttrlazyloading-container="document.body"
+						 data-bttrlazyloading-threshold="500"
+						 data-bttrlazyloading-xs='{"width":200}'
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
 				</div><!--/span-->
-				<footer>
-					<p>© Company 2013</p>
-				</footer>
-				<script type="text/javascript">
-					$('.bttrlazyloading').bttrlazyloading({});
-				</script>
-			</div>
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 width = "360"
+						 height = "300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 width = "360"
+						 height = "300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 width = "360"
+						 height = "300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 width = "360"
+						 height = "300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 width = "360"
+						 height = "300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+				<div class="col-6 col-sm-6 col-lg-4">
+					<img class="bttrlazyloading"
+						 data-bttrlazyloading-xs-src="img/768x200.gif"
+						 data-bttrlazyloading-xs-width="768"
+						 data-bttrlazyloading-xs-height="200"
+						 data-bttrlazyloading-sm-src="img/345x250.gif"
+						 data-bttrlazyloading-sm-width="345"
+						 data-bttrlazyloading-sm-height="250"
+						 data-bttrlazyloading-md-src="img/455x350.gif"
+						 data-bttrlazyloading-md-width="455"
+						 data-bttrlazyloading-md-height="350"
+						 data-bttrlazyloading-lg-src="img/360x300.gif"
+						 data-bttrlazyloading-lg-width="360"
+						 data-bttrlazyloading-lg-height="300"
+						 width = "360"
+						 height = "300"
+						 />
+					<h2>Heading</h2>
+					<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+					<p><a class="btn btn-default" href="#">View details »</a></p>
+				</div><!--/span-->
+			</div><!--/row-->
+			<footer>
+				<p>© Company 2013</p>
+			</footer>
+			<script type="text/javascript">
+				//$('.bttrlazyloading').bttrlazyloading({});
+			</script>
+
+			<script type="text/javascript">
+				$(function() {
+					$('button.demo-play').click(function(e) {
+						var el = $(this).data('trigger');
+						$('#' + el).trigger('bttrLoad');
+						$(this).attr('disabled', 'disabled');
+					});
+				});
+			</script>
 		</div>
 		<nav class="navbar navbar-default navbar-inverse" role="navigation" data-spy="affix" data-offset-top="0">
 			<!-- Brand and toggle get grouped for better mobile display -->

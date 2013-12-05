@@ -20,7 +20,6 @@ class BttrLazyLoading
 
 		_setOptionsFromData.call @
 
-		console.log @options
 		imgObject = _getImgObject.call @
 		@$img.css
 			'width'					: imgObject.width
@@ -57,11 +56,28 @@ class BttrLazyLoading
 
 		@$img.bind 'load', () =>
 			@$img.addClass 'bttrlazyloading-loaded'
-			@$img.addClass 'animated ' + @options.transition if @options.transition
+			@$img.addClass 'animated ' + @options.animation if @options.animation
 			@loaded = @$img.attr 'src'
 			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
 
 		@$img.on 'bttrLoad', () =>
+			imgObject = _getImgObject.call @
+			if !@loaded
+				@$img.css
+					'background-image'		: "url('" + @options.placeholder + "')"
+					'background-repeat'		: 'no-repeat'
+					'background-position'	: 'center'
+					'width'					: imgObject.width
+					'height'				: imgObject.height
+			else
+				if imgObject.src and @loaded isnt imgObject.src
+					@$img.removeClass 'bttrlazyloading-loaded'
+					@$img.removeClass 'animated ' + @options.animation if @options.animation
+					@$img.removeAttr 'src'
+					@$img.css
+						'width'		: imgObject.width
+						'height'	: imgObject.height
+
 			setTimeout () =>
 				@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
 				imgObject = _getImgObject.call @
@@ -136,38 +152,32 @@ class BttrLazyLoading
 			return src if typeof src == 'object'
 		return ''
 
-	_isVisible = () ->
+	_isUpdatable = () ->
 		if @$img.is ':hidden'
+			return false
+
+		if !@loaded && @options.triggermanually
+			return false
+
+		if @loaded && @options.updatemanually
 			return false
 
 		wt = @container.scrollTop()
 		wb = wt + @container.height()
 		et = @$img.offset().top
 		eb = et + @$img.height()
-		return eb >= wt - @options.threshold && et <= wb + @options.threshold;
+
+		threshold = 0
+		if !@loaded 
+			threshold = @options.threshold
+		return eb >= wt - threshold && et <= wb + threshold;
 
 	###
 	public Functions
 	###
 
 	update : () ->
-		if _isVisible.call @
-			imgObject = _getImgObject.call @
-			if !@loaded
-				@$img.css
-					'background-image'		: "url('" + @options.placeholder + "')"
-					'background-repeat'		: 'no-repeat'
-					'background-position'	: 'center'
-					'width'					: imgObject.width
-					'height'				: imgObject.height
-			else
-				if imgObject.src and @loaded isnt imgObject.src
-					@$img.removeClass 'bttrlazyloading-loaded'
-					@$img.removeClass 'animated ' + @options.transition if @options.transition
-					@$img.removeAttr 'src'
-					@$img.css
-						'width'		: imgObject.width
-						'height'	: imgObject.height
+		if _isUpdatable.call @
 			@$img.trigger 'bttrLoad'			
 
 $.fn.extend
@@ -210,11 +220,13 @@ class BttrLazyLoadingGlobal
 				width : 100
 				height : 100
 		retina : false
-		transition: 'bounceIn'
+		animation: 'bounceIn'
 		delay: 0
-		event : 'scroll',
-		container : window,
-		threshold : 0,
+		event : 'scroll'
+		container : window
+		threshold : 0
+		triggermanually: false
+		updatemanually: false
 		placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
 		#onBeforeLoad : ($img, bttrLazyLoading) ->
 		onBeforeLoad : null

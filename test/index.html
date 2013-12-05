@@ -28,11 +28,13 @@
 						expect(obj.options.img.md.height).toEqual(350);
 						expect(obj.options.img.lg.height).toEqual(300);
 						expect(obj.options.retina).toEqual(true);
-						expect(obj.options.transition).toEqual('rotatedIn');
+						expect(obj.options.animation).toEqual('rotatedIn');
 						expect(obj.options.delay).toEqual(2000);
 						expect(obj.options.event).toEqual("mouseover");
 						expect(obj.options.container).toEqual("document.body");
 						expect(obj.options.threshold).toEqual(500);
+						expect(obj.options.triggermanually).toEqual(true);
+						expect(obj.options.updatemanually).toEqual(true);
 						expect(obj.options.placeholder).toEqual("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==");
 					});
 					
@@ -78,12 +80,14 @@
 								}
 							},
 							retina: true,
-							transition: 'fadeInUp',
+							animation: 'fadeInUp',
 							delay: 1000,
 							event: 'click',
 							container: 'document.body',
 							threshold: 666,
 							placeholder: 'test',
+							triggermanually: true,
+							updatemanually: true,
 							onBeforeLoad: function($img, bttrLazyLoading) {
 							},
 							onAfterLoad: function($img, bttrLazyLoading) {
@@ -108,12 +112,14 @@
 						expect(obj4.options.img.md.height).toEqual(666);
 						expect(obj4.options.img.lg.height).toEqual(888);
 						expect(obj4.options.retina).toEqual(true);
-						expect(obj4.options.transition).toEqual('fadeInUp');
+						expect(obj4.options.animation).toEqual('fadeInUp');
 						expect(obj4.options.delay).toEqual(1000);
 						expect(obj4.options.event).toEqual("click");
 						expect(obj4.options.container).toEqual("document.body");
 						expect(obj4.options.threshold).toEqual(666);
 						expect(obj4.options.placeholder).toEqual("test");
+						expect(obj4.options.triggermanually).toEqual(true);
+						expect(obj4.options.updatemanually).toEqual(true);
 					});
 
 					// GLOBAL TESTS
@@ -142,12 +148,14 @@
 								}
 							},
 							retina: true,
-							transition: 'fadeInUp',
+							animation: 'fadeInUp',
 							delay: 1000,
 							event: 'click',
 							container: 'document.body',
 							threshold: 666,
 							placeholder: 'test',
+							triggermanually: true,
+							updatemanually: true,
 							onBeforeLoad: function($img, bttrLazyLoading) {
 							},
 							onAfterLoad: function($img, bttrLazyLoading) {
@@ -174,12 +182,14 @@
 						expect(obj2.options.img.md.height).toEqual(666);
 						expect(obj2.options.img.lg.height).toEqual(888);
 						expect(obj2.options.retina).toEqual(true);
-						expect(obj2.options.transition).toEqual('fadeInUp');
+						expect(obj2.options.animation).toEqual('fadeInUp');
 						expect(obj2.options.delay).toEqual(1000);
 						expect(obj2.options.event).toEqual("click");
 						expect(obj2.options.container).toEqual("document.body");
 						expect(obj2.options.threshold).toEqual(666);
 						expect(obj2.options.placeholder).toEqual("test");
+						expect(obj2.options.triggermanually).toEqual(true);
+						expect(obj2.options.updatemanually).toEqual(true);
 					});
 
 					it("set the default global ranges", function() {
@@ -241,11 +251,13 @@
 			 data-bttrlazyloading-lg-src="../demo/img/360x300.gif"
 			 data-bttrlazyloading-lg-width="360"
 			 data-bttrlazyloading-lg-height="300"
-			 data-bttrlazyloading-transition="rotatedIn"
+			 data-bttrlazyloading-animation="rotatedIn"
 			 data-bttrlazyloading-retina="true"
 			 data-bttrlazyloading-delay="2000"
 			 data-bttrlazyloading-event="mouseover"
 			 data-bttrlazyloading-container="document.body"
+			 data-bttrlazyloading-triggermanually="true"
+			 data-bttrlazyloading-updatemanually="true"
 			 data-bttrlazyloading-threshold="500"
 			 data-bttrlazyloading-placeholder="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 			 />
