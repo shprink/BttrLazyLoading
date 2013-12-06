@@ -34,6 +34,10 @@
 				font-size: 15px;
 				font-weight: 500;
 			}
+			#option-container-wrapper{
+				height: 200px;
+				overflow: auto;
+			}
 		</style>
 		<script type="text/javascript">
 			$(function() {
@@ -172,12 +176,12 @@
 							<td>null</td>
 							<td>Called when the datepicker is closed, whether or not a date is selected. </td>
 						</tr>
-						<tr>
-							<td><a href="#option-onError" class="smooth-scroll">onError</a></td>
-							<td>function($image, Object inst)</td>
-							<td>null</td>
-							<td>Called when the datepicker is closed, whether or not a date is selected. </td>
-						</tr>
+						<!--						<tr>
+													<td><a href="#option-onError" class="smooth-scroll">onError</a></td>
+													<td>function($image, Object inst)</td>
+													<td>null</td>
+													<td>Called when the datepicker is closed, whether or not a date is selected. </td>
+												</tr>-->
 					</tbody>
 				</table>
 				<div class="panel panel-default">
@@ -211,7 +215,8 @@ $('#img-option-delay').bttrlazyloading({
 					</div>
 				</div>
 				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Type: Integer</b></div>
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Integer</b></div>
 						<h3 id="option-threshold">threshold</h3>
 					</div>
 					<div class="panel-body">
@@ -221,7 +226,7 @@ $('#img-option-delay').bttrlazyloading({
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-threshold').bttrlazyloading({
-											threshold: -500,
+											threshold: -205,
 											triggermanually: false
 										});
 									});
@@ -299,16 +304,63 @@ $('#img-option-event').bttrlazyloading({
 					</div>
 
 					<div class="panel panel-default">
-						<div class="panel-heading"><h3 id="option-placeholder">placeholder</h3></div>
+						<div class="panel-heading">
+							<div class="pull-right"><b>Type: String</b></div>
+							<h3 id="option-placeholder">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-placeholder">
+								<i class="fa fa-play"></i>
+							</button> placeholder</h3></div>
 						<div class="panel-body">
-							Panel content
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-lg-6">
+									<img id="img-option-placeholder" class="bttrlazyloading"/>
+									<script type="text/javascript">
+										$(function() {
+											$('#img-option-placeholder').bttrlazyloading({
+												delay: 4000,
+												placeholder: 'data:image/gif;base64,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'
+											});
+										});
+									</script>
+								</div>
+								<div class="col-md-6 col-sm-6 col-lg-6">
+									<p>Using the placeholder option you can add a custom loading image to replace the default: <img src='data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'/></p>
+									<pre>
+$('#img-option-placeholder').bttrlazyloading({
+	placeholder: 'data:image/gif;base64,R0lGODlhMgAyAKUAAO7u...'
+});</pre>
+								</div>
+							</div>
 						</div>
 					</div>
 
 					<div class="panel panel-default">
 						<div class="panel-heading"><h3 id="option-container">container</h3></div>
 						<div class="panel-body">
-							Panel content
+							<div class="row">
+								<div class="col-md-6 col-sm-6 col-lg-6">
+									<div id="option-container-wrapper">
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus quam nec auctor placerat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla ut metus malesuada, congue sem quis, aliquet risus. Pellentesque eget odio sed nibh imperdiet porta. Maecenas quis volutpat diam, at tempor sem. Mauris consequat dui eget nunc semper lobortis. Maecenas libero dui, aliquam ut nibh in, eleifend interdum nibh. Sed ullamcorper eros in sem sollicitudin, et pharetra nisi vulputate. Pellentesque nunc tellus, aliquet quis nisi nec, venenatis tempus nibh. Donec orci nulla, fringilla ac augue eget, lacinia convallis risus.</p>
+										<p>Sed vel dignissim turpis. Morbi posuere tortor sed purus mattis fermentum. Quisque libero arcu, sollicitudin vitae euismod vel, pharetra sit amet ante. Praesent molestie urna ut tortor pharetra venenatis. Pellentesque posuere, libero ac commodo mattis, sem orci semper erat, eget elementum ligula ante vel metus. Nunc non odio sit amet justo adipiscing iaculis. Duis sodales, dolor sit amet convallis tincidunt, purus velit tristique lorem, at convallis ligula ligula sit amet ligula. Suspendisse mauris ligula, tristique non dui id, laoreet rhoncus tellus.</p>
+										<img id="img-option-container" class="bttrlazyloading"/>
+									</div>
+									<script type="text/javascript">
+										$(function() {
+											$('#img-option-container').bttrlazyloading({
+												container: '#option-container-wrapper',
+												triggermanually: false
+											});
+										});
+									</script>
+								</div>
+								<div class="col-md-6 col-sm-6 col-lg-6">
+									<p>The image will be automatically triggered after you scrolled 500px down from the top of the image.</p>
+									<pre>
+$('#img-option-container').bttrlazyloading({
+	container: '#option-container-wrapper'
+});</pre>
+								</div>
+							</div>
 						</div>
 					</div>
 
@@ -344,12 +396,12 @@ $('#img-option-event').bttrlazyloading({
 						</div>
 					</div>
 
-					<div class="panel panel-default">
-						<div class="panel-heading"><h3 id="option-onError">onError</h3></div>
-						<div class="panel-body">
-							Panel content
-						</div>
-					</div>
+					<!--					<div class="panel panel-default">
+											<div class="panel-heading"><h3 id="option-onError">onError</h3></div>
+											<div class="panel-body">
+												Panel content
+											</div>
+										</div>-->
 			</section>
 			<section id="global-ranges">
 				<div class="page-header">

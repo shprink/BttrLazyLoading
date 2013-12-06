@@ -88,9 +88,10 @@ class BttrLazyLoading
 			, @options.delay
 
 		@$img.on 'error', () =>
-			@options.onError(@$img, this) if typeof @options.onError is 'function'
+			#@options.onError(@$img, this) if typeof @options.onError is 'function'
 
-		$(window).bind  @options.event, () =>
+		@container.bind  @options.event, () =>
+			console.log 'custom event'
 			@update()
 
 		$(window).bind "resize", () =>
@@ -159,21 +160,22 @@ class BttrLazyLoading
 		if @loaded && @options.updatemanually
 			return false
 
-		wt = @container.scrollTop()
-		wb = wt + @container.height()
-		et = @$img.offset().top
-		eb = et + @$img.height()
+		wTop = $(window).scrollTop()
+		wBottom = wTop + $(window).height()
+		iTop = @$img.offset().top
+		iBottom = iTop + @$img.height()
 
 		threshold = 0
 		if !@loaded 
 			threshold = @options.threshold
-		return eb >= wt - threshold && et <= wb + threshold;
+		return (iBottom <= wBottom + threshold) && (iTop >= wTop - threshold)
 
 	###
 	public Functions
 	###
 
 	update : () ->
+		console.log _isUpdatable.call @, '_isUpdatable'
 		if _isUpdatable.call @
 			@$img.trigger 'bttrLoad'			
 
@@ -230,7 +232,7 @@ class BttrLazyLoadingGlobal
 		#onAfterLoad : ($img, bttrLazyLoading) ->
 		onAfterLoad : null
 		#onError : ($img, bttrLazyLoading) ->
-		onError : null
+		#onError : null
 
 	setOptions : (object = {}) ->
 		$.extend true, this.constructor.options, object

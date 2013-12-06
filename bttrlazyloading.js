@@ -120,12 +120,9 @@
           });
         }, _this.options.delay);
       });
-      this.$img.on('error', function() {
-        if (typeof _this.options.onError === 'function') {
-          return _this.options.onError(_this.$img, _this);
-        }
-      });
-      $(window).bind(this.options.event, function() {
+      this.$img.on('error', function() {});
+      this.container.bind(this.options.event, function() {
+        console.log('custom event');
         return _this.update();
       });
       return $(window).bind("resize", function() {
@@ -206,7 +203,7 @@
     };
 
     _isUpdatable = function() {
-      var eb, et, threshold, wb, wt;
+      var iBottom, iTop, threshold, wBottom, wTop;
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -216,15 +213,15 @@
       if (this.loaded && this.options.updatemanually) {
         return false;
       }
-      wt = this.container.scrollTop();
-      wb = wt + this.container.height();
-      et = this.$img.offset().top;
-      eb = et + this.$img.height();
+      wTop = $(window).scrollTop();
+      wBottom = wTop + $(window).height();
+      iTop = this.$img.offset().top;
+      iBottom = iTop + this.$img.height();
       threshold = 0;
       if (!this.loaded) {
         threshold = this.options.threshold;
       }
-      return eb >= wt - threshold && et <= wb + threshold;
+      return (iBottom <= wBottom + threshold) && (iTop >= wTop - threshold);
     };
 
     /*
@@ -233,6 +230,7 @@
 
 
     BttrLazyLoading.prototype.update = function() {
+      console.log(_isUpdatable.call(this, '_isUpdatable'));
       if (_isUpdatable.call(this)) {
         return this.$img.trigger('bttrLoad');
       }
@@ -303,8 +301,7 @@
       updatemanually: false,
       placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
       onBeforeLoad: null,
-      onAfterLoad: null,
-      onError: null
+      onAfterLoad: null
     };
 
     BttrLazyLoadingGlobal.prototype.setOptions = function(object) {
