@@ -1,2 +1,6 @@
 /nbproject
 /bower_components
+.DS_Store
+.project
+.settings
+/node_modules
