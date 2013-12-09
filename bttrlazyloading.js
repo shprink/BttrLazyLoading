@@ -4,7 +4,7 @@
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _getRetinaSrc, _isUpdatable, _setOptionsFromData, _setupEvents;
+    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _setOptionsFromData, _setupEvents;
 
     BttrLazyLoading.rangesOrder = ['xs', 'sm', 'md', 'lg'];
 
@@ -18,6 +18,7 @@
       }
       this.$img = $(img);
       this.loaded = false;
+      this.loading = false;
       this.cache = {};
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
       this.options = $.extend(defaultOptions, options);
@@ -82,17 +83,18 @@
       });
       this.$img.on('bttrLoad', function() {
         var imgObject;
-        imgObject = _getImgObject.call(_this);
-        if (!_this.loaded) {
-          _this.$img.css({
-            'background-image': "url('" + _this.options.placeholder + "')",
-            'background-repeat': 'no-repeat',
-            'background-position': 'center',
-            'width': imgObject.width,
-            'height': imgObject.height
-          });
-        } else {
-          if (imgObject.src && _this.loaded !== imgObject.src) {
+        if (!_this.loading) {
+          _this.loading = true;
+          imgObject = _getImgObject.call(_this);
+          if (!_this.loaded) {
+            _this.$img.css({
+              'background-image': "url('" + _this.options.placeholder + "')",
+              'background-repeat': 'no-repeat',
+              'background-position': 'center',
+              'width': imgObject.width,
+              'height': imgObject.height
+            });
+          } else {
             _this.$img.removeClass('bttrlazyloading-loaded');
             if (_this.options.animation) {
               _this.$img.removeClass('animated ' + _this.options.animation);
@@ -103,22 +105,18 @@
               'height': imgObject.height
             });
           }
+          return setTimeout(function() {
+            if (typeof _this.options.onBeforeLoad === 'function') {
+              _this.options.onBeforeLoad(_this.$img, _this);
+            }
+            _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src));
+            _this.$img.css({
+              'width': '',
+              'height': ''
+            });
+            return _this.loading = false;
+          }, _this.options.delay);
         }
-        return setTimeout(function() {
-          if (typeof _this.options.onBeforeLoad === 'function') {
-            _this.options.onBeforeLoad(_this.$img, _this);
-          }
-          imgObject = _getImgObject.call(_this);
-          if (_this.constructor.dpr > 1 && _this.options.retina) {
-            _this.$img.attr('src', _getRetinaSrc(imgObject.src));
-          } else {
-            _this.$img.attr('src', imgObject.src);
-          }
-          return _this.$img.css({
-            'width': '',
-            'height': ''
-          });
-        }, _this.options.delay);
       });
       this.$img.on('error', function() {});
       this.container.bind(this.options.event, function() {
@@ -131,15 +129,15 @@
     };
 
     _getRangeFromScreenSize = function() {
-      var ww, _ref, _ref1;
+      var ww;
       ww = window.innerWidth;
-      if ((ww * this.constructor.dpr) <= this.ranges.xs) {
+      if (ww <= this.ranges.xs) {
         return 'xs';
-      } else if ((this.ranges.sm <= (_ref = ww * this.constructor.dpr) && _ref < this.ranges.md)) {
+      } else if ((this.ranges.sm <= ww && ww < this.ranges.md)) {
         return 'sm';
-      } else if ((this.ranges.md <= (_ref1 = ww * this.constructor.dpr) && _ref1 < this.ranges.lg)) {
+      } else if ((this.ranges.md <= ww && ww < this.ranges.lg)) {
         return 'md';
-      } else if (this.ranges.lg <= (ww * this.constructor.dpr)) {
+      } else if (this.ranges.lg <= ww) {
         return 'lg';
       }
     };
@@ -147,16 +145,21 @@
     _getImgObject = function() {
       var rangeFromScreenSize;
       rangeFromScreenSize = _getRangeFromScreenSize.call(this);
+      console.log(rangeFromScreenSize, 'rangeFromScreenSize');
       if (typeof this.cache[rangeFromScreenSize] === 'undefined') {
         this.cache[rangeFromScreenSize] = _getLargestImgObject.call(this, rangeFromScreenSize);
       }
       return this.cache[rangeFromScreenSize];
     };
 
-    _getRetinaSrc = function(src) {
-      return src.replace(/\.\w+$/, function(match) {
-        return '@2x' + match;
-      });
+    _getImageSrc = function(src) {
+      if (this.constructor.dpr > 1 && this.options.retina) {
+        return src.replace(/\.\w+$/, function(match) {
+          return '@2x' + match;
+        });
+      } else {
+        return src;
+      }
     };
 
     _getImgObjectPerRange = function(range) {
@@ -203,7 +206,7 @@
     };
 
     _isUpdatable = function() {
-      var iBottom, iTop, threshold, wBottom, wTop;
+      var iBottom, iTop, imgObject, threshold, wBottom, wTop;
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -211,6 +214,10 @@
         return false;
       }
       if (this.loaded && this.options.updatemanually) {
+        return false;
+      }
+      imgObject = _getImgObject.call(this);
+      if (!imgObject.src || this.loaded === _getImageSrc.call(this, imgObject.src)) {
         return false;
       }
       wTop = $(window).scrollTop();
@@ -230,7 +237,6 @@
 
 
     BttrLazyLoading.prototype.update = function() {
-      console.log(_isUpdatable.call(this, '_isUpdatable'));
       if (_isUpdatable.call(this)) {
         return this.$img.trigger('bttrLoad');
       }
