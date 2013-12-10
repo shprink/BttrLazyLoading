@@ -95,11 +95,11 @@
 				<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
 			</div>
 			<div class="alert alert-info">A 2 secondes delay has been added to all images for the demo.</div>
-			<section id="global-options">
+			<section id="options">
 				<div class="page-header">
-					<h2>Global options</h2>
+					<h2>Options</h2>
 				</div>
-				<p>Global options are options that you can define for the whole page. It is most of the time used before any BttrLazyLoading instanciation.</p>
+				<p>Options can be set for one or several images at the same time or for the whole page at once (using the <a class="smooth-scroll" href="#methods-setOptions">setOptions</a> global function)</p>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -542,9 +542,9 @@ $('#img-option-onAfterLoad').bttrlazyloading({
 										</div>
 									</div>-->
 			</section>
-			<section id="global-ranges">
+			<section id="ranges">
 				<div class="page-header">
-					<h2>Global ranges</h2>
+					<h2>Ranges</h2>
 				</div>
 				<table class="table table-bordered table-striped">
 					<thead>
@@ -568,58 +568,11 @@ $('#img-option-onAfterLoad').bttrlazyloading({
 					</tbody>
 				</table>
 			</section>
-			<section id="global-methods">
-				<div class="page-header">
-					<h2>Global methods</h2>
-				</div>
-				<div class="alert alert-info">
-					<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setRanges">setRanges()</h3></div>
-					<div class="panel-body">
-						<pre>
-$(".selector").bttrlazyloading({
-	ranges: {
-		xs: 767,
-		sm: 768,
-		md: 992,
-		lg: 1200
-	}
-});
-						</pre>
-					</div>
-				</div>
-
-				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="method-setOptions">setOptions()</h3></div>
-					<div class="panel-body">
-						<pre>
-$.bttrlazyloading.setOptions({
-	img: {...},
-	retina: true,
-	transition: 'fadeInUp',
-	delay: 1000,
-	event: 'click',
-	container: 'document.body',
-	threshold: 666,
-	placeholder: 'test',
-	onBeforeLoad: function($img, bttrLazyLoading) {
-	},
-	onAfterLoad: function($img, bttrLazyLoading) {
-	},
-	onError: function($img, bttrLazyLoading) {
-	}
-});
-						</pre>
-					</div>
-				</div>
-			</section>
-			<section id="options">
+			<section id="">
 				<div class="page-header">
 					<h2>Options</h2>
 				</div>
-				<p>BttrLazyLoading options are the same as the <a class="smooth-scroll" href="#global-options">global options</a> and can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</p>
+				<p>BttrLazyLoading <a class="smooth-scroll" href="#options">options</a> can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</p>
 				<h3>Set options via jQuery data</h3>
 				<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
 				<pre>
@@ -698,6 +651,51 @@ $("#test").bttrlazyloading({
 			<section id="events">
 				<div class="page-header">
 					<h2>Events</h2>
+				</div>
+			</section>
+			<section id="methods">
+				<div class="page-header">
+					<h2>Methods</h2>
+				</div>
+				<div class="alert alert-info">
+					<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setRanges">setRanges()</h3></div>
+					<div class="panel-body">
+						<pre>
+$(".selector").bttrlazyloading({
+	xs: 767,
+	sm: 768,
+	md: 992,
+	lg: 1200
+});
+						</pre>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setOptions">setOptions()</h3></div>
+					<div class="panel-body">
+						<pre>
+$.bttrlazyloading.setOptions({
+	img: {...},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+});
+						</pre>
+					</div>
 				</div>
 			</section>
 			<div class="row">
@@ -917,16 +915,26 @@ $("#test").bttrlazyloading({
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-menu">
 				<ul class="nav navbar-nav">
+					<li><a class="smooth-scroll" href="#options">Options</a></li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Global <b class="caret"></b></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a class="smooth-scroll" href="#global-options">Options</a></li>
-							<li><a class="smooth-scroll"  href="#global-ranges">Ranges</a></li>
-							<li><a class="smooth-scroll"  href="#global-methods">Methods</a></li>
+							<li><a href="#option-delay" class="smooth-scroll">delay</a></li>
+							<li><a href="#option-threshold" class="smooth-scroll">threshold</a></li>
+							<li><a href="#option-animation" class="smooth-scroll">animation</a></li>
+							<li><a href="#option-event" class="smooth-scroll">event</a></li>
+							<li><a href="#option-placeholder" class="smooth-scroll">placeholder</a></li>
+							<li><a href="#option-container" class="smooth-scroll">container</a></li>
+							<li><a href="#option-retina" class="smooth-scroll">retina</a></li>
+							<li><a href="#option-triggermanually" class="smooth-scroll">triggermanually</a></li>
+							<li><a href="#option-updatemanually" class="smooth-scroll">updatemanually</a></li>
+							<li><a href="#option-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></li>
+							<li><a href="#option-onAfterLoad" class="smooth-scroll">onAfterLoad</a></li>
 						</ul>
 					</li>
-					<li><a class="smooth-scroll" href="#options">Options</a></li>
+					<li><a class="smooth-scroll"  href="#ranges">Ranges</a></li>
 					<li><a class="smooth-scroll" href="#events">Events</a></li>
+					<li><a class="smooth-scroll" href="#methods">Methods</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</nav>
