@@ -18,3 +18,7 @@ Plugin (Prototype and jQuery) for responsive lazy loading images.
 ### Run Bower
 
 ``` $ bower install ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/shprink/bttrlazyloading/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
