@@ -546,6 +546,7 @@ $('#img-option-onAfterLoad').bttrlazyloading({
 				<div class="page-header">
 					<h2>Ranges</h2>
 				</div>
+				<p>Ranges can be set for the whole page (using the <a class="smooth-scroll" href="#methods-setRanges">setRanges</a> global function)</p>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -561,12 +562,58 @@ $('#img-option-onAfterLoad').bttrlazyloading({
 							<td>object</td>
 							<td><pre>{<br/> 'xs' : 767,<br/> 'sm' : 768,<br/> 'md' : 992,<br/> 'lg' : 1200<br/> }</pre></td>
 							<td>
-								<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px). It defines from the user screen when a certain size of an image is needed.</p>
+								<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px).</p>
 								<p>For most needs, the default values (Bootstrap 3 grid) is enough.</p>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+			</section>
+			
+			<section id="methods">
+				<div class="page-header">
+					<h2>Methods</h2>
+				</div>
+				<div class="alert alert-info">
+					<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setRanges">setRanges()</h3></div>
+					<div class="panel-body">
+						<pre>
+$(".selector").bttrlazyloading({
+	xs: 767,
+	sm: 768,
+	md: 992,
+	lg: 1200
+});
+						</pre>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setOptions">setOptions()</h3></div>
+					<div class="panel-body">
+						<pre>
+$.bttrlazyloading.setOptions({
+	img: {...},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+});
+						</pre>
+					</div>
+				</div>
 			</section>
 			<section id="">
 				<div class="page-header">
@@ -651,51 +698,6 @@ $("#test").bttrlazyloading({
 			<section id="events">
 				<div class="page-header">
 					<h2>Events</h2>
-				</div>
-			</section>
-			<section id="methods">
-				<div class="page-header">
-					<h2>Methods</h2>
-				</div>
-				<div class="alert alert-info">
-					<p>Global methods affect all BttrLazyLoading instanciations, it is used to set a global behavior for the whole page.</p>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setRanges">setRanges()</h3></div>
-					<div class="panel-body">
-						<pre>
-$(".selector").bttrlazyloading({
-	xs: 767,
-	sm: 768,
-	md: 992,
-	lg: 1200
-});
-						</pre>
-					</div>
-				</div>
-
-				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setOptions">setOptions()</h3></div>
-					<div class="panel-body">
-						<pre>
-$.bttrlazyloading.setOptions({
-	img: {...},
-	retina: true,
-	transition: 'fadeInUp',
-	delay: 1000,
-	event: 'click',
-	container: 'document.body',
-	threshold: 666,
-	placeholder: 'test',
-	onBeforeLoad: function($img, bttrLazyLoading) {
-	},
-	onAfterLoad: function($img, bttrLazyLoading) {
-	},
-	onError: function($img, bttrLazyLoading) {
-	}
-});
-						</pre>
-					</div>
 				</div>
 			</section>
 			<div class="row">
@@ -933,8 +935,8 @@ $.bttrlazyloading.setOptions({
 						</ul>
 					</li>
 					<li><a class="smooth-scroll"  href="#ranges">Ranges</a></li>
-					<li><a class="smooth-scroll" href="#events">Events</a></li>
 					<li><a class="smooth-scroll" href="#methods">Methods</a></li>
+					<li><a class="smooth-scroll" href="#events">Events</a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</nav>
