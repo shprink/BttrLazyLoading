@@ -4,9 +4,7 @@
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _setOptionsFromData, _setupEvents;
-
-    BttrLazyLoading.rangesOrder = ['xs', 'sm', 'md', 'lg'];
+    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _setOptionsFromData, _setupEvents, _update;
 
     BttrLazyLoading.dpr = 1;
 
@@ -19,7 +17,6 @@
       this.$img = $(img);
       this.loaded = false;
       this.loading = false;
-      this.cache = {};
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
       this.options = $.extend(defaultOptions, options);
       this.ranges = $.bttrlazyloading.constructor.ranges;
@@ -27,6 +24,8 @@
       if (typeof window.devicePixelRatio === 'number') {
         this.constructor.dpr = window.devicePixelRatio;
       }
+      this.whiteList = ['lg', 'md', 'sm', 'xs'];
+      this.blackList = [];
       _setOptionsFromData.call(this);
       imgObject = _getImgObject.call(this);
       this.$img.css({
@@ -35,7 +34,7 @@
       });
       _setupEvents.call(this);
       setTimeout(function() {
-        return _this.update();
+        return _update.call(_this);
       }, 100);
     }
 
@@ -57,7 +56,7 @@
               return _this.options.img[i[0]][i[1]] = v;
             }
           } else {
-            if ($.inArray(i[0], _this.constructor.rangesOrder) > -1 && typeof v === 'object') {
+            if ($.inArray(i[0], _this.whiteList) > -1 && typeof v === 'object') {
               return $.extend(_this.options.img[i[0]], v);
             } else {
               if (typeof _this.options[i[0]] !== 'undefined') {
@@ -71,17 +70,18 @@
 
     _setupEvents = function() {
       var _this = this;
-      this.$img.bind('load', function() {
+      this.$img.on('load', function() {
         _this.$img.addClass('bttrlazyloading-loaded');
         if (_this.options.animation) {
           _this.$img.addClass('animated ' + _this.options.animation);
         }
         _this.loaded = _this.$img.attr('src');
+        _this.$img.trigger('bttrlazyloading.afterLoad');
         if (typeof _this.options.onAfterLoad === 'function') {
           return _this.options.onAfterLoad(_this.$img, _this);
         }
       });
-      this.$img.on('bttrLoad', function() {
+      this.$img.on('bttrlazyloading.load', function() {
         var imgObject;
         if (!_this.loading) {
           _this.loading = true;
@@ -106,10 +106,12 @@
             });
           }
           return setTimeout(function() {
+            _this.$img.trigger('bttrlazyloading.beforeLoad');
             if (typeof _this.options.onBeforeLoad === 'function') {
               _this.options.onBeforeLoad(_this.$img, _this);
             }
-            _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src));
+            _this.$img.data('bttrlazyloading.range', imgObject.range);
+            _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src, imgObject.range));
             _this.$img.css({
               'width': '',
               'height': ''
@@ -118,13 +120,35 @@
           }, _this.options.delay);
         }
       });
-      this.$img.on('error', function() {});
-      this.container.bind(this.options.event, function() {
-        console.log('custom event');
-        return _this.update();
+      this.$img.on('error', function(e) {
+        var range, src;
+        console.log(_this.whiteList.length);
+        src = _this.$img.attr('src');
+        range = _this.$img.data('bttrlazyloading.range');
+        console.log(range);
+        if (_this.constructor.dpr > 1 && _this.options.retina && src.match(/@2x/gi)) {
+          console.log('hihih');
+          _this.blackList.push(range + '@2x');
+        } else {
+          _this.blackList.push(range);
+          _this.whiteList.splice(_this.whiteList.indexOf(range), 1);
+          if (_this.whiteList.length === 0) {
+            if (typeof _this.options.onError === 'function') {
+              _this.options.onError(_this.$img, _this);
+            }
+            return false;
+          }
+        }
+        console.log(_this.whiteList, 'whiteList');
+        console.log(_this.blackList, 'blackList');
+        return _this.$img.trigger('bttrlazyloading.load');
       });
-      return $(window).bind("resize", function() {
-        return _this.update();
+      this.container.on(this.options.event, function() {
+        console.log('custom event');
+        return _update.call(_this);
+      });
+      return $(window).on("resize", function() {
+        return _update.call(_this);
       });
     };
 
@@ -143,17 +167,12 @@
     };
 
     _getImgObject = function() {
-      var rangeFromScreenSize;
-      rangeFromScreenSize = _getRangeFromScreenSize.call(this);
-      console.log(rangeFromScreenSize, 'rangeFromScreenSize');
-      if (typeof this.cache[rangeFromScreenSize] === 'undefined') {
-        this.cache[rangeFromScreenSize] = _getLargestImgObject.call(this, rangeFromScreenSize);
-      }
-      return this.cache[rangeFromScreenSize];
+      this.range = _getRangeFromScreenSize.call(this);
+      return _getLargestImgObject.call(this);
     };
 
-    _getImageSrc = function(src) {
-      if (this.constructor.dpr > 1 && this.options.retina) {
+    _getImageSrc = function(src, range) {
+      if (this.constructor.dpr > 1 && this.options.retina && this.blackList.indexOf(range + '@2x') === -1) {
         return src.replace(/\.\w+$/, function(match) {
           return '@2x' + match;
         });
@@ -166,39 +185,25 @@
       if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
         return this.options.img[range];
       }
-      return false;
+      return null;
     };
 
-    _getLargestImgObject = function(range) {
-      var i, index, max, src, srcTemp, _i, _j, _ref, _ref1;
-      console.log('_getLargestImgObject');
-      index = this.constructor.rangesOrder.indexOf(range);
-      src = _getImgObjectPerRange.call(this, range);
-      if (typeof src === 'object') {
-        return src;
-      }
-      max = this.constructor.rangesOrder.length - 1;
-      if (max !== index) {
-        for (i = _i = _ref = index + 1; _ref <= max ? _i <= max : _i >= max; i = _ref <= max ? ++_i : --_i) {
-          range = this.constructor.rangesOrder[i];
-          srcTemp = _getImgObjectPerRange.call(this, range);
-          if (srcTemp) {
-            src = srcTemp;
-          }
-        }
-        if (typeof src === 'object') {
+    _getLargestImgObject = function() {
+      var index, range, src, _i, _len, _ref;
+      index = this.whiteList.indexOf(this.range);
+      if (index > -1) {
+        src = _getImgObjectPerRange.call(this, this.range);
+        if (src) {
+          src.range = this.range;
           return src;
         }
       }
-      if (index !== 0) {
-        for (i = _j = 0, _ref1 = index - 1; 0 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
-          range = this.constructor.rangesOrder[i];
-          srcTemp = _getImgObjectPerRange.call(this, range);
-          if (srcTemp) {
-            src = srcTemp;
-          }
-        }
-        if (typeof src === 'object') {
+      _ref = this.whiteList;
+      for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+        range = _ref[index];
+        src = _getImgObjectPerRange.call(this, range);
+        if (src) {
+          src.range = range;
           return src;
         }
       }
@@ -217,7 +222,7 @@
         return false;
       }
       imgObject = _getImgObject.call(this);
-      if (!imgObject.src || this.loaded === _getImageSrc.call(this, imgObject.src)) {
+      if (!imgObject.src || this.loaded === _getImageSrc.call(this, imgObject.src, imgObject.range)) {
         return false;
       }
       wTop = $(window).scrollTop();
@@ -231,14 +236,9 @@
       return (iBottom <= wBottom + threshold) && (iTop >= wTop - threshold);
     };
 
-    /*
-    	public Functions
-    */
-
-
-    BttrLazyLoading.prototype.update = function() {
+    _update = function() {
       if (_isUpdatable.call(this)) {
-        return this.$img.trigger('bttrLoad');
+        return this.$img.trigger('bttrlazyloading.load');
       }
     };
 
@@ -265,7 +265,7 @@
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '0.0.0';
+    BttrLazyLoadingGlobal.prototype.version = '1.0.0-alpha.1';
 
     BttrLazyLoadingGlobal.ranges = {
       xs: 767,
@@ -307,7 +307,8 @@
       updatemanually: false,
       placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
       onBeforeLoad: null,
-      onAfterLoad: null
+      onAfterLoad: null,
+      onError: null
     };
 
     BttrLazyLoadingGlobal.prototype.setOptions = function(object) {

@@ -1,0 +1,72 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Responsive Lazy Loading plugin for JQuery | BttrLazyLoading</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../bower_components/animate.css/animate.min.css" />
+		<script src="../bower_components/jquery/jquery.min.js"></script>
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<br/><br/><br/>
+			<div class="jumbotron">
+				<h1>BttrLazyLoading Feedback</h1>
+				<p>In order to bring the best features to this plugin I encourage you to post a feedback (good or bad).</p>
+			</div>
+			<div id="disqus_thread"></div>
+		</div>
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://bttrlazyloading.julienrenaux.fr/">BttrLazyLoading</a>
+				<p class="navbar-text visible-xs">by <a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></p>
+			</div>
+			<p class="navbar-text navbar-right hidden-xs">Responsive lazy loading by <a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></p>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="feedback.html">Feedback</a></li>
+				</ul>
+			</div>
+		</nav>
+		<script type="text/javascript">
+			var disqus_shortname = 'julienrenaux';
+			var disqus_identifier = 'http://bttrlazyloading.julienrenaux.fr';
+			var disqus_url = 'http://bttrlazyloading.julienrenaux.fr';
+
+			/* * * DON'T EDIT BELOW THIS LINE * * */
+			(function() {
+				var dsq = document.createElement('script');
+				dsq.type = 'text/javascript';
+				dsq.async = true;
+				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-7727182-2']);
+			_gaq.push(['_setDomainName', 'julienrenaux.fr']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</body>
+</html>

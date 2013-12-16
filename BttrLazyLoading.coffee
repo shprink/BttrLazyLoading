@@ -1,15 +1,12 @@
 $ = jQuery
 
 class BttrLazyLoading
-
-	@rangesOrder = ['xs','sm', 'md', 'lg']
 	@dpr = 1
 
 	constructor: (img, options = {}) ->
 		@$img		= $(img)
 		@loaded		= false
 		@loading	= false
-		@cache		= {}
 
 		defaultOptions = $.extend true, {}, $.bttrlazyloading.constructor.options
 
@@ -18,6 +15,10 @@ class BttrLazyLoading
 
 		@container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
+		
+		@whiteList = ['lg', 'md', 'sm', 'xs']
+#		@whiteList = ['xs', 'sm', 'md', 'lg']
+		@blackList = []
 
 		_setOptionsFromData.call @
 
@@ -29,7 +30,7 @@ class BttrLazyLoading
 		_setupEvents.call @
 
 		setTimeout () =>
-			@update()
+			_update.call @
 		, 100
 
 	###
@@ -46,23 +47,23 @@ class BttrLazyLoading
 				if i.length > 1
 					@options.img[i[0]][i[1]] = v if typeof @options.img[i[0]][i[1]] isnt 'undefined'
 				else
-					if $.inArray(i[0], @constructor.rangesOrder) > -1 and typeof v is 'object'
+					if $.inArray(i[0], @whiteList) > -1 and typeof v is 'object'
 						$.extend(@options.img[i[0]], v)
 					else
 						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
 
 	_setupEvents = () ->
-		@$img.bind 'load', () =>
+		@$img.on 'load', () =>
 			@$img.addClass 'bttrlazyloading-loaded'
 			@$img.addClass 'animated ' + @options.animation if @options.animation
 			@loaded = @$img.attr 'src'
-			@options.onAfterLoad(@$img, this) if typeof @options.onAfterLoad is 'function'
+			@$img.trigger 'bttrlazyloading.afterLoad'
+			@options.onAfterLoad(@$img, @) if typeof @options.onAfterLoad is 'function'
 
-		@$img.on 'bttrLoad', () =>
+		@$img.on 'bttrlazyloading.load', () =>
 			if !@loading
 				@loading = true
 				imgObject = _getImgObject.call @
-
 				if !@loaded
 					@$img.css
 						'background-image'		: "url('" + @options.placeholder + "')"
@@ -79,24 +80,40 @@ class BttrLazyLoading
 						'height'	: imgObject.height		
 
 				setTimeout () =>
-					@options.onBeforeLoad(@$img, this) if typeof @options.onBeforeLoad is 'function'
-					@$img.attr 'src', _getImageSrc.call @, imgObject.src
+					@$img.trigger 'bttrlazyloading.beforeLoad'
+					@options.onBeforeLoad(@$img, @) if typeof @options.onBeforeLoad is 'function'
+					@$img.data 'bttrlazyloading.range', imgObject.range
+					@$img.attr 'src', _getImageSrc.call @, imgObject.src, imgObject.range
 					@$img.css
 						'width'		: ''
 						'height'	: ''
-
 					@loading = false
 				, @options.delay
 
-		@$img.on 'error', () =>
-			#@options.onError(@$img, this) if typeof @options.onError is 'function'
+		@$img.on 'error', (e) =>
+			console.log @whiteList.length
+			src		= @$img.attr 'src'
+			range	= @$img.data 'bttrlazyloading.range'
+			console.log range
+			if @constructor.dpr > 1 && @options.retina && src.match(/@2x/gi)
+				console.log 'hihih'
+				@blackList.push range + '@2x'
+			else
+				@blackList.push range
+				@whiteList.splice @whiteList.indexOf(range), 1
+				if @whiteList.length is 0
+					@options.onError(@$img, this) if typeof @options.onError is 'function'
+					return false
+			console.log @whiteList, 'whiteList'
+			console.log @blackList, 'blackList'
+			@$img.trigger 'bttrlazyloading.load'
 
-		@container.bind  @options.event, () =>
+		@container.on  @options.event, () =>
 			console.log 'custom event'
-			@update()
+			_update.call @
 
-		$(window).bind "resize", () =>
-			@update()
+		$(window).on "resize", () =>
+			_update.call @
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
@@ -110,14 +127,12 @@ class BttrLazyLoading
 			'lg'
 
 	_getImgObject =  () ->
-		rangeFromScreenSize = _getRangeFromScreenSize.call @
-		console.log rangeFromScreenSize, 'rangeFromScreenSize'
-		if typeof @cache[rangeFromScreenSize] == 'undefined'
-			@cache[rangeFromScreenSize] = _getLargestImgObject.call @, rangeFromScreenSize
-		@cache[rangeFromScreenSize]
+		@range = _getRangeFromScreenSize.call @
+		_getLargestImgObject.call @
 
-	_getImageSrc = (src)->
-		if (@constructor.dpr > 1 && @options.retina)
+	_getImageSrc = (src, range)->
+		# check if retina and not in black list
+		if @constructor.dpr > 1 && @options.retina && @blackList.indexOf(range + '@2x') is -1
 			src.replace /\.\w+$/, (match)->
 				'@2x' + match
 		else
@@ -126,33 +141,41 @@ class BttrLazyLoading
 	_getImgObjectPerRange = (range)->
 		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
 			return @options.img[range]
-		return false
+		return null
 
-	_getLargestImgObject = (range)->
-		console.log '_getLargestImgObject'
-		index = @constructor.rangesOrder.indexOf(range)
+	_getLargestImgObject =  () ->
+		index = @whiteList.indexOf(@range)
 
-		# Check if the right img exist
-		src = _getImgObjectPerRange.call @, range
-		return src if typeof src == 'object'
+		# Check if the right img exist, otherwise we find a bigger one
+		if index > -1
+			src = _getImgObjectPerRange.call @, @range
+			if src
+				src.range = @range
+				return src
+
+		for range, index in @whiteList
+			src = _getImgObjectPerRange.call @, range
+			if src
+				src.range = range
+				return src
 
 		# If not we check if a bigger img exist
-		max = @constructor.rangesOrder.length - 1
-		if max isnt index
-			for i in [index + 1.. max]
-				range = @constructor.rangesOrder[i]
-				srcTemp = _getImgObjectPerRange.call @, range
-				src =  srcTemp if srcTemp
-			return src if typeof src == 'object'
+#		max = @constructor.rangesOrder.length - 1
+#		if max isnt index
+#			for i in [index + 1.. max]
+#				range = @constructor.rangesOrder[i]
+#				srcTemp = _getImgObjectPerRange.call @, range
+#				src =  srcTemp if srcTemp
+#			return src if typeof src == 'object'
 
 		# If not we start back from the smallest img
 		# If index = 0 we already tried all possibilites
-		if index isnt 0
-			for i in [0 .. index - 1]
-				range = @constructor.rangesOrder[i]
-				srcTemp = _getImgObjectPerRange.call @, range
-				src =  srcTemp if srcTemp
-			return src if typeof src == 'object'
+#		if index isnt 0
+#			for i in [0 .. index - 1]
+#				range = @constructor.rangesOrder[i]
+#				srcTemp = _getImgObjectPerRange.call @, range
+#				src =  srcTemp if srcTemp
+#			return src if typeof src == 'object'
 		return ''
 
 	_isUpdatable = () ->
@@ -166,7 +189,7 @@ class BttrLazyLoading
 			return false
 			
 		imgObject = _getImgObject.call @
-		if !imgObject.src or @loaded is _getImageSrc.call @, imgObject.src
+		if !imgObject.src or @loaded is _getImageSrc.call @, imgObject.src, imgObject.range
 			return false
 
 		wTop = $(window).scrollTop()
@@ -179,13 +202,9 @@ class BttrLazyLoading
 			threshold = @options.threshold
 		return (iBottom <= wBottom + threshold) && (iTop >= wTop - threshold)
 
-	###
-	public Functions
-	###
-
-	update : () ->
+	_update = () ->
 		if _isUpdatable.call @
-			@$img.trigger 'bttrLoad'			
+			@$img.trigger 'bttrlazyloading.load'
 
 $.fn.extend
 	bttrlazyloading: (options) ->
@@ -201,7 +220,7 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '0.0.0'	
+	version : '1.0.0-alpha.1'	
 	@ranges = 
 		xs : 767
 		sm : 768
@@ -240,7 +259,7 @@ class BttrLazyLoadingGlobal
 		#onAfterLoad : ($img, bttrLazyLoading) ->
 		onAfterLoad : null
 		#onError : ($img, bttrLazyLoading) ->
-		#onError : null
+		onError : null
 
 	setOptions : (object = {}) ->
 		$.extend true, this.constructor.options, object
