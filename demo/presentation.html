@@ -93,7 +93,7 @@
 			<div class="jumbotron">
 				<h1>BttrLazyLoading</h1>
 				<p>Responsive Lazy Loading plugin for JQuery.</p>
-				
+
 				<div class="btn-group btn-group-justified">
 					<a class="btn btn-info btn-lg" target="_blank" href="https://github.com/shprink/BttrLazyLoading">
 						<i class="fa fa-download"></i> Download the development version
@@ -103,11 +103,10 @@
 					</a>
 				</div>
 			</div>
-			<p>BttrLazyLoading is a Jquery plugin that allows your web application to defer image loading until images are scrolled to.</p>
+			<p>BttrLazyLoading is a Jquery plugin that allows your web application to defer image loading until images are scrolled to but not only! BttrLazyLoading also allows you to have different version of an image for 4 differents screen sizes: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px).</p>
 			<div class="alert alert-info">
 				<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
 			</div>
-			<div class="alert alert-warning">A 2 secondes delay has been added to all images for the demo.</div>
 			<section id="options">
 				<div class="page-header">
 					<h2>Options</h2>
@@ -124,44 +123,44 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><a href="#option-delay" class="smooth-scroll">delay</a></td>
+							<td><a href="#demo-delay" class="smooth-scroll">delay</a></td>
 							<td>integer</td>
 							<td>0</td>
 							<td><p>Adds delay to the image loading time.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-threshold" class="smooth-scroll">threshold</a></td>
+							<td><a href="#demo-threshold" class="smooth-scroll">threshold</a></td>
 							<td>integer</td>
 							<td>0</td>
 							<td><p>By default images are loaded when they appear on the screen. If you want images to load earlier use threshold parameter. Setting threshold to 200 causes image to load 200 pixels before it appears on viewport.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-animation" class="smooth-scroll">animation</a></td>
+							<td><a href="#demo-animation" class="smooth-scroll">animation</a></td>
 							<td>string</td>
 							<td>"bounceIn"</td>
 							<td><p>Adds an animation when the image loads. You have access to all of the following animation created by <a href="https://daneden.me/animate/" title="animate" target="_blank" >Animate.css</a> or use <code>Null</code> if you do not want any animation</p>
 								<div>['flipInX', 'flipInY', 'fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUpBig', 'fadeInDownBig', 'fadeInLeftBig', 'fadeInRightBig', 'slideInDown', 'slideInLeft', 'slideInRight', 'bounceIn', 'bounceInDown', 'bounceInUp', 'bounceInLeft', 'bounceInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'lightSpeedIn', 'rollIn']</div></td>
 						</tr>
 						<tr>
-							<td><a href="#option-event" class="smooth-scroll">event</a></td>
+							<td><a href="#demo-event" class="smooth-scroll">event</a></td>
 							<td>string</td>
 							<td>"scroll"</td>
 							<td><p>Defines the event that will be use to trigger the image loading/updating.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-placeholder" class="smooth-scroll">placeholder</a></td>
+							<td><a href="#demo-placeholder" class="smooth-scroll">placeholder</a></td>
 							<td>string (image base64)</td>
 							<td>"data:image/gif;base64..."</td>
 							<td><p>Base 64 image that is used when the image loads.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-container" class="smooth-scroll">container</a></td>
+							<td><a href="#demo-container" class="smooth-scroll">container</a></td>
 							<td>string (CSS selector)</td>
 							<td>window</td>
 							<td><p>You can also use this plugin for images inside scrolling container, such as div with scrollbar. By default the container is the window.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-retina" class="smooth-scroll">retina</a></td>
+							<td><a href="#demo-retina" class="smooth-scroll">retina</a></td>
 							<td>boolean</td>
 							<td>false</td>
 							<td>
@@ -170,31 +169,31 @@
 							</td>
 						</tr>
 						<tr>
-							<td><a href="#option-triggermanually" class="smooth-scroll">triggermanually</a></td>
+							<td><a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></td>
 							<td>boolean</td>
 							<td>false</td>
 							<td><p>Whether or not to trigger the first image load manually.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-updatemanually" class="smooth-scroll">updatemanually</a></td>
+							<td><a href="#demo-updatemanually" class="smooth-scroll">updatemanually</a></td>
 							<td>boolean</td>
 							<td>false</td>
 							<td><p>Whether or not to trigger the image update (needed when the window resizes for example) manually.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></td>
+							<td><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></td>
 							<td>function($image, Object inst)</td>
 							<td>null</td>
 							<td><p>Callback called just before that the image loads.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-onAfterLoad" class="smooth-scroll">onAfterLoad</a></td>
+							<td><a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></td>
 							<td>function($image, Object inst)</td>
 							<td>null</td>
 							<td><p>Callback called just after that the image loads.</p></td>
 						</tr>
 						<tr>
-							<td><a href="#option-onError" class="smooth-scroll">onError</a></td>
+							<td><a href="#demo-onError" class="smooth-scroll">onError</a></td>
 							<td>function($image, Object inst)</td>
 							<td>null</td>
 							<td><p>Callback called when the plugin cannot find any image src that exist.</p></td>
@@ -263,10 +262,16 @@
 	onError: function($img, bttrLazyLoading) {
 	}
 })</pre></code>
+			</section>
+			<section id="demos">
+				<div class="page-header">
+					<h2>Demos</h2>
+				</div>
+				<div class="alert alert-warning">A 2 secondes delay has been added to all images for the demos.</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Integer, Default: 0</b></div>
-						<h3 id="option-delay">
+						<h3 id="demo-delay">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-delay">
 								<i class="fa fa-play"></i>
 							</button> delay
@@ -296,7 +301,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Integer, Default: 0</b></div>
-						<h3 id="option-threshold">threshold</h3>
+						<h3 id="demo-threshold">threshold</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -323,7 +328,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: String, Default: "bounceIn"</b></div>
-						<h3 id="option-animation">
+						<h3 id="demo-animation">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-animation">
 								<i class="fa fa-play"></i>
 							</button> animation
@@ -354,7 +359,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: String, Default: "scroll"</b></div>
-						<h3 id="option-event">event</h3>
+						<h3 id="demo-event">event</h3>
 					</div>
 					<div class="panel-body">
 						<div class="row">
@@ -382,7 +387,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: String, Default:</b> <img src='data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'/></div>
-						<h3 id="option-placeholder">
+						<h3 id="demo-placeholder">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-placeholder">
 								<i class="fa fa-play"></i>
 							</button> placeholder</h3></div>
@@ -412,7 +417,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: String(Css selector), Default: window</b></div>
-						<h3 id="option-container">container</h3></div>
+						<h3 id="demo-container">container</h3></div>
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
@@ -442,7 +447,7 @@
 				<div class="panel panel-default" id="panel-option-retina">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Boolean, Default: false</b></div>
-						<h3 id="option-retina">
+						<h3 id="demo-retina">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-retina">
 								<i class="fa fa-play"></i>
 							</button> retina
@@ -479,7 +484,7 @@ retina: true
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Boolean, Default: false</b></div>
-						<h3 id="option-triggermanually">
+						<h3 id="demo-triggermanually">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-triggermanually">
 								<i class="fa fa-play"></i>
 							</button> triggermanually
@@ -506,7 +511,7 @@ retina: true
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Boolean, Default: false</b></div>
-						<h3 id="option-updatemanually">
+						<h3 id="demo-updatemanually">
 							<button class="btn btn-success demo-refresh" type="button" data-trigger="img-option-updatemanually">
 								<i class="fa fa-refresh"></i>
 							</button> updatemanually</h3>
@@ -539,7 +544,7 @@ retina: true
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Function, Default: null</b></div>
-						<h3  id="option-onBeforeLoad">
+						<h3  id="demo-onBeforeLoad">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onBeforeLoad">
 								<i class="fa fa-play"></i>
 							</button> onBeforeLoad
@@ -571,7 +576,7 @@ retina: true
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Function, Default: null</b></div>
-						<h3  id="option-onAfterLoad">
+						<h3  id="demo-onAfterLoad">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onAfterLoad">
 								<i class="fa fa-play"></i>
 							</button> onAfterLoad
@@ -603,7 +608,7 @@ retina: true
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Function, Default: null</b></div>
-						<h3  id="option-onError">
+						<h3  id="demo-onError">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onError">
 								<i class="fa fa-play"></i>
 							</button> onError
@@ -633,8 +638,8 @@ retina: true
 							</script>
 						</div>
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<p>With the onError option you can make sure that only on error up to 8 times (4 times fo a normal screen and 8 times for a retina screen)</p>
-							<pre><code class="html">&lt;img id=&quot;img-option-onError&quot; class=&quot;bttrlazyloading&quot;
+							<p>BttrLazyLoading will try to load any of the given image source you define. If an image does not exist an <a href="http://www.w3schools.com/jsref/event_img_onerror.asp" target="_blank">error</a> event will be triggered and if none are found the onError function as well as the <code>bttrlazyloading.error</code> event will be triggered.</p>
+							<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs-src=&quot;imageDoesNotExistXs.jpg&quot;
 	data-bttrlazyloading-sm-src=&quot;imageDoesNotExistSm.jpg&quot;
 	data-bttrlazyloading-md-src=&quot;imageDoesNotExistMd.jpg&quot;
@@ -736,7 +741,7 @@ retina: true
 							<td>bttrlazyloading.beforeLoad</td>
 							<td>
 								<p>This event is triggered just before the "bttrlazyloading.load" event.</p>
-								<p>More information in the option section: <a href="#option-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></p>
+								<p>More information in the option section: <a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></p>
 							</td>
 						</tr>
 						<tr>
@@ -744,21 +749,21 @@ retina: true
 							<td>
 								<p>This event is triggered when the image loading is triggered. You can trigger it manually like this: <pre><code class="javascript">$('#yourImageId').trigger('bttrlazyloading.load');</pre></code>
 								</p>
-								<p>More information in the option section: <a href="#option-triggermanually" class="smooth-scroll">triggermanually</a></p>
+								<p>More information in the option section: <a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></p>
 							</td>
 						</tr>
 						<tr>
 							<td>bttrlazyloading.afterLoad</td>
 							<td>
 								<p>This event is triggered just after the "bttrlazyloading.load" event.</p>
-								<p>More information in the option section: <a href="#option-onAfterLoad" class="smooth-scroll">onAfterLoad</a></p>
+								<p>More information in the option section: <a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></p>
 							</td>
 						</tr>
 						<tr>
 							<td>bttrlazyloading.error</td>
 							<td>
 								<p>This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times fo a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.</p>
-								<p>More information in the option section: <a href="#option-onError" class="smooth-scroll">onError</a></p>
+								<p>More information in the option section: <a href="#demo-onError" class="smooth-scroll">onError</a></p>
 							</td>
 						</tr>
 					</tbody>
@@ -768,6 +773,12 @@ retina: true
 				<div class="page-header">
 					<h2>Tips</h2>
 				</div>
+				<h3>No src attribute?</h3>
+				<blockquote>
+					<p>Browsers are too quick for us! In order to provide the fastest loading time possible, browsers preload all of the images that they can identify</p>
+					<small><cite>Choosing A Responsive Image Solution, Smashing Magazine</cite></small>
+				</blockquote>
+				<p>You may have noticed that none of our image elements have a "src" attribute. Well that is normal! As describe here by the Smashing Magazine, the browsers preload the images even before the <code>document ready</code> event which make it impossible for this plugin to process the information before the image loads.</p>
 				<h3>Fallback for Non JavaScript Browsers</h3>
 				<pre><code class="html">&lt;img class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
@@ -814,20 +825,20 @@ retina: true
 				<ul class="nav navbar-nav">
 					<li><a class="smooth-scroll" href="#options">Options</a></li>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Demos <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#option-delay" class="smooth-scroll">delay</a></li>
-							<li><a href="#option-threshold" class="smooth-scroll">threshold</a></li>
-							<li><a href="#option-animation" class="smooth-scroll">animation</a></li>
-							<li><a href="#option-event" class="smooth-scroll">event</a></li>
-							<li><a href="#option-placeholder" class="smooth-scroll">placeholder</a></li>
-							<li><a href="#option-container" class="smooth-scroll">container</a></li>
-							<li><a href="#option-retina" class="smooth-scroll">retina</a></li>
-							<li><a href="#option-triggermanually" class="smooth-scroll">triggermanually</a></li>
-							<li><a href="#option-updatemanually" class="smooth-scroll">updatemanually</a></li>
-							<li><a href="#option-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></li>
-							<li><a href="#option-onAfterLoad" class="smooth-scroll">onAfterLoad</a></li>
-							<li><a href="#option-onError" class="smooth-scroll">onError</a></li>
+							<li><a href="#demo-delay" class="smooth-scroll">delay</a></li>
+							<li><a href="#demo-threshold" class="smooth-scroll">threshold</a></li>
+							<li><a href="#demo-animation" class="smooth-scroll">animation</a></li>
+							<li><a href="#demo-event" class="smooth-scroll">event</a></li>
+							<li><a href="#demo-placeholder" class="smooth-scroll">placeholder</a></li>
+							<li><a href="#demo-container" class="smooth-scroll">container</a></li>
+							<li><a href="#demo-retina" class="smooth-scroll">retina</a></li>
+							<li><a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></li>
+							<li><a href="#demo-updatemanually" class="smooth-scroll">updatemanually</a></li>
+							<li><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></li>
+							<li><a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></li>
+							<li><a href="#demo-onError" class="smooth-scroll">onError</a></li>
 						</ul>
 					</li>
 					<li><a class="smooth-scroll"  href="#ranges">Ranges</a></li>
