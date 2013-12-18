@@ -1,50 +1,49 @@
-fs				= require 'fs'
-CoffeeScript	= require 'coffee-script'
-{exec}			= require 'child_process'
+fs				    = require 'fs'
+CoffeeScript 	= require 'coffee-script'
+{exec}			  = require 'child_process'
 
-# Variables
-file_js		= 'bttrlazyloading.js'
-css_file	= 'bttrlazyloading.css'
-versionFile = 'version'
+FILE_COFFEE = 'BttrLazyLoading.coffee'
+FILE_COMPILED_JS = 'bttrlazyloading.js'
+FILE_COMPILED_CSS = 'bttrlazyloading.css'
+FILE_VERSION 	= 'version'
 
-###
-TASKS
-###
 task 'tag.major', 'Major tag incrementation', ->
 	tag getIncreasedVersion 'major'
-	
+
 task 'tag.minor', 'Minor tag incrementation', ->
 	tag getIncreasedVersion 'minor'
-		
+
 task 'tag.patch', 'Patch tag incrementation', ->
 	tag getIncreasedVersion 'patch'
 
 task 'build', 'Compile and uglify BttrLazyLoading.coffee', ->
-	try
-		fs.writeFileSync file_js, CoffeeScript.compile "#{fs.readFileSync 'BttrLazyLoading.coffee'}"
+	compressFiles()
 
-		unless process.env.MINIFY is 'false'
-			Uglify			= require 'uglify-js'
-			CleanCSS		= require 'clean-css'
-
-			# Compress JS
-			fs.writeFileSync file_js.replace(/\.js$/,'.min.js'), copyright + (Uglify.minify "#{fs.readFileSync file_js}", {fromString: true}).code
-			# Compress CSS
-			fs.writeFileSync css_file.replace(/\.css$/,'.min.css'), copyright + CleanCSS.process "#{fs.readFileSync css_file}"
-	catch e
-		console.log e.message
-
-###
-METHODS
-###
 tag = (version) ->
 	# Preparing
 	console.log "Increasing from #{getVersion()} to #{version}..."
-		
+
 	# Running
 	run 'git', ['tag', '-a', '-m', "\"Version #{version}\"", version], () ->
 		# Save the new version within the version file if success
-		fs.writeFileSync versionFile, version
+		fs.writeFileSync FILE_VERSION, version
+
+compressFiles = ->
+	try
+		fs.writeFileSync FILE_COMPILED_JS, CoffeeScript.compile "#{fs.readFileSync FILE_COFFEE}"
+		unless process.env.MINIFY is 'false'
+			minifyJs FILE_COMPILED_JS
+			minifyCss FILE_COMPILED_CSS
+	catch e
+		console.log e.message
+
+minifyJs = (file) ->
+	Uglify = require 'uglify-js'
+	fs.writeFileSync file.replace(/\.js$/,'.min.js'), copyright + (Uglify.minify "#{fs.readFileSync file}", {fromString: true}).code
+
+minifyCss = (file) ->
+	CleanCSS = require 'clean-css'
+	fs.writeFileSync file.replace(/\.css$/,'.min.css'), copyright + CleanCSS.process "#{fs.readFileSync file}"
 
 run = (cmd, args, successCallback) ->
 	# Dump the command on the screen
@@ -57,14 +56,14 @@ run = (cmd, args, successCallback) ->
 		# Success
 		if !code
 			successCallback()
-		
+
 	# Listen to errors
 	child.stderr.on 'data', (data) ->
 		console.log 'Oups something wrong happened: ' + data
-		
+
 # Get the current version
 getVersion = ->
-	"#{fs.readFileSync versionFile}"
+	"#{fs.readFileSync FILE_VERSION}"
 
 # Get the increased version
 getIncreasedVersion = (label) ->
@@ -82,7 +81,7 @@ getIncreasedVersion = (label) ->
 			vSplitted[2] = parseInt(vSplitted[2]) + 1
 	vSplitted.join('.');
 
-copyright	= 
+copyright	=
 """
 /*
 BttrLazyLoading, Responsive Lazy Loading plugin for JQuery
