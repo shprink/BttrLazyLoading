@@ -9,6 +9,7 @@ BttrLazyLoading is a Jquery plugin that allows your web application to defer ima
 
 ### Options
 
+* img: the images object (see example below)
 * delay: Adds delay to the image loading time.
 * threshold: By default images are loaded when they appear on the screen. If you want images to load earlier use threshold parameter. Setting threshold to 200 causes image to load 200 pixels before it appears on viewport.
 * animation: Adds an animation when the image loads. Animations available: ['flipInX', 'flipInY', 'fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUpBig', 'fadeInDownBig', 'fadeInLeftBig', 'fadeInRightBig', 'slideInDown', 'slideInLeft', 'slideInRight', 'bounceIn', 'bounceInDown', 'bounceInUp', 'bounceInLeft', 'bounceInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'lightSpeedIn', 'rollIn']
@@ -27,7 +28,109 @@ BttrLazyLoading is a Jquery plugin that allows your web application to defer ima
 * bttrlazyloading.beforeLoad: This event is triggered just before the "bttrlazyloading.load" event.
 * bttrlazyloading.load: This event is triggered when the image loading is triggered. 
 * bttrlazyloading.afterLoad: This event is triggered just after the "bttrlazyloading.load" event.
-* bttrlazyloading.error: This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times fo a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.
+* bttrlazyloading.error: This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times for a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.
+
+## Examples
+
+### Set options on instanciation
+
+#### Via data attributes
+
+```
+<img id="yourImageId" class="bttrlazyloading"
+	data-bttrlazyloading-xs-src="img/768x200.gif"
+	data-bttrlazyloading-sm-src="img/345x250.gif"
+	data-bttrlazyloading-md-src="img/455x350.gif"
+	data-bttrlazyloading-lg-src="img/360x300.gif"
+	data-bttrlazyloading-transition="rotatedIn"
+	data-bttrlazyloading-retina="true"
+	data-bttrlazyloading-delay="2000"
+	data-bttrlazyloading-event="mouseover"
+	data-bttrlazyloading-container="document.body"
+	data-bttrlazyloading-threshold="500"
+/>
+```
+
+For a perfect experience 'width' and 'height' are necessary (The plugin cannot know the dimensions of your images before they load.).
+
+```
+<img id="test" class="bttrlazyloading"
+	data-bttrlazyloading-xs-src="img/768x200.gif"
+	data-bttrlazyloading-xs-width="768"
+	data-bttrlazyloading-xs-height="200"
+	data-bttrlazyloading-sm-src="img/345x250.gif"
+	data-bttrlazyloading-sm-width="345"
+	data-bttrlazyloading-sm-height="250"
+	data-bttrlazyloading-md-src="img/455x350.gif"
+	data-bttrlazyloading-md-width="455"
+	data-bttrlazyloading-md-height="350"
+	data-bttrlazyloading-lg-src="img/360x300.gif"
+	data-bttrlazyloading-lg-width="360"
+	data-bttrlazyloading-lg-height="300"
+/>
+```
+
+or
+
+```
+<img id="yourImageId" class="bttrlazyloading"
+	data-bttrlazyloading-xs='{"src": "img/720x200.gif", "width" : 720,  "height" : 200}'
+	data-bttrlazyloading-sm='{"src": "img/360x200.gif", "width" : 360,  "height" : 200}'
+	data-bttrlazyloading-md='{"src": "img/470x200.gif", "width" : 470,  "height" : 200}'
+	data-bttrlazyloading-lg='{"src": "img/570x200.gif", "width" : 570,  "height" : 200}'
+/>
+```
+
+Only one image size needed! BttrLazyLoading always try to load the biggest version of the image available. Therefore the following example will work on every screen too.
+
+```
+<img id="yourImageId" class="bttrlazyloading"
+	data-bttrlazyloading-md-src="img/455x350.gif"
+/>
+```
+
+#### Via the instanciation
+
+```
+$("#yourImageId").bttrlazyloading({
+	img: {
+		xs: {
+			src: "img/720x200.gif",
+			width: 720,
+			height: 200
+		},
+		sm: {
+			src: "img/360x200.gif",
+			width: 360,
+			height: 200
+		},
+		md: {
+			src: "img/470x200.gif",
+			width: 470,
+			height: 200
+		},
+		lg: {
+			src: "img/570x200.gif",
+			width: 570,
+			height: 200
+		}
+	},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+})
+```
+
 
 ## Contribute!
 

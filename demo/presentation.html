@@ -201,9 +201,25 @@
 					</tbody>
 				</table>
 				<div class="alert alert-info">BttrLazyLoading options can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</div>
-				<h3>Set options via jQuery data</h3>
+				<h3>Set options using data attributes</h3>
 				<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
-				<pre><code class="html">&lt;img id=&quot;test&quot; class=&quot;bttrlazyloading&quot;
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
+	data-bttrlazyloading-sm-src=&quot;img/345x250.gif&quot;
+	data-bttrlazyloading-md-src=&quot;img/455x350.gif&quot;
+	data-bttrlazyloading-lg-src=&quot;img/360x300.gif&quot;
+	data-bttrlazyloading-transition=&quot;rotatedIn&quot;
+	data-bttrlazyloading-retina=&quot;true&quot;
+	data-bttrlazyloading-delay=&quot;2000&quot;
+	data-bttrlazyloading-event=&quot;mouseover&quot;
+	data-bttrlazyloading-container=&quot;document.body&quot;
+	data-bttrlazyloading-threshold=&quot;500&quot;
+	data-bttrlazyloading-placeholder=&quot;data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==&quot;
+/&gt;</pre></code>
+
+<p>For a perfect experience 'width' and 'height' are necessary (The plugin cannot know the dimensions of your images before they load.).</p>
+
+<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
 	data-bttrlazyloading-xs-width=&quot;768&quot;
 	data-bttrlazyloading-xs-height=&quot;200&quot;
@@ -216,14 +232,8 @@
 	data-bttrlazyloading-lg-src=&quot;img/360x300.gif&quot;
 	data-bttrlazyloading-lg-width=&quot;360&quot;
 	data-bttrlazyloading-lg-height=&quot;300&quot;
-	data-bttrlazyloading-transition=&quot;rotatedIn&quot;
-	data-bttrlazyloading-retina=&quot;true&quot;
-	data-bttrlazyloading-delay=&quot;2000&quot;
-	data-bttrlazyloading-event=&quot;mouseover&quot;
-	data-bttrlazyloading-container=&quot;document.body&quot;
-	data-bttrlazyloading-threshold=&quot;500&quot;
-	data-bttrlazyloading-placeholder=&quot;data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==&quot;
 /&gt;</pre></code>
+
 				<h3>Set options on Instanciation</h3>
 				<pre><code class="javascript">$("#yourImageId").bttrlazyloading({
 	img: {
@@ -770,7 +780,7 @@ retina: true
 						<tr>
 							<td>bttrlazyloading.error</td>
 							<td>
-								<p>This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times fo a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.</p>
+								<p>This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times for a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.</p>
 								<p>More information in the option section: <a href="#demo-onError" class="smooth-scroll">onError</a></p>
 							</td>
 						</tr>
@@ -781,6 +791,11 @@ retina: true
 				<div class="page-header">
 					<h2>Tips</h2>
 				</div>
+				<h3 id="tip-nosrc">Only one image size needed!</h3>
+				<p>BttrLazyLoading always try to load the biggest version of the image available. Therefore the following example will work on every screen too.</p>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-md-src=&quot;img/455x350.gif&quot;
+/&gt;</pre></code>
 				<h3 id="tip-nosrc">No src attribute?</h3>
 				<blockquote>
 					<p>Browsers are too quick for us! In order to provide the fastest loading time possible, browsers preload all of the images that they can identify</p>
