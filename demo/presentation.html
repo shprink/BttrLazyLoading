@@ -228,24 +228,24 @@
 				<pre><code class="javascript">$("#yourImageId").bttrlazyloading({
 	img: {
 		xs: {
-			src: "img/768x200.gif",
-			width: 111,
-			height: 222
+			src: "img/720x200.gif",
+			width: 720,
+			height: 200
 		},
 		sm: {
-			src: "img/345x250.gif",
-			width: 333,
-			height: 444
+			src: "img/360x200.gif",
+			width: 360,
+			height: 200
 		},
 		md: {
-			src: "img/455x350.gif",
-			width: 555,
-			height: 666
+			src: "img/470x200.gif",
+			width: 470,
+			height: 200
 		},
 		lg: {
-			src: "img/360x300.gif",
-			width: 777,
-			height: 888
+			src: "img/570x200.gif",
+			width: 570,
+			height: 200
 		}
 	},
 	retina: true,
@@ -267,6 +267,13 @@
 				<div class="page-header">
 					<h2>Demos</h2>
 				</div>
+				<p>The following demo are using the same element attributes:</p>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;img/720x200.gif&quot;, &quot;width&quot; : 720,  &quot;height&quot; : 200}&#39;
+	data-bttrlazyloading-sm=&#39;{&quot;src&quot;: &quot;img/360x200.gif&quot;, &quot;width&quot; : 360,  &quot;height&quot; : 200}&#39;
+	data-bttrlazyloading-md=&#39;{&quot;src&quot;: &quot;img/470x200.gif&quot;, &quot;width&quot; : 470,  &quot;height&quot; : 200}&#39;
+	data-bttrlazyloading-lg=&#39;{&quot;src&quot;: &quot;img/570x200.gif&quot;, &quot;width&quot; : 570,  &quot;height&quot; : 200}&#39;
+/&gt;</pre></code>
 				<div class="alert alert-warning">A 2 secondes delay has been added to all images for the demos.</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -827,6 +834,7 @@ retina: true
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Demos <b class="caret"></b></a>
 						<ul class="dropdown-menu">
+							<li><a href="#demos" class="smooth-scroll">Before starting</a></li>
 							<li><a href="#demo-delay" class="smooth-scroll">delay</a></li>
 							<li><a href="#demo-threshold" class="smooth-scroll">threshold</a></li>
 							<li><a href="#demo-animation" class="smooth-scroll">animation</a></li>
