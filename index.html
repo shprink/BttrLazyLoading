@@ -1,7 +1,3 @@
-<!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,199 +14,915 @@ and open the template in the editor.
 		<meta property="og:type" content="blog"/>
 		<link rel="stylesheet" type="text/css" href="bower_components/bootswatch/yeti/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css" />
-		<link rel="stylesheet" type="text/css" href="bower_components/animate.css/animate.min.css" />
+		<link rel="stylesheet" type="text/css" href="bower_components/highlight.js/src/styles/solarized_dark.css" />
+		<link rel="stylesheet" type="text/css" href="bttrlazyloading.min.css" />
 		<script src="bower_components/jquery/jquery.min.js"></script>
+		<script src="bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script type="text/javascript">
-			// Script stolen from http://groundwork.sidereel.com/groundwork/
-			// Great work dude!
-			function querystring(key) {
-				var re = new RegExp('(?:\\?|&)' + key + '=(.*?)(?=&|$)', 'gi');
-				var r = [], m;
-				while ((m = re.exec(document.location.search)) != null)
-					r.push(m[1]);
-				return r;
+		<script src="demo/js/highlight.pack.js"></script>
+		<script src="bttrlazyloading.min.js"></script>
+		<style>
+			#back-to-top{
+				font-size: 30px;
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				cursor: pointer;
 			}
-			function basename(str) {
-				var base = new String(str).substring(str.lastIndexOf('/') + 1);
-				if (base.lastIndexOf(".") != -1) {
-					base = base.substring(0, base.lastIndexOf("."));
-				}
-				return base;
+			.panel-heading h3{
+				margin: 0px;
 			}
-			function updateQueryStringParameter(uri, key, value) {
-				var re = new RegExp("([?|&])" + key + "=.*?(&|$)", "i");
-				separator = uri.indexOf('?') !== -1 ? "&" : "?";
-				var url = window.location.href;
-				if (uri.match(re)) {
-					url = uri.replace(re, '$1' + key + "=" + value + '$2');
-				}
-				else {
-					url = uri + separator + key + "=" + value;
-				}
-				return url;
+
+			.panel-heading .pull-right{
+				margin-top: 4px;
 			}
-			$(document).ready(function() {
-				$('button[data-viewport-width]').on('click', function(e) {
-					if ($(this).attr('data-viewport-width') == '100%') {
-						newWidth = '100%';
-					} else {
-						newWidth = $(this).attr('data-viewport-width');
-					}
-					if ($(this).attr('data-viewport-height') == '100%') {
-						newHeight = '100%';
-					} else {
-						newHeight = $(this).attr('data-viewport-height');
-					}
-					$('button[data-viewport-width]').removeClass('active');
-					$(this).addClass('active');
-					// $('#resizerFrame').stop().animate({'max-width': newWidth, 'max-height': newHeight}, 200);
-					$('#resizerFrame').css({'max-width': newWidth, 'max-height': newHeight});
-					e.preventDefault();
-					return false;
-				});
-				$('button.rotate').on('click', function(e) {
-					$(this).toggleClass('landscape');
-					$('button[data-rotate=true]').each(function() {
-						$(this).toggleClass('landscape');
-						width = $(this).attr('data-viewport-width');
-						height = $(this).attr('data-viewport-height');
-						// shuffle values
-						$(this).attr('data-viewport-width', height);
-						$(this).attr('data-viewport-height', width);
-						if ($(this).hasClass('active')) {
-							$(this).trigger('click');
-						}
-					});
-				});
-				$('#closeResizer').on('click', function(e) {
-					newWidth = $(window).width();
-					newHeight = $(window).height();
-					$('button[data-viewport-width]').removeClass('active');
-					// $('#resizerFrame').stop().animate({'max-width': newWidth, 'max-height': newHeight}, 200);
-					$('#resizerFrame').css({'max-width': newWidth, 'max-height': newHeight});
-					$('#resizer').fadeOut(500, function() {
-						document.location = document.getElementById("resizerFrame").contentWindow.location.href;
-					});
-					e.preventDefault();
-					return false;
-				});
-				if (querystring('url').length > 0) {
-					$('#resizerFrame').attr('src', querystring('url'));
-				}
-//				$('#resizerFrame').on('load', function() {
-//					var url = basename(this.contentWindow.location.href);
-//					var href = updateQueryStringParameter(document.location.href, 'url', url + '.html');
-//					var stateObj = {resizer: 'resizer'};
-//					history.pushState(stateObj, url, href);
-//				});
-			});
-		</script>
-		<style type="text/css">
-			html, body {
-				width:100%;
-				height:100%;
-				text-align:center;
-				overflow:hidden;
-				color:#fff;
-				background-color: #d9edf7;
+			.navbar.affix {
+				position: fixed;
+				top: 0;
+				width: 100%;
 			}
-			body{
-				background-color: #505050;
-				background-image: url(img/tweed.png);
+			.alert {
+				font-size: 15px;
+				font-weight: 500;
 			}
-			#resizerFrame {
-				width:100%;
-				max-width:100%;
-				height:100%;
-				max-height:100%;
-				margin:0 auto;
-				background:white;
-				box-shadow:0 0 50px #000;
-				-webkit-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
-				-moz-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
-				-ms-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
-				-o-transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
-				transition: max-width 0.35s ease-out, max-height 0.35s ease-out;
-				margin-top: 45px;
+			#option-container-wrapper{
+				height: 200px;
+				overflow: auto;
 			}
-			#resizer {
-				position:fixed;
-				top:93px;
-				left: 50%;
-				z-index:99;
-				width: 380px;
-				text-align:center;
-				margin-left: -190px;
+			table{
+				table-layout: fixed;
 			}
-			#resizer ul {
-				font-size: 17px;
-				-webkit-filter: drop-shadow(0 1px 5px rgba(0,0,0,.25));
-				-moz-filter: drop-shadow(0 1px 5px rgba(0,0,0,.25));
-				-ms-filter: drop-shadow(0 1px 5px rgba(0,0,0,.25));
-				-o-filter: drop-shadow(0 1px 5px rgba(0,0,0,.25));
-				filter: drop-shadow(0 1px 5px rgba(0,0,0,.25));
-				-ms-transform: translateZ(0);
-				-o-transform: translateZ(0);
-				-moz-transform: translateZ(0);
-				-webkit-transform: translateZ(0);
-				transform: translateZ(0);
-				margin:-0.2em auto 0;
+			.break-word{
+				word-wrap: break-word;
+				-ms-word-wrap: break-word;
+				-webkit-hyphens: auto;
+				-moz-hyphens: auto;
+				hyphens: auto;
 			}
-			#resizer ul li{
-				display: inline-block;
-			}
-			button.rotate i, button[data-rotate] i {
-				-webkit-transition: all 0.15s linear;
-				-moz-transition: all 0.15s linear;
-				-ms-transition: all 0.15s linear;
-				-o-transition: all 0.15s linear;
-				transition: all 0.15s linear;
-			}
-			.landscape i {
-				-webkit-transform: rotate(-90deg);
-				-moz-transform: rotate(-90deg);
-				-ms-transform: rotate(-90deg);
-				-o-transform: rotate(-90deg);
-				transform: rotate(-90deg);
+			.navbar-inverse .navbar-text{
+				color: white;
 			}
 		</style>
+		<script type="text/javascript">
+			$(function() {
+				$('#back-to-top').click(function(event) {
+					$.smoothScroll({
+						scrollTarget: 'body'
+					});
+				});
+				$('.smooth-scroll').click(function(event) {
+					event.preventDefault();
+					var link = this;
+					$.smoothScroll({
+						scrollTarget: link.hash,
+						offset: -60
+					});
+				});
+				// Set global options to use the same set of image within this page ;)
+				$.bttrlazyloading.setOptions({
+					img: {
+						xs: {
+							src: "demo/img/720x200.gif",
+							width: 720,
+							height: 200
+						},
+						sm: {
+							src: "demo/img/360x200.gif",
+							width: 360,
+							height: 200
+						},
+						md: {
+							src: "demo/img/470x200.gif",
+							width: 470,
+							height: 200
+						},
+						lg: {
+							src: "demo/img/570x200.gif",
+							width: 570,
+							height: 200
+						}
+					},
+					delay: 2000,
+					triggermanually: true
+				});
+				hljs.initHighlightingOnLoad();
+			});
+		</script>
 	</head>
-	<body>
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<body id="top">
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id))
+					return;
+				js = d.createElement(s);
+				js.id = id;
+				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=206488179525466";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));</script>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		<div class="container">
+			<br/><br/><br/>
+			<div class="jumbotron">
+				<h1 class="break-word">BttrLazyLoading</h1>
+				<p>Responsive Lazy Loading plugin for JQuery.</p>
+				<div class="clearfix">
+					<iframe src="http://ghbtns.com/github-btn.html?user=shprink&repo=bttrlazyloading&type=watch&count=true&size=large" height="30" width="170" frameborder="0" scrolling="0" style="width:170px; height: 30px;" allowTransparency="true"></iframe>
+					<div class="fb-like" data-href="http://bttrlazyloading.julienrenaux.fr" data-width="215" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
+					<a href="https://twitter.com/intent/tweet?button_hashtag=BttrLazyLoading&text=Responsive%20Lazy%20Loading%20plugin%20for%20JQuery." class="twitter-hashtag-button" data-size="large" data-related="julienrenaux" data-url="http://bttrlazyloading.julienrenaux.fr/">Tweet #BttrLazyLoading</a>
+				</div>
+				<div class="btn-group btn-group-justified">
+					<a class="btn btn-info btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
+						<span class="hidden-xs"><i class="fa fa-download"></i> Download the development version</span>
+						<span class="visible-xs"><i class="fa fa-download"></i></span>
+					</a>
+					<a class="btn btn-danger btn-lg" target="_blank" href="https://github.com/shprink/BttrLazyLoading/issues">
+						<span class="hidden-xs"><i class="fa fa-plus-square"></i> Report an issue</span>
+						<span class="visible-xs"><i class="fa fa-plus-square"></i></span>
+					</a>
+				</div>
+			</div>
+			<p>BttrLazyLoading is a Jquery plugin that allows your web application to defer image loading until images are scrolled to but not only! BttrLazyLoading also allows you to have different version of an image for 4 differents screen sizes: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px).</p>
+			<div class="alert alert-info">
+				<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
+			</div>
+			<section id="options">
+				<div class="page-header">
+					<h2>Options</h2>
+				</div>
+				<p>Options can be set for one or several images at the same time or for the whole page at once (using the <a class="smooth-scroll" href="#methods-setOptions">setOptions</a> global function)</p>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 100px;">Name</th>
+							<th style="width: 200px;" class="hidden-xs">type</th>
+							<th style="width: 200px;" class="hidden-xs">default</th>
+							<th>description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><a href="#demo-delay" class="smooth-scroll">delay</a></td>
+							<td class="hidden-xs">integer</td>
+							<td class="hidden-xs">0</td>
+							<td><p>Adds delay to the image loading time.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-threshold" class="smooth-scroll">threshold</a></td>
+							<td class="hidden-xs">integer</td>
+							<td class="hidden-xs">0</td>
+							<td><p>By default images are loaded when they appear on the screen. If you want images to load earlier use threshold parameter. Setting threshold to 200 causes image to load 200 pixels before it appears on viewport.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-animation" class="smooth-scroll">animation</a></td>
+							<td class="hidden-xs">string</td>
+							<td class="hidden-xs">"bounceIn"</td>
+							<td><p>Adds an animation when the image loads. You have access to all of the following animation created by <a href="https://daneden.me/animate/" title="animate" target="_blank" >Animate.css</a> or use <code>Null</code> if you do not want any animation</p>
+								<div>['flipInX', 'flipInY', 'fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUpBig', 'fadeInDownBig', 'fadeInLeftBig', 'fadeInRightBig', 'slideInDown', 'slideInLeft', 'slideInRight', 'bounceIn', 'bounceInDown', 'bounceInUp', 'bounceInLeft', 'bounceInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'lightSpeedIn', 'rollIn']</div></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-event" class="smooth-scroll">event</a></td>
+							<td class="hidden-xs">string</td>
+							<td class="hidden-xs">"scroll"</td>
+							<td><p>Defines the event that will be use to trigger the image loading/updating.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-placeholder" class="smooth-scroll">placeholder</a></td>
+							<td class="hidden-xs">string (image base64)</td>
+							<td class="hidden-xs">"data:image/gif;base64..."</td>
+							<td><p>Base 64 image that is used when the image loads.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-container" class="smooth-scroll">container</a></td>
+							<td class="hidden-xs">string (CSS selector)</td>
+							<td class="hidden-xs">window</td>
+							<td><p>You can also use this plugin for images inside scrolling container, such as div with scrollbar. By default the container is the window.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-retina" class="smooth-scroll">retina</a></td>
+							<td class="hidden-xs">boolean</td>
+							<td class="hidden-xs">false</td>
+							<td>
+								<p>Enable a better quality on Retina screens.</p>
+								<p>BttrLazyLoading uses a naming convention <code>@2x</code> to display retina's images. BttrLazyLoading will therefore seek for <code>"yourImage@2x.gif"</code> on retina' screens instead of <code>"yourImage.gif"</code></p>
+							</td>
+						</tr>
+						<tr>
+							<td><a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></td>
+							<td class="hidden-xs">boolean</td>
+							<td class="hidden-xs">false</td>
+							<td><p>Whether or not to trigger the first image load manually.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-updatemanually" class="smooth-scroll">updatemanually</a></td>
+							<td class="hidden-xs">boolean</td>
+							<td class="hidden-xs">false</td>
+							<td><p>Whether or not to trigger the image update (needed when the window resizes for example) manually.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></td>
+							<td class="hidden-xs">function($image, Object inst)</td>
+							<td class="hidden-xs">null</td>
+							<td><p>Callback called just before that the image loads.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></td>
+							<td class="hidden-xs">function($image, Object inst)</td>
+							<td class="hidden-xs">null</td>
+							<td><p>Callback called just after that the image loads.</p></td>
+						</tr>
+						<tr>
+							<td><a href="#demo-onError" class="smooth-scroll">onError</a></td>
+							<td class="hidden-xs">function($image, Object inst)</td>
+							<td class="hidden-xs">null</td>
+							<td><p>Callback called when the plugin cannot find any image src that exist.</p></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="alert alert-info">BttrLazyLoading options can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</div>
+				<h3>Set options using data attributes</h3>
+				<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
+	data-bttrlazyloading-sm-src=&quot;img/345x250.gif&quot;
+	data-bttrlazyloading-md-src=&quot;img/455x350.gif&quot;
+	data-bttrlazyloading-lg-src=&quot;img/360x300.gif&quot;
+	data-bttrlazyloading-transition=&quot;rotatedIn&quot;
+	data-bttrlazyloading-retina=&quot;true&quot;
+	data-bttrlazyloading-delay=&quot;2000&quot;
+	data-bttrlazyloading-event=&quot;mouseover&quot;
+	data-bttrlazyloading-container=&quot;document.body&quot;
+	data-bttrlazyloading-threshold=&quot;500&quot;
+	data-bttrlazyloading-placeholder=&quot;data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==&quot;
+/&gt;</pre></code>
+
+				<p>For a perfect experience 'width' and 'height' are necessary (The plugin cannot know the dimensions of your images before they load.).</p>
+
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
+	data-bttrlazyloading-xs-width=&quot;768&quot;
+	data-bttrlazyloading-xs-height=&quot;200&quot;
+	data-bttrlazyloading-sm-src=&quot;img/345x250.gif&quot;
+	data-bttrlazyloading-sm-width=&quot;345&quot;
+	data-bttrlazyloading-sm-height=&quot;250&quot;
+	data-bttrlazyloading-md-src=&quot;img/455x350.gif&quot;
+	data-bttrlazyloading-md-width=&quot;455&quot;
+	data-bttrlazyloading-md-height=&quot;350&quot;
+	data-bttrlazyloading-lg-src=&quot;img/360x300.gif&quot;
+	data-bttrlazyloading-lg-width=&quot;360&quot;
+	data-bttrlazyloading-lg-height=&quot;300&quot;
+/&gt;</pre></code>
+
+				<h3>Set options on Instanciation</h3>
+				<pre><code class="javascript">$("#yourImageId").bttrlazyloading({
+	img: {
+		xs: {
+			src: "img/720x200.gif",
+			width: 720,
+			height: 200
+		},
+		sm: {
+			src: "img/360x200.gif",
+			width: 360,
+			height: 200
+		},
+		md: {
+			src: "img/470x200.gif",
+			width: 470,
+			height: 200
+		},
+		lg: {
+			src: "img/570x200.gif",
+			width: 570,
+			height: 200
+		}
+	},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+})</pre></code>
+			</section>
+			<section id="demos">
+				<div class="page-header">
+					<h2>Demos</h2>
+				</div>
+				<p>The following demo are using the same element attributes:</p>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;img/720x200.gif&quot;, &quot;width&quot; : 720,  &quot;height&quot; : 200}&#39;
+	data-bttrlazyloading-sm=&#39;{&quot;src&quot;: &quot;img/360x200.gif&quot;, &quot;width&quot; : 360,  &quot;height&quot; : 200}&#39;
+	data-bttrlazyloading-md=&#39;{&quot;src&quot;: &quot;img/470x200.gif&quot;, &quot;width&quot; : 470,  &quot;height&quot; : 200}&#39;
+	data-bttrlazyloading-lg=&#39;{&quot;src&quot;: &quot;img/570x200.gif&quot;, &quot;width&quot; : 570,  &quot;height&quot; : 200}&#39;
+/&gt;</pre></code>
+				<p>Surprise that there is no <code>src</code> attribute? Answer <a href="#tip-nosrc" class="smooth-scroll">here</a></p>
+				<div class="alert alert-warning">A 2 secondes delay has been added to all images for the demos.</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Integer, Default: 0</b></div>
+						<h3 id="demo-delay">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-delay">
+								<i class="fa fa-play"></i>
+							</button> delay
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-delay" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-delay').bttrlazyloading({
+											delay: 4000
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>Set the delay to 4 secondes:</p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	delay: 4000
+});</pre></code>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Integer, Default: 0</b></div>
+						<h3 id="demo-threshold">threshold</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-threshold" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-threshold').bttrlazyloading({
+											threshold: -200,
+											triggermanually: false
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>The image will be automatically triggered after you scrolled 200px down from the bottom of the image.</p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	threshold: -200
+});</pre></code>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String, Default: "bounceIn"</b></div>
+						<h3 id="demo-animation">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-animation">
+								<i class="fa fa-play"></i>
+							</button> animation
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-animation" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-animation').bttrlazyloading({
+											animation: 'slideInLeft'
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>Here we will use the 'slideInLeft' animation to show how to overwrite the default "bounceIn" animation.</p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	animation: 'slideInLeft'
+});</pre></code>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String, Default: "scroll"</b></div>
+						<h3 id="demo-event">event</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-event" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-event').bttrlazyloading({
+											event: 'keydown',
+											triggermanually: false
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>The default updating event is by default <code>window.onscroll</code>. Using the "event" option you can listen to any window event such as "keydown" or "mousedown".</p><p>If in this example the image is already loaded, it means you have already pressed a key on your keyboard.</p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	event: 'keydown'
+});</pre></code>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String, Default:</b> <img src='data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'/></div>
+						<h3 id="demo-placeholder">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-placeholder">
+								<i class="fa fa-play"></i>
+							</button> placeholder</h3></div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<img id="img-option-placeholder" class="bttrlazyloading"/>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-placeholder').bttrlazyloading({
+											delay: 4000,
+											placeholder: 'data:image/gif;base64,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'
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>Using the placeholder option you can add a custom loading image to replace the default: <img src='data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'/></p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	placeholder: 'data:image/gif;base64,R0lGODlhMgAyAKUAAO7u...'
+});</pre></code>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String(Css selector), Default: window</b></div>
+						<h3 id="demo-container">container</h3></div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<div id="option-container-wrapper">
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus quam nec auctor placerat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla ut metus malesuada, congue sem quis, aliquet risus. Pellentesque eget odio sed nibh imperdiet porta. Maecenas quis volutpat diam, at tempor sem. Mauris consequat dui eget nunc semper lobortis. Maecenas libero dui, aliquam ut nibh in, eleifend interdum nibh. Sed ullamcorper eros in sem sollicitudin, et pharetra nisi vulputate. Pellentesque nunc tellus, aliquet quis nisi nec, venenatis tempus nibh. Donec orci nulla, fringilla ac augue eget, lacinia convallis risus.</p>
+									<p>Sed vel dignissim turpis. Morbi posuere tortor sed purus mattis fermentum. Quisque libero arcu, sollicitudin vitae euismod vel, pharetra sit amet ante. Praesent molestie urna ut tortor pharetra venenatis. Pellentesque posuere, libero ac commodo mattis, sem orci semper erat, eget elementum ligula ante vel metus. Nunc non odio sit amet justo adipiscing iaculis. Duis sodales, dolor sit amet convallis tincidunt, purus velit tristique lorem, at convallis ligula ligula sit amet ligula. Suspendisse mauris ligula, tristique non dui id, laoreet rhoncus tellus.</p>
+									<img id="img-option-container" class="bttrlazyloading"/>
+								</div>
+								<script type="text/javascript">
+									$(function() {
+										$('#img-option-container').bttrlazyloading({
+											container: '#option-container-wrapper',
+											triggermanually: false
+										});
+									});
+								</script>
+							</div>
+							<div class="col-md-6 col-sm-6 col-lg-6">
+								<p>The image will be automatically triggered after you scrolled 500px down from the top of the image.</p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	container: '#option-container-wrapper'
+});</pre></code>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default" id="panel-option-retina">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Boolean, Default: false</b></div>
+						<h3 id="demo-retina">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-retina">
+								<i class="fa fa-play"></i>
+							</button> retina
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-retina" class="bttrlazyloading"/>
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-retina').bttrlazyloading({
+										retina: true
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<div id="alert-option-retina" class='alert alert-info'>You do not have a retina display therefore you should not see any difference from other demos.</div>
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+retina: true
+});</pre></code>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						// Show if retina display only
+						if (typeof window.devicePixelRatio === 'number' && window.devicePixelRatio > 1) {
+							$('#alert-option-retina').hide();
+						}
+
+					});
+				</script>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Boolean, Default: false</b></div>
+						<h3 id="demo-triggermanually">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-triggermanually">
+								<i class="fa fa-play"></i>
+							</button> triggermanually
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-triggermanually" class="bttrlazyloading"/>
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-triggermanually').bttrlazyloading({
+										triggermanually: true
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	triggermanually: true
+});</pre></code>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Boolean, Default: false</b></div>
+						<h3 id="demo-updatemanually">
+							<button class="btn btn-success demo-refresh" type="button" data-trigger="img-option-updatemanually">
+								<i class="fa fa-refresh"></i>
+							</button> updatemanually</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-updatemanually" class="bttrlazyloading"/>
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-updatemanually').bttrlazyloading({
+										triggermanually: false,
+										updatemanually: true
+									});
+									$('button.demo-refresh').click(function(e) {
+										var el = $(this).data('trigger');
+										$('#' + el).trigger('bttrlazyloading.load');
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	updatemanually: true
+});</pre></code>
+							<p>Forcing the update of an image is as easy as that:</p>
+							<pre><code class="javascript">$('#yourImageId').trigger('bttrlazyloading.load');</pre></code>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Function, Default: null</b></div>
+						<h3  id="demo-onBeforeLoad">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onBeforeLoad">
+								<i class="fa fa-play"></i>
+							</button> onBeforeLoad
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-onBeforeLoad" class="bttrlazyloading"/>
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-onBeforeLoad').bttrlazyloading({
+										onBeforeLoad: function($img, bttrLazyLoading) {
+											alert('onBeforeLoad event triggered');
+										}
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	onBeforeLoad: function ($img, bttrLazyLoading){
+		alert('onBeforeLoad event triggered');
+	}
+});</pre></code>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Function, Default: null</b></div>
+						<h3  id="demo-onAfterLoad">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onAfterLoad">
+								<i class="fa fa-play"></i>
+							</button> onAfterLoad
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-onAfterLoad" class="bttrlazyloading"/>
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-onAfterLoad').bttrlazyloading({
+										onAfterLoad: function($img, bttrLazyLoading) {
+											alert('onAfterLoad event triggered');
+										}
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	onAfterLoad: function ($img, bttrLazyLoading){
+		alert('onAfterLoad event triggered');
+	}
+});</pre></code>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right"><b>Type: Function, Default: null</b></div>
+						<h3  id="demo-onError">
+							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onError">
+								<i class="fa fa-play"></i>
+							</button> onError
+						</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-onError" class="bttrlazyloading"
+								 data-bttrlazyloading-xs-src="imageDoesNotExistXs.jpg"
+								 data-bttrlazyloading-sm-src="imageDoesNotExistSm.jpg"
+								 data-bttrlazyloading-md-src="imageDoesNotExistMd.jpg"
+								 data-bttrlazyloading-lg-src="imageDoesNotExistLg.jpg"
+								 />
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-onError').bind('error', function() {
+										$('#img-option-onError').after('<div class="alert alert-danger">Error: ' + $(this).attr('src') + '</div>');
+
+									});
+									$('#img-option-onError').bttrlazyloading({
+										onError: function($img, bttrLazyLoading) {
+											$img.remove();
+										},
+										retina: true
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<p>BttrLazyLoading will try to load any of the given image source you define. If an image does not exist an <a href="http://www.w3schools.com/jsref/event_img_onerror.asp" target="_blank">error</a> event will be triggered and if none are found the onError function as well as the <code>bttrlazyloading.error</code> event will be triggered.</p>
+							<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs-src=&quot;imageDoesNotExistXs.jpg&quot;
+	data-bttrlazyloading-sm-src=&quot;imageDoesNotExistSm.jpg&quot;
+	data-bttrlazyloading-md-src=&quot;imageDoesNotExistMd.jpg&quot;
+	data-bttrlazyloading-lg-src=&quot;imageDoesNotExistLg.jpg&quot;
+/&gt;</pre></code>
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	onError: function($img, bttrLazyLoading) {
+		$img.remove();
+	}
+});</pre></code>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id="ranges">
+				<div class="page-header">
+					<h2>Ranges</h2>
+				</div>
+				<p>Ranges define the size of your images for several type of screens. They can only be overwritten for the whole page (using the <a class="smooth-scroll" href="#methods-setRanges">setRanges</a> global function)</p>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 100px;">Name</th>
+							<th style="width: 100px;" class="hidden-xs">type</th>
+							<th style="width: 200px;" class="hidden-xs">default</th>
+							<th>description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ranges</td>
+							<td class="hidden-xs">object</td>
+							<td class="hidden-xs"><pre><code class="json">{<br/> 'xs' : 767,<br/> 'sm' : 768,<br/> 'md' : 992,<br/> 'lg' : 1200<br/> }</pre></code></td>
+							<td>
+								<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px).</p>
+								<p>For most needs, the default values (Bootstrap 3 grid) is enough.</p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+
+			<section id="methods">
+				<div class="page-header">
+					<h2>Global methods</h2>
+				</div>
+				<div class="alert alert-info">
+					<p>The BttrLazyLoading plugin does not have any public methods. Nevertheless two global methods are available to interact with all BttrLazyLoading instances in the page.</p>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setRanges">setRanges()</h3></div>
+					<div class="panel-body">
+						<pre><code class="javascript">$.bttrlazyloading.setRanges({
+	xs: 767,
+	sm: 768,
+	md: 992,
+	lg: 1200
+});
+						</pre></code>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setOptions">setOptions()</h3></div>
+					<div class="panel-body">
+						<pre><code class="javascript">$.bttrlazyloading.setOptions({
+	img: {...},
+	retina: true,
+	transition: 'fadeInUp',
+	delay: 1000,
+	event: 'click',
+	container: 'document.body',
+	threshold: 666,
+	placeholder: 'test',
+	onBeforeLoad: function($img, bttrLazyLoading) {
+	},
+	onAfterLoad: function($img, bttrLazyLoading) {
+	},
+	onError: function($img, bttrLazyLoading) {
+	}
+});
+						</pre></code>
+					</div>
+				</div>
+			</section>
+			<section id="events">
+				<div class="page-header">
+					<h2>Events</h2>
+				</div>
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th style="width: 100px;">Event Type</th>
+							<th>description</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="break-word">bttrlazyloading.beforeLoad</td>
+							<td>
+								<p>This event is triggered just before the "bttrlazyloading.load" event.</p>
+								<p>More information in the option section: <a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></p>
+							</td>
+						</tr>
+						<tr>
+							<td class="break-word">bttrlazyloading.load</td>
+							<td>
+								<p>This event is triggered when the image loading is triggered. You can trigger it manually like this: <pre><code class="javascript">$('#yourImageId').trigger('bttrlazyloading.load');</pre></code>
+								</p>
+								<p>More information in the option section: <a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></p>
+							</td>
+						</tr>
+						<tr>
+							<td class="break-word">bttrlazyloading.afterLoad</td>
+							<td>
+								<p>This event is triggered just after the "bttrlazyloading.load" event.</p>
+								<p>More information in the option section: <a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></p>
+							</td>
+						</tr>
+						<tr>
+							<td class="break-word">bttrlazyloading.error</td>
+							<td>
+								<p>This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times for a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.</p>
+								<p>More information in the option section: <a href="#demo-onError" class="smooth-scroll">onError</a></p>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<section id="tips">
+				<div class="page-header">
+					<h2>Tips</h2>
+				</div>
+				<h3 id="tip-nosrc">Only one image size needed!</h3>
+				<p>BttrLazyLoading always try to load the biggest version of the image available. Therefore the following example will work on every screen too.</p>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-md-src=&quot;img/455x350.gif&quot;
+/&gt;</pre></code>
+				<h3 id="tip-nosrc">No src attribute?</h3>
+				<blockquote>
+					<p>Browsers are too quick for us! In order to provide the fastest loading time possible, browsers preload all of the images that they can identify</p>
+					<small><cite>Choosing A Responsive Image Solution, Smashing Magazine</cite></small>
+				</blockquote>
+				<p>You may have noticed that none of our image elements have a "src" attribute. Well that is normal! As describe here by the Smashing Magazine, the browsers preload the images even before the <code>document ready</code> event which make it impossible for this plugin to process the information before the image loads.</p>
+				<h3>Fallback for Non JavaScript Browsers</h3>
+				<pre><code class="html">&lt;img class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
+	data-bttrlazyloading-xs-width=&quot;768&quot;
+	data-bttrlazyloading-xs-height=&quot;200&quot;
+/&gt;
+&lt;noscript&gt;
+&lt;img class=&quot;bttrlazyloading&quot; src=&quot;img/768x200.gif&quot; width=&quot;768&quot; height=&quot;200&quot;/&gt;
+&lt;/noscript&gt;</pre></code>
+				<h3>Convenient way to set data attributes</h3>
+				<p>The following examples are equivalent:</p>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
+	data-bttrlazyloading-xs-width=&quot;768&quot;
+	data-bttrlazyloading-xs-height=&quot;200&quot;
+/&gt;</pre></code>
+				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
+	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;img/768x200.gif&quot;, &quot;width&quot; : 768,  &quot;height&quot; : 200}&#39;
+/&gt;</pre></code>
+			</section>
+			<script type="text/javascript">
+				$(function() {
+					$('button.demo-play').click(function(e) {
+						var el = $(this).data('trigger');
+						$('#' + el).trigger('bttrlazyloading.load', [$('#' + el)]);
+						$(this).attr('disabled', 'disabled');
+					});
+				});
+			</script>
+		</div>
+		<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" data-spy="affix" data-offset-top="0">
+			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="http://bttrlazyloading.julienrenaux.fr/">#BttrLazyLoading</a>
-				<p class="navbar-text visible-xs">by <a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></p>
+				<a class="navbar-brand smooth-scroll" href="#">#BttrLazyLoading</a>
 			</div>
-			<p class="navbar-text navbar-right hidden-xs">Responsive lazy loading by <a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></p>
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<p class="navbar-text navbar-right hidden-xs hidden-sm"></p>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="navbar-menu">
 				<ul class="nav navbar-nav">
-					<li><a href="feedback">Feedback</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Features <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a class="smooth-scroll" href="#options">Options</a></li>
+							<li><a class="smooth-scroll"  href="#ranges">Ranges</a></li>
+							<li><a class="smooth-scroll" href="#methods">Global methods</a></li>
+							<li><a class="smooth-scroll" href="#events">Events</a></li>
+						</ul>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Demos <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#demos" class="smooth-scroll">Before starting</a></li>
+							<li><a href="#demo-delay" class="smooth-scroll">delay</a></li>
+							<li><a href="#demo-threshold" class="smooth-scroll">threshold</a></li>
+							<li><a href="#demo-animation" class="smooth-scroll">animation</a></li>
+							<li><a href="#demo-event" class="smooth-scroll">event</a></li>
+							<li><a href="#demo-placeholder" class="smooth-scroll">placeholder</a></li>
+							<li><a href="#demo-container" class="smooth-scroll">container</a></li>
+							<li><a href="#demo-retina" class="smooth-scroll">retina</a></li>
+							<li><a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></li>
+							<li><a href="#demo-updatemanually" class="smooth-scroll">updatemanually</a></li>
+							<li><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></li>
+							<li><a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></li>
+							<li><a href="#demo-onError" class="smooth-scroll">onError</a></li>
+						</ul>
+					</li>
+					<li><a class="smooth-scroll" href="#tips">Tips</a></li>
 				</ul>
-			</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="feedback">Feedback</a></li>
+					<li><a href="http://julienrenaux.fr/" class="navbar-link" target="_blank">@julienrenaux</a></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
 		</nav>
-		<div id="resizer" class="slideInDown animated">
-			<ul class="button-group list-unstyled">
-				<li><button class="hidden-xs btn btn-info btn-sm" title="Fullscreen" data-viewport-width="100%" data-viewport-height="100%"><i class="fa fa-expand"></i></button></li>
-
-				<li><button class="desktop-only hidden-sm hidden-xs hidden-md btn btn-default btn-sm" title="Desktop" data-viewport-width="1920px" data-viewport-height="1080px"><i class="fa fa-desktop"></i></button></li>
-				<li><button class="desktop-only hidden-sm hidden-xs hidden-md active btn btn-default btn-sm" title="13 ' MacBook Pro" data-viewport-width="1280px" data-viewport-height="800px"><i class="fa fa-laptop"></i></button></li>
-				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default btn-sm" title="Android Tablet" data-rotate="true" data-viewport-width="1280px" data-viewport-height="720px"><i class="android fa fa-tablet"></i></button></li>
-				<li><button class="hidden-sm hidden-xs hidden-md btn btn-default btn-sm" title="iPad" data-rotate="true" data-viewport-width="1024px" data-viewport-height="768px"><i class="fa fa-tablet"></i></button></li>
-				<li><button class="hidden-xs btn btn-default btn-sm" title="Android Phone" data-rotate="true" data-viewport-width="720px" data-viewport-height="480px"><i class="android fa fa-mobile-phone"></i></button></li>
-				<li><button class="hidden-xs btn btn-default btn-sm" title="iPhone" data-rotate="true" data-viewport-width="640px" data-viewport-height="320px"><i class="fa fa-mobile-phone"></i></button></li>
-
-				<li><button class="rotate btn btn-success hidden-xs btn-sm" title="Toggle Landscape/Portrait"><i class="fa fa-refresh"></i></button></li>
-				<!--<li><button id="closeResizer" class="btn btn-danger"><i class="fa fa-remove"></i></button></li>-->
-			</ul>
-		</div>
-		<iframe id="resizerFrame" class="bounceIn animated" src="demo/presentation.html" frameborder="0" style="max-width: 1280px; max-height: 800px;"></iframe>
+		<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
 		<script>
 			$('#resizer button').tooltip({
 				placement: 'bottom'
