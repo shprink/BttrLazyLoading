@@ -19,6 +19,7 @@ BttrLazyLoading is a Jquery plugin that allows your web application to defer ima
 * retina: Enable a better quality on Retina screens. BttrLazyLoading uses a naming convention @2x to display retina's images. BttrLazyLoading will therefore seek for "yourImage@2x.gif" on retina' screens instead of "yourImage.gif"
 * triggermanually: Whether or not to trigger the first image load manually.
 * updatemanually: Whether or not to trigger the image update (needed when the window resizes for example) manually.
+* backgroundcolor: The background color of your images that are not loaded yet.
 * onBeforeLoad: Callback called just before that the image loads.
 * onAfterLoad: Callback called just after that the image loads.
 * onError: Callback called when the plugin cannot find any image src that exist.
