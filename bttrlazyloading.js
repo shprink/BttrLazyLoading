@@ -12,7 +12,6 @@
     function BttrLazyLoading(img, options) {
       var defaultOptions, imgObject,
         _this = this;
-
       if (options == null) {
         options = {};
       }
@@ -32,7 +31,8 @@
       imgObject = _getImgObject.call(this);
       this.$img.css({
         'width': imgObject.width,
-        'height': imgObject.height
+        'height': imgObject.height,
+        'background-color': this.options.backgroundcolor ? this.options.backgroundcolor : void 0
       });
       _setupEvents.call(this);
       setTimeout(function() {
@@ -47,7 +47,6 @@
 
     _setOptionsFromData = function() {
       var _this = this;
-
       return $.each(this.$img.data(), function(i, v) {
         if (v) {
           if (i.indexOf('bttrlazyloading') !== 0) {
@@ -73,7 +72,6 @@
 
     _setupEvents = function() {
       var _this = this;
-
       this.$img.on('load', function() {
         _this.$img.addClass('bttrlazyloading-loaded');
         if (_this.options.animation) {
@@ -87,7 +85,6 @@
       });
       this.$img.on('bttrlazyloading.load', function() {
         var imgObject;
-
         if (!_this.loading) {
           _this.loading = true;
           imgObject = _getImgObject.call(_this);
@@ -127,7 +124,6 @@
       });
       this.$img.on('error', function(e) {
         var range, src;
-
         console.log(_this.whiteList.length);
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
@@ -160,7 +156,6 @@
 
     _getRangeFromScreenSize = function() {
       var ww;
-
       ww = window.innerWidth;
       if (ww <= this.ranges.xs) {
         return 'xs';
@@ -197,7 +192,6 @@
 
     _getLargestImgObject = function() {
       var index, range, src, _i, _len, _ref;
-
       index = this.whiteList.indexOf(this.range);
       if (index > -1) {
         src = _getImgObjectPerRange.call(this, this.range);
@@ -220,7 +214,6 @@
 
     _isUpdatable = function() {
       var iBottom, iTop, imgObject, threshold, wBottom, wTop;
-
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -259,7 +252,6 @@
     bttrlazyloading: function(options) {
       return this.each(function() {
         var $this, instance;
-
         $this = $(this);
         if (!$this.hasClass('bttrlazyloading-done')) {
           instance = new BttrLazyLoading(this, options);
@@ -315,6 +307,7 @@
       threshold: 0,
       triggermanually: false,
       updatemanually: false,
+      backgroundcolor: null,
       placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
       onBeforeLoad: null,
       onAfterLoad: null,

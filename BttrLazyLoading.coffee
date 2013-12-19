@@ -19,15 +19,15 @@ class BttrLazyLoading
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
 		
 		@whiteList = ['lg', 'md', 'sm', 'xs']
-#		@whiteList = ['xs', 'sm', 'md', 'lg']
 		@blackList = []
 
 		_setOptionsFromData.call @
 
 		imgObject = _getImgObject.call @
 		@$img.css
-			'width'					: imgObject.width
-			'height'				: imgObject.height
+			'width'				: imgObject.width
+			'height'			: imgObject.height
+			'background-color'	: @options.backgroundcolor if @options.backgroundcolor
 
 		_setupEvents.call @
 
@@ -160,24 +160,6 @@ class BttrLazyLoading
 			if src
 				src.range = range
 				return src
-
-		# If not we check if a bigger img exist
-#		max = @constructor.rangesOrder.length - 1
-#		if max isnt index
-#			for i in [index + 1.. max]
-#				range = @constructor.rangesOrder[i]
-#				srcTemp = _getImgObjectPerRange.call @, range
-#				src =  srcTemp if srcTemp
-#			return src if typeof src == 'object'
-
-		# If not we start back from the smallest img
-		# If index = 0 we already tried all possibilites
-#		if index isnt 0
-#			for i in [0 .. index - 1]
-#				range = @constructor.rangesOrder[i]
-#				srcTemp = _getImgObjectPerRange.call @, range
-#				src =  srcTemp if srcTemp
-#			return src if typeof src == 'object'
 		return ''
 
 	_isUpdatable = () ->
@@ -255,6 +237,7 @@ class BttrLazyLoadingGlobal
 		threshold : 0
 		triggermanually: false
 		updatemanually: false
+		backgroundcolor: null
 		placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
 		#onBeforeLoad : ($img, bttrLazyLoading) ->
 		onBeforeLoad : null

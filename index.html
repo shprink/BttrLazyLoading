@@ -120,7 +120,15 @@
 				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=206488179525466";
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));</script>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		<script>!function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+				if (!d.getElementById(id)) {
+					js = d.createElement(s);
+					js.id = id;
+					js.src = p + '://platform.twitter.com/widgets.js';
+					fjs.parentNode.insertBefore(js, fjs);
+				}
+			}(document, 'script', 'twitter-wjs');</script>
 		<div class="container">
 			<br/><br/><br/>
 			<div class="jumbotron">
@@ -220,6 +228,12 @@
 							<td><p>Whether or not to trigger the image update (needed when the window resizes for example) manually.</p></td>
 						</tr>
 						<tr>
+							<td><a href="#demo-backgroundcolor" class="smooth-scroll">backgroundcolor</a></td>
+							<td class="hidden-xs">string</td>
+							<td class="hidden-xs">null</td>
+							<td><p>The background color of your images that are not loaded yet..</p></td>
+						</tr>
+						<tr>
 							<td><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></td>
 							<td class="hidden-xs">function($image, Object inst)</td>
 							<td class="hidden-xs">null</td>
@@ -236,6 +250,19 @@
 							<td class="hidden-xs">function($image, Object inst)</td>
 							<td class="hidden-xs">null</td>
 							<td><p>Callback called when the plugin cannot find any image src that exist.</p></td>
+						</tr>
+						<tr>
+							<td>img</td>
+							<td class="hidden-xs">object</td>
+							<td class="hidden-xs">
+								<pre><code class="javascript">img: {
+	xs: {...},
+	sm: {...},
+	md: {...},
+	lg: {...}
+}</pre></code>					
+							</td>
+							<td><p>The source, width and height of every image</p></td>
 						</tr>
 					</tbody>
 				</table>
@@ -600,6 +627,69 @@ retina: true
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
+						<div class="pull-right"><b>Type: String, Default: null</b></div>
+						<h3 id="demo-backgroundcolor">
+							<button class="btn btn-info demo-play img-option-backgroundcolor" type="button">
+								<i class="fa fa-play"></i>
+							</button> backgroundcolor</h3>
+					</div>
+					<div class="panel-body">
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<img id="img-option-backgroundcolor-blue" class="img-option-backgroundcolor bttrlazyloading"
+								 data-bttrlazyloading-xs-src="demo/img/blue-720x200.jpg"
+								 data-bttrlazyloading-sm-src="demo/img/blue-360x200.jpg"
+								 data-bttrlazyloading-md-src="demo/img/blue-470x200.jpg"
+								 data-bttrlazyloading-lg-src="demo/img/blue-570x200.jpg"/>
+							<br/>
+							<img id="img-option-backgroundcolor-orange" class="img-option-backgroundcolor bttrlazyloading"
+								 data-bttrlazyloading-xs-src="demo/img/orange-720x200.jpg"
+								 data-bttrlazyloading-sm-src="demo/img/orange-360x200.jpg"
+								 data-bttrlazyloading-md-src="demo/img/orange-470x200.jpg"
+								 data-bttrlazyloading-lg-src="demo/img/orange-570x200.jpg"/>
+							<br/>
+							<img id="img-option-backgroundcolor-green" class="img-option-backgroundcolor bttrlazyloading"
+								 data-bttrlazyloading-xs-src="demo/img/green-720x200.jpg"
+								 data-bttrlazyloading-sm-src="demo/img/green-360x200.jpg"
+								 data-bttrlazyloading-md-src="demo/img/green-470x200.jpg"
+								 data-bttrlazyloading-lg-src="demo/img/green-570x200.jpg"/>
+							<script type="text/javascript">
+								$(function() {
+									$('#img-option-backgroundcolor-blue').bttrlazyloading({
+										backgroundcolor: '#1A6990',
+										animation: 'fadeIn'
+									});
+									$('#img-option-backgroundcolor-orange').bttrlazyloading({
+										backgroundcolor: '#D08250',
+										animation: 'fadeIn'
+									});
+									$('#img-option-backgroundcolor-green').bttrlazyloading({
+										backgroundcolor: '#8FA92D',
+										animation: 'fadeIn'
+									});
+									$('button.demo-play.img-option-backgroundcolor').click(function(e) {
+										$('.img-option-backgroundcolor').trigger('bttrlazyloading.load');
+									});
+								});
+							</script>
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6">
+							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	backgroundcolor: '#1A6990',
+	animation: 'fadeIn'
+});
+$('#yourImageId').bttrlazyloading({
+	backgroundcolor: '#D08250',
+	animation: 'fadeIn'
+});
+$('#yourImageId').bttrlazyloading({
+	backgroundcolor: '#8FA92D',
+	animation: 'fadeIn'
+});</pre></code>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Function, Default: null</b></div>
 						<h3  id="demo-onBeforeLoad">
 							<button class="btn btn-info demo-play" type="button" data-trigger="img-option-onBeforeLoad">
@@ -909,6 +999,7 @@ retina: true
 							<li><a href="#demo-retina" class="smooth-scroll">retina</a></li>
 							<li><a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></li>
 							<li><a href="#demo-updatemanually" class="smooth-scroll">updatemanually</a></li>
+							<li><a href="#demo-backgroundcolor" class="smooth-scroll">backgroundcolor</a></li>
 							<li><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></li>
 							<li><a href="#demo-onAfterLoad" class="smooth-scroll">onAfterLoad</a></li>
 							<li><a href="#demo-onError" class="smooth-scroll">onError</a></li>

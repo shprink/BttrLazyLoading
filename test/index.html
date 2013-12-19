@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="../bower_components/jasmine/lib/jasmine-core/jasmine.css">
 		<script type="text/javascript" src="../bower_components/jasmine/lib/jasmine-core/jasmine.js"></script>
 		<script type="text/javascript" src="../bower_components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
+		<script type="text/javascript" src="../bower_components/jasmine/lib/jasmine-core/boot.js"></script>
 		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<script src="../bttrlazyloading.js"></script>
 		<!-- SPEC -->
@@ -32,6 +33,7 @@
 						expect(obj.options.delay).toEqual(2000);
 						expect(obj.options.event).toEqual("mouseover");
 						expect(obj.options.container).toEqual("document.body");
+						expect(obj.options.backgroundcolor).toEqual("red");
 						expect(obj.options.threshold).toEqual(500);
 						expect(obj.options.triggermanually).toEqual(true);
 						expect(obj.options.updatemanually).toEqual(true);
@@ -82,6 +84,7 @@
 							retina: true,
 							animation: 'fadeInUp',
 							delay: 1000,
+							backgroundcolor: 'green',
 							event: 'click',
 							container: 'document.body',
 							threshold: 666,
@@ -111,6 +114,7 @@
 						expect(obj4.options.img.sm.height).toEqual(444);
 						expect(obj4.options.img.md.height).toEqual(666);
 						expect(obj4.options.img.lg.height).toEqual(888);
+						expect(obj4.options.backgroundcolor).toEqual("green");
 						expect(obj4.options.retina).toEqual(true);
 						expect(obj4.options.animation).toEqual('fadeInUp');
 						expect(obj4.options.delay).toEqual(1000);
@@ -148,6 +152,7 @@
 								}
 							},
 							retina: true,
+							backgroundcolor: 'blue',
 							animation: 'fadeInUp',
 							delay: 1000,
 							event: 'click',
@@ -181,6 +186,7 @@
 						expect(obj2.options.img.sm.height).toEqual(444);
 						expect(obj2.options.img.md.height).toEqual(666);
 						expect(obj2.options.img.lg.height).toEqual(888);
+						expect(obj2.options.backgroundcolor).toEqual("blue");
 						expect(obj2.options.retina).toEqual(true);
 						expect(obj2.options.animation).toEqual('fadeInUp');
 						expect(obj2.options.delay).toEqual(1000);
@@ -208,34 +214,6 @@
 				});
 			});
 		</script>
-		<script type="text/javascript">
-			(function() {
-				var jasmineEnv = jasmine.getEnv();
-				jasmineEnv.updateInterval = 1000;
-
-				var trivialReporter = new jasmine.TrivialReporter();
-
-				jasmineEnv.addReporter(trivialReporter);
-
-				jasmineEnv.specFilter = function(spec) {
-					return trivialReporter.specFilter(spec);
-				};
-
-				var currentWindowOnload = window.onload;
-
-				window.onload = function() {
-					if (currentWindowOnload) {
-						currentWindowOnload();
-					}
-					execJasmine();
-				};
-
-				function execJasmine() {
-					jasmineEnv.execute();
-				}
-
-			})();
-		</script>
 	</head>
 	<body>
 		<img id="test"
@@ -259,6 +237,7 @@
 			 data-bttrlazyloading-triggermanually="true"
 			 data-bttrlazyloading-updatemanually="true"
 			 data-bttrlazyloading-threshold="500"
+			 data-bttrlazyloading-backgroundcolor="red"
 			 data-bttrlazyloading-placeholder="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 			 />
 
