@@ -1,4 +1,5 @@
 (function() {
+  "use strict";
   var $, BttrLazyLoading, BttrLazyLoadingGlobal;
 
   $ = jQuery;
@@ -11,6 +12,7 @@
     function BttrLazyLoading(img, options) {
       var defaultOptions, imgObject,
         _this = this;
+
       if (options == null) {
         options = {};
       }
@@ -45,6 +47,7 @@
 
     _setOptionsFromData = function() {
       var _this = this;
+
       return $.each(this.$img.data(), function(i, v) {
         if (v) {
           if (i.indexOf('bttrlazyloading') !== 0) {
@@ -70,6 +73,7 @@
 
     _setupEvents = function() {
       var _this = this;
+
       this.$img.on('load', function() {
         _this.$img.addClass('bttrlazyloading-loaded');
         if (_this.options.animation) {
@@ -83,6 +87,7 @@
       });
       this.$img.on('bttrlazyloading.load', function() {
         var imgObject;
+
         if (!_this.loading) {
           _this.loading = true;
           imgObject = _getImgObject.call(_this);
@@ -122,6 +127,7 @@
       });
       this.$img.on('error', function(e) {
         var range, src;
+
         console.log(_this.whiteList.length);
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
@@ -154,6 +160,7 @@
 
     _getRangeFromScreenSize = function() {
       var ww;
+
       ww = window.innerWidth;
       if (ww <= this.ranges.xs) {
         return 'xs';
@@ -190,6 +197,7 @@
 
     _getLargestImgObject = function() {
       var index, range, src, _i, _len, _ref;
+
       index = this.whiteList.indexOf(this.range);
       if (index > -1) {
         src = _getImgObjectPerRange.call(this, this.range);
@@ -212,6 +220,7 @@
 
     _isUpdatable = function() {
       var iBottom, iTop, imgObject, threshold, wBottom, wTop;
+
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -250,6 +259,7 @@
     bttrlazyloading: function(options) {
       return this.each(function() {
         var $this, instance;
+
         $this = $(this);
         if (!$this.hasClass('bttrlazyloading-done')) {
           instance = new BttrLazyLoading(this, options);
