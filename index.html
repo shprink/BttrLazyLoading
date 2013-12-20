@@ -151,9 +151,6 @@
 				</div>
 			</div>
 			<p>BttrLazyLoading is a Jquery plugin that allows your web application to defer image loading until images are scrolled to but not only! BttrLazyLoading also allows you to have different version of an image for 4 differents screen sizes: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px).</p>
-			<div class="alert alert-info">
-				<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files).</p>
-			</div>
 			<section id="options">
 				<div class="page-header">
 					<h2>Options</h2>
@@ -343,7 +340,13 @@
 				<div class="page-header">
 					<h2>Demos</h2>
 				</div>
-				<p>The following demo are using the same element attributes:</p>
+				<div class="alert alert-info">
+					<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files):</p>
+				</div>
+				<pre><code class="html">&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;bttrlazyloading.min.css&quot;&gt;
+&lt;script src=&quot;bttrlazyloading.min.js&quot;&gt;&lt;/script&gt;</pre></code>
+				<p>The following demos are using the same element attributes:</p>
 				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;img/720x200.gif&quot;, &quot;width&quot; : 720,  &quot;height&quot; : 200}&#39;
 	data-bttrlazyloading-sm=&#39;{&quot;src&quot;: &quot;img/360x200.gif&quot;, &quot;width&quot; : 360,  &quot;height&quot; : 200}&#39;
