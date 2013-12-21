@@ -90,7 +90,7 @@ Only one image size needed! BttrLazyLoading always try to load the biggest versi
 />
 ```
 
-#### Via the instanciation
+#### Via the instantiation
 
 ```
 $("#yourImageId").bttrlazyloading({
@@ -135,18 +135,32 @@ $("#yourImageId").bttrlazyloading({
 
 ## Contribute!
 
-### Clone the repository
+### Installation
 
-``` $ git clone git@github.com:shprink/BttrLazyLoading.git ```
+#### Prerequisites
++ [Node JS](http://julienrenaux.fr/2013/05/16/how-to-install-node-js-coffeescript-less-and-uglify-js-on-ubuntu/)
++ [Bower](http://julienrenaux.fr/2013/09/12/bower/)
++ Coffee Script (Global installation, `$ sudo npm install -g coffee-script`, is optional but convenient in the build step)
 
-### Run Bower
+#### Clone the repository
+`$ git clone https://github.com/shprink/BttrLazyLoading`
 
-Preriquisite:
+#### Install dependencies
+```
+$ cd BttrLazyLoading
+$ bower install
+$ npm install
+```
 
-* Install [Node JS](http://julienrenaux.fr/2013/05/16/how-to-install-node-js-coffeescript-less-and-uglify-js-on-ubuntu/)
-* Install [Bower](http://julienrenaux.fr/2013/09/12/bower/)
+### Build
+Compile and uglify BttrLazyLoading.coffee
+```
+cake build
+```
+If Coffe-Script isn't globally installed, use `node_modules/.bin/cake build`
 
-``` $ bower install ```
+### Run tests
+Open test/index.html
 
 You are now good to go ;)
 

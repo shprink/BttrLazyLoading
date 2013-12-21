@@ -1,0 +1,11 @@
+{
+  "name": "BttrLazyLoading",
+  "version": "0.0.0",
+  "description": "BttrLazyLoading",
+  "main": "bttrlazyloading.js",
+  "devDependencies": {
+    "coffee-script" : "~1.6",
+    "uglify-js" : "~2.4",
+    "clean-css" : "1.x"
+  }
+}
