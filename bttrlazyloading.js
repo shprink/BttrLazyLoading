@@ -5,7 +5,7 @@
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _setOptionsFromData, _setupEvents, _update;
+    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _setOptionsFromData, _setupEvents, _update;
 
     BttrLazyLoading.dpr = 1;
 
@@ -213,7 +213,7 @@
     };
 
     _isUpdatable = function() {
-      var iBottom, iTop, imgObject, threshold, wBottom, wTop;
+      var imgObject, threshold;
       if (this.$img.is(':hidden')) {
         return false;
       }
@@ -227,15 +227,26 @@
       if (!imgObject.src || this.loaded === _getImageSrc.call(this, imgObject.src, imgObject.range)) {
         return false;
       }
-      wTop = $(window).scrollTop();
-      wBottom = wTop + $(window).height();
-      iTop = this.$img.offset().top;
-      iBottom = iTop + this.$img.height();
       threshold = 0;
       if (!this.loaded) {
         threshold = this.options.threshold;
       }
-      return (iBottom <= wBottom + threshold) && (iTop >= wTop - threshold);
+      return _isWithinViewport.call(this, threshold);
+    };
+
+    _isWithinViewport = function(threshold) {
+      var bounds, viewport, win;
+      win = $(window);
+      viewport = {
+        top: win.scrollTop() + threshold,
+        left: win.scrollLeft()
+      };
+      viewport.right = viewport.left + win.width();
+      viewport.bottom = viewport.top + win.height();
+      bounds = this.$img.offset();
+      bounds.right = bounds.left + this.$img.outerWidth();
+      bounds.bottom = bounds.top + this.$img.outerHeight();
+      return !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
     };
 
     _update = function() {

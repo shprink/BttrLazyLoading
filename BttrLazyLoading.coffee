@@ -176,15 +176,25 @@ class BttrLazyLoading
 		if !imgObject.src or @loaded is _getImageSrc.call @, imgObject.src, imgObject.range
 			return false
 
-		wTop = $(window).scrollTop()
-		wBottom = wTop + $(window).height()
-		iTop = @$img.offset().top
-		iBottom = iTop + @$img.height()
-
 		threshold = 0
 		if !@loaded 
 			threshold = @options.threshold
-		return (iBottom <= wBottom + threshold) && (iTop >= wTop - threshold)
+		return _isWithinViewport.call @, threshold
+
+	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
+	_isWithinViewport = (threshold) -> 
+		win = $(window)
+		viewport =
+			top : win.scrollTop() + threshold
+			left : win.scrollLeft()
+		viewport.right = viewport.left + win.width()
+		viewport.bottom = viewport.top + win.height()
+
+		bounds = @$img.offset()
+		bounds.right = bounds.left + @$img.outerWidth()
+		bounds.bottom = bounds.top + @$img.outerHeight()
+
+		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
 
 	_update = () ->
 		if _isUpdatable.call @
