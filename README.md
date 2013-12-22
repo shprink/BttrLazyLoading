@@ -164,6 +164,10 @@ Open test/index.html
 
 You are now good to go ;)
 
+### Contributors
+
+* [Julien Renaux](https://github.com/shprink)
+* [Michael Thelin](https://github.com/thelinmichael)
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/shprink/bttrlazyloading/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

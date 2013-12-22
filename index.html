@@ -124,23 +124,23 @@
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));</script>
 		<script>!function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-				if (!d.getElementById(id)) {
-					js = d.createElement(s);
-					js.id = id;
-					js.src = p + '://platform.twitter.com/widgets.js';
-					fjs.parentNode.insertBefore(js, fjs);
-				}
-			}(document, 'script', 'twitter-wjs');</script>
+		var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+		if (!d.getElementById(id)) {
+			js = d.createElement(s);
+			js.id = id;
+			js.src = p + '://platform.twitter.com/widgets.js';
+			fjs.parentNode.insertBefore(js, fjs);
+		}
+	}(document, 'script', 'twitter-wjs');</script>
 		<div class="container">
 			<br/>
 			<div class="jumbotron">
 				<h1 class="break-word">BttrLazyLoading</h1>
 				<p>Responsive Lazy Loading plugin for JQuery.</p>
 				<div class="clearfix">
-					<iframe src="http://ghbtns.com/github-btn.html?user=shprink&repo=bttrlazyloading&type=watch&count=true&size=large" height="30" width="170" frameborder="0" scrolling="0" style="width:170px; height: 30px;" allowTransparency="true"></iframe>
-					<div class="fb-like" data-href="http://bttrlazyloading.julienrenaux.fr" data-width="215" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
-					<a href="https://twitter.com/intent/tweet?button_hashtag=BttrLazyLoading&text=Responsive%20Lazy%20Loading%20plugin%20for%20JQuery." class="twitter-hashtag-button" data-size="large" data-related="julienrenaux" data-url="http://bttrlazyloading.julienrenaux.fr/">Tweet #BttrLazyLoading</a>
+					<iframe src="http://ghbtns.com/github-btn.html?user=shprink&repo=bttrlazyloading&type=watch&count=true&size=large" height="30" width="170" frameborder="0" scrolling="0" style="width:150px; height: 30px;" allowTransparency="true"></iframe>
+					<div class="fb-like" data-href="http://bttrlazyloading.julienrenaux.fr/" data-width="150" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" style="width:150px; height: 30px;"></div>
+					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bttrlazyloading.julienrenaux.fr/" data-text="Responsive Lazy Loading plugin for JQuery." data-via="julienrenaux" data-size="large" data-hashtags="BttrLazyLoading">Tweet</a>
 				</div>
 				<div class="btn-group btn-group-justified">
 					<a class="btn btn-info btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
@@ -646,6 +646,8 @@ retina: true
 							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 	triggermanually: true
 });</pre></code>
+							<p>Forcing the loading of an image is as easy as that:</p>
+							<pre><code class="javascript">$('#yourImageId').trigger('bttrlazyloading.load');</pre></code>
 						</div>
 					</div>
 				</div>
