@@ -22,6 +22,9 @@
 		<script src="demo/js/highlight.pack.js"></script>
 		<script src="bttrlazyloading.min.js"></script>
 		<style>
+			body{
+				margin-top: 46px;
+			}
 			#back-to-top{
 				font-size: 30px;
 				position: fixed;
@@ -130,7 +133,7 @@
 				}
 			}(document, 'script', 'twitter-wjs');</script>
 		<div class="container">
-			<br/><br/><br/>
+			<br/>
 			<div class="jumbotron">
 				<h1 class="break-word">BttrLazyLoading</h1>
 				<p>Responsive Lazy Loading plugin for JQuery.</p>
@@ -152,7 +155,6 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-lg-6">
-
 					<div class="img-thumbnail">
 						<img id="img-not-bad" class="bttrlazyloading"
 							 data-bttrlazyloading-xs-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
@@ -233,14 +235,14 @@
 							<td><a href="#demo-container" class="smooth-scroll">container</a></td>
 							<td class="hidden-xs">string (CSS selector)</td>
 							<td class="hidden-xs">window</td>
-							<td><p>You can also use this plugin for images inside scrolling containers, such as <code>div</code> with scrollbar. By default the container is the window.</p></td>
+							<td><p>You can also use this plugin for images inside scrolling container, such as <code>div</code> with scrollbar. By default the container is the window.</p></td>
 						</tr>
 						<tr>
 							<td><a href="#demo-retina" class="smooth-scroll">retina</a></td>
 							<td class="hidden-xs">boolean</td>
 							<td class="hidden-xs">false</td>
 							<td>
-								<p>Enable a better quality on Retina screens.</p>
+								<p>Enables a better quality on Retina screens.</p>
 								<p>BttrLazyLoading uses a naming convention <code>@2x</code> to display Retina images. BttrLazyLoading will therefore seek <code>"yourImage@2x.gif"</code> on Retina screens instead of <code>"yourImage.gif"</code></p>
 							</td>
 						</tr>
@@ -254,13 +256,13 @@
 							<td><a href="#demo-updatemanually" class="smooth-scroll">updatemanually</a></td>
 							<td class="hidden-xs">boolean</td>
 							<td class="hidden-xs">false</td>
-							<td><p>Whether or not to trigger the image update (needed when the window resizes for example) manually.</p></td>
+							<td><p>Whether or not to trigger the image update manually (needed when the window resizes for example).</p></td>
 						</tr>
 						<tr>
 							<td><a href="#demo-backgroundcolor" class="smooth-scroll">backgroundcolor</a></td>
 							<td class="hidden-xs">string</td>
 							<td class="hidden-xs">#EEE</td>
-							<td><p>The background color of your images that are not loaded yet.</p></td>
+							<td><p>Displays a background color before loading the image.</p></td>
 						</tr>
 						<tr>
 							<td><a href="#demo-onBeforeLoad" class="smooth-scroll">onBeforeLoad</a></td>
@@ -278,7 +280,7 @@
 							<td><a href="#demo-onError" class="smooth-scroll">onError</a></td>
 							<td class="hidden-xs">function($image, Object inst)</td>
 							<td class="hidden-xs">null</td>
-							<td><p>Callback called when the plugin cannot find any image src that exist.</p></td>
+							<td><p>Callback called when the plugin cannot find any existing image <code>src</code>.</p></td>
 						</tr>
 						<tr>
 							<td>img</td>
@@ -291,11 +293,11 @@
 	lg: {...}
 }</pre></code>					
 							</td>
-							<td><p>The source, width and height of every image</p></td>
+							<td><p>Represent the source, width and height of every image</p></td>
 						</tr>
 					</tbody>
 				</table>
-				<div class="alert alert-info">BttrLazyLoading options can be set in two different ways. Using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instanciation:</div>
+				<div class="alert alert-info">BttrLazyLoading options can be set in two different ways: using <a href="http://api.jquery.com/jQuery.data/" target="_blank">jQuery data</a> on the image element or directly on the instantiation.</div>
 				<h3>Set options using data attributes</h3>
 				<div class="alert alert-info">onBeforeLoad, onAfterLoad and onError functions are not settable via jQuery data</div>
 				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
@@ -312,7 +314,7 @@
 	data-bttrlazyloading-placeholder=&quot;data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==&quot;
 /&gt;</pre></code>
 
-				<p>For a perfect experience 'width' and 'height' are necessary (The plugin cannot know the dimensions of your images before they load.).</p>
+				<p>For an optimized user experience 'width' and 'height' are necessary (the plugin cannot know the dimensions of your images before they load).</p>
 
 				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
@@ -329,7 +331,7 @@
 	data-bttrlazyloading-lg-height=&quot;300&quot;
 /&gt;</pre></code>
 
-				<h3>Set options on Instanciation</h3>
+				<h3>Set options on Instantiation</h3>
 				<pre><code class="javascript">$("#yourImageId").bttrlazyloading({
 	img: {
 		xs: {
@@ -373,7 +375,7 @@
 					<h2>Demos</h2>
 				</div>
 				<div class="alert alert-info">
-					<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (this means jQuery must be included <strong>before</strong> the plugin files):</p>
+					<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (meaning jQuery must be included <strong>before</strong> the plugin files).</p>
 				</div>
 				<pre><code class="html">&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
 &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;bttrlazyloading.min.css&quot;&gt;
@@ -386,7 +388,7 @@
 	data-bttrlazyloading-lg=&#39;{&quot;src&quot;: &quot;img/570x200.gif&quot;, &quot;width&quot; : 570,  &quot;height&quot; : 200}&#39;
 /&gt;</pre></code>
 				<p>Surprise that there is no <code>src</code> attribute? Answer <a href="#tip-nosrc" class="smooth-scroll">here</a></p>
-				<div class="alert alert-warning">A 2 secondes delay has been added to all images for the demos.</div>
+				<div class="alert alert-warning">A 2 seconds delay has been added to all images for the demos.</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="pull-right"><b>Type: Integer, Default: 0</b></div>
@@ -399,7 +401,9 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<img id="img-option-delay" class="bttrlazyloading"/>
+								<div class="img-thumbnail">
+									<img id="img-option-delay" class="bttrlazyloading"/>
+								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-delay').bttrlazyloading({
@@ -409,7 +413,7 @@
 								</script>
 							</div>
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<p>Set the delay to 4 secondes:</p>
+								<p>Set the delay to 4 seconds:</p>
 								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 	delay: 4000
 });</pre></code>
@@ -425,7 +429,9 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<img id="img-option-threshold" class="bttrlazyloading"/>
+								<div class="img-thumbnail">
+									<img id="img-option-threshold" class="bttrlazyloading"/>
+								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-threshold').bttrlazyloading({
@@ -439,6 +445,10 @@
 								<p>The image will be automatically triggered after you scrolled 200px down from the top of the image.</p>
 								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 	threshold: -200
+});</pre></code>
+								<p>If you want the image loaded before you even see it Set the threshold to a positive integer.</p>
+								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
+	threshold: 200
 });</pre></code>
 							</div>
 						</div>
@@ -456,7 +466,9 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<img id="img-option-animation" class="bttrlazyloading"/>
+								<div class="img-thumbnail">
+									<img id="img-option-animation" class="bttrlazyloading"/>
+								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-animation').bttrlazyloading({
@@ -483,7 +495,10 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<img id="img-option-event" class="bttrlazyloading"/>
+
+								<div class="img-thumbnail">
+									<img id="img-option-event" class="bttrlazyloading"/>
+								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-event').bttrlazyloading({
@@ -494,7 +509,7 @@
 								</script>
 							</div>
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<p>The default updating event is by default <code>window.onscroll</code>. Using the "event" option you can listen to any window event such as "keydown" or "mousedown".</p><p>If in this example the image is already loaded, it means you have already pressed a key on your keyboard.</p>
+								<p>By default the updating event <code>window.onscroll</code>. Using the "event" option you can listen to any window event such as "keydown" or "mousedown".</p><p>Press a key on your keyboard to load the image beside (if the image is already loaded, it means you have already pressed a key on your keyboard).</p>
 								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 	event: 'keydown'
 });</pre></code>
@@ -513,7 +528,10 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<img id="img-option-placeholder" class="bttrlazyloading"/>
+
+								<div class="img-thumbnail">
+									<img id="img-option-placeholder" class="bttrlazyloading"/>
+								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-placeholder').bttrlazyloading({
@@ -524,7 +542,7 @@
 								</script>
 							</div>
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<p>Using the placeholder option you can add a custom loading image to replace the default: <img src='data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'/></p>
+								<p>Using the placeholder option you can add a custom loading image to replace the default image: <img src='data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'/></p>
 								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 	placeholder: 'data:image/gif;base64,R0lGODlhMgAyAKUAAO7u...'
 });</pre></code>
@@ -555,7 +573,7 @@
 								</script>
 							</div>
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<p>The image will be automatically triggered after you scrolled 500px down from the top of the image.</p>
+								<p>Instead of using the window, you can specify another scrolling containers, such as a <code>div</code> with scrollbar.</p>
 								<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 	container: '#option-container-wrapper'
 });</pre></code>
@@ -574,7 +592,9 @@
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-retina" class="bttrlazyloading"/>
+							<div class="img-thumbnail">
+								<img id="img-option-retina" class="bttrlazyloading"/>
+							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-retina').bttrlazyloading({
@@ -584,7 +604,7 @@
 							</script>
 						</div>
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<div id="alert-option-retina" class='alert alert-info'>You do not have a retina display therefore you should not see any difference from other demos.</div>
+							<div id="alert-option-retina" class='alert alert-info'>You do not have a Retina display therefore you should not see any difference from other demos.</div>
 							<pre><code class="javascript">$('#yourImageId').bttrlazyloading({
 retina: true
 });</pre></code>
@@ -611,7 +631,9 @@ retina: true
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-triggermanually" class="bttrlazyloading"/>
+							<div class="img-thumbnail">
+								<img id="img-option-triggermanually" class="bttrlazyloading"/>
+							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-triggermanually').bttrlazyloading({
@@ -637,7 +659,9 @@ retina: true
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-updatemanually" class="bttrlazyloading"/>
+							<div class="img-thumbnail">
+								<img id="img-option-updatemanually" class="bttrlazyloading"/>
+							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-updatemanually').bttrlazyloading({
@@ -662,7 +686,7 @@ retina: true
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<div class="pull-right"><b>Type: String, Default: null</b></div>
+						<div class="pull-right"><b>Type: String, Default: #EEE</b></div>
 						<h3 id="demo-backgroundcolor">
 							<button class="btn btn-info demo-play img-option-backgroundcolor" type="button">
 								<i class="fa fa-play"></i>
@@ -670,23 +694,31 @@ retina: true
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-backgroundcolor-blue" class="img-option-backgroundcolor bttrlazyloading"
-								 data-bttrlazyloading-xs-src="demo/img/blue-720x200.jpg"
-								 data-bttrlazyloading-sm-src="demo/img/blue-360x200.jpg"
-								 data-bttrlazyloading-md-src="demo/img/blue-470x200.jpg"
-								 data-bttrlazyloading-lg-src="demo/img/blue-570x200.jpg"/>
+
+							<div class="img-thumbnail">
+								<img id="img-option-backgroundcolor-blue" class="img-option-backgroundcolor bttrlazyloading"
+									 data-bttrlazyloading-xs-src="demo/img/blue-720x200.jpg"
+									 data-bttrlazyloading-sm-src="demo/img/blue-360x200.jpg"
+									 data-bttrlazyloading-md-src="demo/img/blue-470x200.jpg"
+									 data-bttrlazyloading-lg-src="demo/img/blue-570x200.jpg"/>
+							</div>
 							<br/>
-							<img id="img-option-backgroundcolor-orange" class="img-option-backgroundcolor bttrlazyloading"
-								 data-bttrlazyloading-xs-src="demo/img/orange-720x200.jpg"
-								 data-bttrlazyloading-sm-src="demo/img/orange-360x200.jpg"
-								 data-bttrlazyloading-md-src="demo/img/orange-470x200.jpg"
-								 data-bttrlazyloading-lg-src="demo/img/orange-570x200.jpg"/>
+							<div class="img-thumbnail">
+								<img id="img-option-backgroundcolor-orange" class="img-option-backgroundcolor bttrlazyloading"
+									 data-bttrlazyloading-xs-src="demo/img/orange-720x200.jpg"
+									 data-bttrlazyloading-sm-src="demo/img/orange-360x200.jpg"
+									 data-bttrlazyloading-md-src="demo/img/orange-470x200.jpg"
+									 data-bttrlazyloading-lg-src="demo/img/orange-570x200.jpg"/>
+							</div>
 							<br/>
-							<img id="img-option-backgroundcolor-green" class="img-option-backgroundcolor bttrlazyloading"
-								 data-bttrlazyloading-xs-src="demo/img/green-720x200.jpg"
-								 data-bttrlazyloading-sm-src="demo/img/green-360x200.jpg"
-								 data-bttrlazyloading-md-src="demo/img/green-470x200.jpg"
-								 data-bttrlazyloading-lg-src="demo/img/green-570x200.jpg"/>
+
+							<div class="img-thumbnail">
+								<img id="img-option-backgroundcolor-green" class="img-option-backgroundcolor bttrlazyloading"
+									 data-bttrlazyloading-xs-src="demo/img/green-720x200.jpg"
+									 data-bttrlazyloading-sm-src="demo/img/green-360x200.jpg"
+									 data-bttrlazyloading-md-src="demo/img/green-470x200.jpg"
+									 data-bttrlazyloading-lg-src="demo/img/green-570x200.jpg"/>
+							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-backgroundcolor-blue').bttrlazyloading({
@@ -734,7 +766,9 @@ $('#yourImageId').bttrlazyloading({
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-onBeforeLoad" class="bttrlazyloading"/>
+							<div class="img-thumbnail">
+								<img id="img-option-onBeforeLoad" class="bttrlazyloading"/>
+							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-onBeforeLoad').bttrlazyloading({
@@ -766,7 +800,9 @@ $('#yourImageId').bttrlazyloading({
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-onAfterLoad" class="bttrlazyloading"/>
+							<div class="img-thumbnail">
+								<img id="img-option-onAfterLoad" class="bttrlazyloading"/>
+							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-onAfterLoad').bttrlazyloading({
@@ -820,7 +856,7 @@ $('#yourImageId').bttrlazyloading({
 							</script>
 						</div>
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<p>BttrLazyLoading will try to load any of the given image source you define. If an image does not exist an <a href="http://www.w3schools.com/jsref/event_img_onerror.asp" target="_blank">error</a> event will be triggered and if none are found the onError function as well as the <code>bttrlazyloading.error</code> event will be triggered.</p>
+							<p>BttrLazyLoading will try to load any of the given image source you define. If an image does not exist, an <a href="http://www.w3schools.com/jsref/event_img_onerror.asp" target="_blank">error</a> event will be triggered, and if none are found, the onError function as well as the <code>bttrlazyloading.error</code> event will be triggered.</p>
 							<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs-src=&quot;imageDoesNotExistXs.jpg&quot;
 	data-bttrlazyloading-sm-src=&quot;imageDoesNotExistSm.jpg&quot;
@@ -840,7 +876,7 @@ $('#yourImageId').bttrlazyloading({
 				<div class="page-header">
 					<h2>Ranges</h2>
 				</div>
-				<p>Ranges define the size of your images for several type of screens. They can only be overwritten for the whole page (using the <a class="smooth-scroll" href="#methods-setRanges">setRanges</a> global function)</p>
+				<p>Ranges define the size of your images for several types of screen. They can only be overwritten for the whole page (using the <a class="smooth-scroll" href="#methods-setRanges">setRanges</a> global function).</p>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -856,8 +892,8 @@ $('#yourImageId').bttrlazyloading({
 							<td class="hidden-xs">object</td>
 							<td class="hidden-xs"><pre><code class="json">{<br/> 'xs' : 767,<br/> 'sm' : 768,<br/> 'md' : 992,<br/> 'lg' : 1200<br/> }</pre></code></td>
 							<td>
-								<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices Tablets (≥768px), <b>md</b> for medium devices Desktops (≥992px) and <b>lg</b> for large devices Desktops (≥1200px).</p>
-								<p>For most needs, the default values (Bootstrap 3 grid) is enough.</p>
+								<p>Ranges follows Bootstrap 3 grid sizes. <b>xs</b> for phones (<768px), <b>sm</b> for small devices tablets (≥768px), <b>md</b> for medium devices desktops (≥992px) and <b>lg</b> for large devices desktops (≥1200px).</p>
+								<p>For most of the needs, the default value (Bootstrap 3 grid) does not need to be changed.</p>
 							</td>
 						</tr>
 					</tbody>
@@ -869,7 +905,7 @@ $('#yourImageId').bttrlazyloading({
 					<h2>Global methods</h2>
 				</div>
 				<div class="alert alert-info">
-					<p>The BttrLazyLoading plugin does not have any public methods. Nevertheless two global methods are available to interact with all BttrLazyLoading instances in the page.</p>
+					<p>The BttrLazyLoading plugin does not have any public methods. Nevertheless, two global methods are available to interact with all BttrLazyLoading instances in the page.</p>
 				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setRanges">setRanges()</h3></div>
@@ -929,7 +965,7 @@ $('#yourImageId').bttrlazyloading({
 						<tr>
 							<td class="break-word">bttrlazyloading.load</td>
 							<td>
-								<p>This event is triggered when the image loading is triggered. You can trigger it manually like this: <pre><code class="javascript">$('#yourImageId').trigger('bttrlazyloading.load');</pre></code>
+								<p>This event is triggered when the image loads. You can trigger it manually like this: <pre><code class="javascript">$('#yourImageId').trigger('bttrlazyloading.load');</pre></code>
 								</p>
 								<p>More information in the option section: <a href="#demo-triggermanually" class="smooth-scroll">triggermanually</a></p>
 							</td>
@@ -944,7 +980,7 @@ $('#yourImageId').bttrlazyloading({
 						<tr>
 							<td class="break-word">bttrlazyloading.error</td>
 							<td>
-								<p>This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times for a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.</p>
+								<p>This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times for a normal screen and 8 times for a Retina screen) while "bttrlazyloading.error" will be triggered only once.</p>
 								<p>More information in the option section: <a href="#demo-onError" class="smooth-scroll">onError</a></p>
 							</td>
 						</tr>
@@ -965,7 +1001,7 @@ $('#yourImageId').bttrlazyloading({
 					<p>Browsers are too quick for us! In order to provide the fastest loading time possible, browsers preload all of the images that they can identify</p>
 					<small><cite>Choosing A Responsive Image Solution, Smashing Magazine</cite></small>
 				</blockquote>
-				<p>You may have noticed that none of our image elements have a "src" attribute. Well that is normal! As describe here by the Smashing Magazine, the browsers preload the images even before the <code>document ready</code> event which make it impossible for this plugin to process the information before the image loads.</p>
+				<p>You may have noticed that none of our image elements have a "src" attribute. Well, that is normal! As describe here by the Smashing Magazine, the browsers preload the images even before the <code>document ready</code> event, which make it impossible for this plugin to process the information before the image loads.</p>
 				<h3>Fallback for Non JavaScript Browsers</h3>
 				<pre><code class="html">&lt;img class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs-src=&quot;img/768x200.gif&quot;
