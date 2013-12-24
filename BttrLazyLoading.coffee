@@ -200,14 +200,32 @@ class BttrLazyLoading
 		if _isUpdatable.call @
 			@$img.trigger 'bttrlazyloading.load'
 
+	###
+	Public Functions
+	###
+	destroy : () ->
+		@$img.off 'load'
+		@$img.off 'error'
+		@$img.off 'bttrlazyloading.load'
+		@container.off @options.event
+		@$img.removeClass 'bttrlazyloading-loaded'
+		@$img.removeClass 'animated ' + @options.animation if @options.animation
+		@$img.css
+			'width'					: ''
+			'height'				: ''
+			'background-color'		: ''
+			'background-image'		: ''
+			'background-repeat'		: ''
+			'background-position'	: ''
+		@$img.removeData 'bttrlazyloading'
+
 $.fn.extend
 	bttrlazyloading: (options) ->
 		return this.each () ->
 			$this = $(this)
 			# Already instanciated?
-			if !$this.hasClass 'bttrlazyloading-done'
+			if typeof $this.data('bttrlazyloading') is 'undefined'
 				instance = new BttrLazyLoading this, options
-				$this.addClass 'bttrlazyloading-done'
 				$this.data 'bttrlazyloading', instance
 
 $.fn.bttrlazyloading.Constructor = BttrLazyLoading

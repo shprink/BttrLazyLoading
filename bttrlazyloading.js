@@ -255,6 +255,31 @@
       }
     };
 
+    /*
+    	Public Functions
+    */
+
+
+    BttrLazyLoading.prototype.destroy = function() {
+      this.$img.off('load');
+      this.$img.off('error');
+      this.$img.off('bttrlazyloading.load');
+      this.container.off(this.options.event);
+      this.$img.removeClass('bttrlazyloading-loaded');
+      if (this.options.animation) {
+        this.$img.removeClass('animated ' + this.options.animation);
+      }
+      this.$img.css({
+        'width': '',
+        'height': '',
+        'background-color': '',
+        'background-image': '',
+        'background-repeat': '',
+        'background-position': ''
+      });
+      return this.$img.removeData('bttrlazyloading');
+    };
+
     return BttrLazyLoading;
 
   })();
@@ -264,9 +289,8 @@
       return this.each(function() {
         var $this, instance;
         $this = $(this);
-        if (!$this.hasClass('bttrlazyloading-done')) {
+        if (typeof $this.data('bttrlazyloading') === 'undefined') {
           instance = new BttrLazyLoading(this, options);
-          $this.addClass('bttrlazyloading-done');
           return $this.data('bttrlazyloading', instance);
         }
       });

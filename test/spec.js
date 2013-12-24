@@ -331,7 +331,7 @@ describe("Event", function() {
 		$("#test6").trigger('bttrlazyloading.load');
 		setTimeout(function() {
 			done();
-		}, 1000);
+		}, 100);
 	});
 
 	it("should trigger bttrlazyloading.beforeLoad event", function(done) {
