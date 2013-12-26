@@ -1,35 +1,35 @@
 var IMAGE_DIR = "../demo/img/";
 
 var testFixture = {
-	xs : {
-		src : IMAGE_DIR + "768x200.gif",
-		width : 768,
-		height : 200
+	xs: {
+		src: IMAGE_DIR + "768x200.gif",
+		width: 768,
+		height: 200
 	},
-	sm : {
-		src : IMAGE_DIR + "345x250.gif",
-		width : 345,
-		height : 250
+	sm: {
+		src: IMAGE_DIR + "345x250.gif",
+		width: 345,
+		height: 250
 	},
-	md : {
-		src : IMAGE_DIR + "455x350.gif",
-		width : 455,
-		height : 350
+	md: {
+		src: IMAGE_DIR + "455x350.gif",
+		width: 455,
+		height: 350
 	},
-	lg : {
-		src : IMAGE_DIR + "360x300.gif",
-		width : 360,
-		height : 300
+	lg: {
+		src: IMAGE_DIR + "360x300.gif",
+		width: 360,
+		height: 300
 	},
-	animation : "rotatedIn",
-	retina : true,
-	delay : 10,
-	event : "mouseover",
-	container : "document.body",
-	triggerManually : true,
-	updateManually : true,
-	threshold : 500,
-	placeholder : "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
+	animation: "rotatedIn",
+	retina: true,
+	delay: 10,
+	event: "mouseover",
+	container: "document.body",
+	triggerManually: true,
+	updateManually: true,
+	threshold: 500,
+	placeholder: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 };
 
 var img1 = document.createElement("img");
@@ -154,44 +154,44 @@ describe("HTML5 data attribute", function() {
 describe("jQuery Plugin", function() {
 	it("set the right options from instantiation", function() {
 		var obj4 = $("#test4").bttrlazyloading({
-			img : {
-				xs : {
-					src : testFixture.xs.src,
-					width : 111,
-					height : 222
+			img: {
+				xs: {
+					src: testFixture.xs.src,
+					width: 111,
+					height: 222
 				},
-				sm : {
-					src : testFixture.sm.src,
-					width : 333,
-					height : 444
+				sm: {
+					src: testFixture.sm.src,
+					width: 333,
+					height: 444
 				},
-				md : {
-					src : testFixture.md.src,
-					width : 555,
-					height : 666
+				md: {
+					src: testFixture.md.src,
+					width: 555,
+					height: 666
 				},
-				lg : {
-					src : testFixture.lg.src,
-					width : 777,
-					height : 888
+				lg: {
+					src: testFixture.lg.src,
+					width: 777,
+					height: 888
 				}
 			},
-			retina : true,
-			animation : 'fadeInUp',
-			delay : 1000,
-			event : 'click',
-			container : 'document.body',
-			threshold : 666,
-			placeholder : 'test',
-			triggermanually : true,
-			updatemanually : true,
-			onBeforeLoad : function($img, bttrLazyLoading) {
+			retina: true,
+			animation: 'fadeInUp',
+			delay: 1000,
+			event: 'click',
+			container: 'document.body',
+			threshold: 666,
+			placeholder: 'test',
+			triggermanually: true,
+			updatemanually: true,
+			onBeforeLoad: function($img, bttrLazyLoading) {
 				return true;
 			},
-			onAfterLoad : function($img, bttrLazyLoading) {
+			onAfterLoad: function($img, bttrLazyLoading) {
 				return true;
 			},
-			onError : function($img, bttrLazyLoading) {
+			onError: function($img, bttrLazyLoading) {
 				return true;
 			}
 		}).data('bttrlazyloading');
@@ -228,42 +228,42 @@ describe("jQuery Plugin", function() {
 	// GLOBAL TESTS
 	it("set the default global options", function() {
 		$.bttrlazyloading.setOptions({
-			img : {
-				xs : {
-					src : testFixture.xs.src,
-					width : 111,
-					height : 222
+			img: {
+				xs: {
+					src: testFixture.xs.src,
+					width: 111,
+					height: 222
 				},
-				sm : {
-					src : testFixture.sm.src,
-					width : 333,
-					height : 444
+				sm: {
+					src: testFixture.sm.src,
+					width: 333,
+					height: 444
 				},
-				md : {
-					src : testFixture.md.src,
-					width : 555,
-					height : 666
+				md: {
+					src: testFixture.md.src,
+					width: 555,
+					height: 666
 				},
-				lg : {
-					src : testFixture.lg.src,
-					width : 777,
-					height : 888
+				lg: {
+					src: testFixture.lg.src,
+					width: 777,
+					height: 888
 				}
 			},
-			retina : true,
-			animation : 'fadeInUp',
-			delay : 1000,
-			event : 'click',
-			container : 'document.body',
-			threshold : 666,
-			placeholder : 'test',
-			triggermanually : true,
-			updatemanually : true,
-			onBeforeLoad : function($img, bttrLazyLoading) {
+			retina: true,
+			animation: 'fadeInUp',
+			delay: 100,
+			event: 'click',
+			container: 'document.body',
+			threshold: 666,
+			placeholder: 'test',
+			triggermanually: true,
+			updatemanually: true,
+			onBeforeLoad: function($img, bttrLazyLoading) {
 			},
-			onAfterLoad : function($img, bttrLazyLoading) {
+			onAfterLoad: function($img, bttrLazyLoading) {
 			},
-			onError : function($img, bttrLazyLoading) {
+			onError: function($img, bttrLazyLoading) {
 			}
 		});
 
@@ -286,7 +286,7 @@ describe("jQuery Plugin", function() {
 		expect(obj2.options.img.lg.height).toEqual(888);
 		expect(obj2.options.retina).toEqual(true);
 		expect(obj2.options.animation).toEqual('fadeInUp');
-		expect(obj2.options.delay).toEqual(1000);
+		expect(obj2.options.delay).toEqual(100);
 		expect(obj2.options.event).toEqual("click");
 		expect(obj2.options.container).toEqual("document.body");
 		expect(obj2.options.threshold).toEqual(666);
@@ -297,10 +297,10 @@ describe("jQuery Plugin", function() {
 
 	it("set the default global ranges", function() {
 		$.bttrlazyloading.setRanges({
-			'xs' : 5,
-			'sm' : 6,
-			'md' : 7,
-			'lg' : 8
+			'xs': 5,
+			'sm': 6,
+			'md': 7,
+			'lg': 8
 		});
 		var obj3 = $("#test3").bttrlazyloading().data('bttrlazyloading');
 		expect(obj3.ranges.xs).toEqual(5);
@@ -320,10 +320,15 @@ describe("Responsivity", function() {
 });
 
 describe("Event", function() {
-	var testInstance = $("#test6").bttrlazyloading().data('bttrlazyloading');
-	var onbeforeLoad, onafterLoad;
+	var onbeforeLoad, onafterLoad, onbeforeLoadFunctionSpy, onafterLoadFunctionSpy;
 
 	beforeEach(function(done) {
+		onbeforeLoadFunctionSpy = jasmine.createSpy("beforeLoadFunctionSpy")
+		onafterLoadFunctionSpy = jasmine.createSpy("afterLoadFunctionSpy")
+		$("#test6").bttrlazyloading({
+			onBeforeLoad: onbeforeLoadFunctionSpy,
+			onAfterLoad: onafterLoadFunctionSpy
+		});
 		onbeforeLoad = jasmine.createSpy("beforeLoadSpy");
 		onafterLoad = jasmine.createSpy("afterLoadSpy");
 		$("#test6").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
@@ -331,26 +336,33 @@ describe("Event", function() {
 		$("#test6").trigger('bttrlazyloading.load');
 		setTimeout(function() {
 			done();
-		}, 100);
+		}, 200);
 	});
 
-	it("should trigger bttrlazyloading.beforeLoad event", function(done) {
-		expect(onbeforeLoad).toHaveBeenCalled();
-		done();
+	afterEach(function() {
+		$("#test6").data('bttrlazyloading').destroy();
+		$("#test6").attr('src', '');
 	});
+
 	it("should trigger bttrlazyloading.afterLoad event", function(done) {
 		expect(onafterLoad).toHaveBeenCalled();
+		done();
+	});
+	it("should trigger bttrlazyloading.beforeLoad event", function(done) {
+		expect(onbeforeLoad).toHaveBeenCalled();
 		done();
 	});
 //	it("should trigger bttrlazyloading.error event", function() {
 //
 //	});
-//	it("should trigger onBeforeLoad function", function() {
-//		// .calls.any()
-//	});
-//	it("should trigger onAfterLoad function", function() {
-//
-//	});
+	it("should trigger onBeforeLoad function", function(done) {
+		expect(onbeforeLoadFunctionSpy).toHaveBeenCalled();
+		done();
+	});
+	it("should trigger onAfterLoad function", function(done) {
+		expect(onafterLoadFunctionSpy).toHaveBeenCalled();
+		done();
+	});
 //	it("should trigger onError function", function() {
 //
 //	});
