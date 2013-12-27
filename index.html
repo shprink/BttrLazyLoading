@@ -1025,6 +1025,12 @@ $('#yourImageId').bttrlazyloading({
 	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;img/768x200.gif&quot;, &quot;width&quot; : 768,  &quot;height&quot; : 200}&#39;
 /&gt;</pre></code>
 			</section>
+			<section id="feedback">
+				<div class="page-header">
+					<h2>Feedback</h2>
+				</div>
+				<div id="disqus_thread"></div>
+			</section>
 			<script type="text/javascript">
 				$(function() {
 					$('button.demo-play').click(function(e) {
@@ -1092,6 +1098,33 @@ $('#yourImageId').bttrlazyloading({
 			</div><!-- /.navbar-collapse -->
 		</nav>
 		<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
+		<script type="text/javascript">
+			var disqus_shortname = 'julienrenaux';
+			var disqus_identifier = 'http://bttrlazyloading.julienrenaux.fr';
+			var disqus_url = 'http://bttrlazyloading.julienrenaux.fr';
+
+			/* * * DON'T EDIT BELOW THIS LINE * * */
+			(function() {
+				var dsq = document.createElement('script');
+				dsq.type = 'text/javascript';
+				dsq.async = true;
+				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			})();
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-7727182-2']);
+			_gaq.push(['_setDomainName', 'julienrenaux.fr']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
 		<script>
 			$('#resizer button').tooltip({
 				placement: 'bottom'
