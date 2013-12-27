@@ -21,6 +21,7 @@
 		"jquery.smooth-scroll": ">= 1.4.12",
 		"bootswatch": "> 3.0.0",
 		"animate.css": ">= 3.0.0",
-		"highlight.js" : ">=7.3"
+		"highlight.js" : ">=7.3",
+		"socialite" : ">=2.0"
 	}
 }

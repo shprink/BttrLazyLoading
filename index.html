@@ -66,6 +66,32 @@
 			.navbar-inverse .navbar-text{
 				color: white;
 			}
+			#facebook, #twitter, #github, #google-plus, #linkedin{
+				background-repeat: no-repeat;
+				width: 48px;
+				height: 48px;
+				display: block;
+			}
+			#facebook.loaded, #twitter.loaded, #github.loaded, #google-plus.loaded, #linkedin.loaded{
+				background-image: none;
+				width:150px;
+				height: 30px;
+			}
+			#facebook{
+				background-image: url('demo/img/facebook.png');
+			}
+			#twitter{
+				background-image: url('demo/img/twitter.png');
+			}
+			#github{
+				background-image: url('demo/img/github.png');
+			}
+			#google-plus{
+				background-image: url('demo/img/google-plus.png');
+			}
+			#linkedin{
+				background-image: url('demo/img/linkedin.png');
+			}
 		</style>
 		<script type="text/javascript">
 			$(function() {
@@ -115,33 +141,70 @@
 	</head>
 	<body id="top">
 		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id))
-					return;
-				js = d.createElement(s);
-				js.id = id;
-				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=206488179525466";
-				fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));</script>
-		<script>!function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-		if (!d.getElementById(id)) {
-			js = d.createElement(s);
-			js.id = id;
-			js.src = p + '://platform.twitter.com/widgets.js';
-			fjs.parentNode.insertBefore(js, fjs);
-		}
-	}(document, 'script', 'twitter-wjs');</script>
+		<script>
+			$(function() {
+				$('#facebook').mouseover(function(ev) {
+					$(this).addClass('loaded').off('mouseover');
+					(function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0];
+						if (d.getElementById(id))
+							return;
+						js = d.createElement(s);
+						js.id = id;
+						js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=206488179525466";
+						fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));
+				});
+				$('#twitter').mouseover(function(ev) {
+					$(this).addClass('loaded').off('mouseover');
+					!function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+						if (!d.getElementById(id)) {
+							js = d.createElement(s);
+							js.id = id;
+							js.src = p + '://platform.twitter.com/widgets.js';
+							fjs.parentNode.insertBefore(js, fjs);
+						}
+					}(document, 'script', 'twitter-wjs');
+				});
+				$('#google-plus').mouseover(function(ev) {
+					$(this).addClass('loaded').off('mouseover');
+					(function() {
+						var po = document.createElement('script');
+						po.type = 'text/javascript';
+						po.async = true;
+						po.src = 'https://apis.google.com/js/platform.js';
+						var s = document.getElementsByTagName('script')[0];
+						s.parentNode.insertBefore(po, s);
+					})();
+				});
+				$('#github').mouseover(function(ev) {
+					$(this).addClass('loaded').off('mouseover');
+					$(this).append($('<iframe src="http://ghbtns.com/github-btn.html?user=shprink&repo=bttrlazyloading&type=watch&count=true&size=large" height="30" width="170" frameborder="0" scrolling="0" style="width:150px; height: 30px;" allowTransparency="true">'));
+				});
+			});
+		</script>
+		<script></script>
 		<div class="container">
 			<br/>
 			<div class="jumbotron">
 				<h1 class="break-word">BttrLazyLoading</h1>
 				<p>Responsive Lazy Loading plugin for JQuery.</p>
 				<div class="clearfix">
-					<iframe src="http://ghbtns.com/github-btn.html?user=shprink&repo=bttrlazyloading&type=watch&count=true&size=large" height="30" width="170" frameborder="0" scrolling="0" style="width:150px; height: 30px;" allowTransparency="true"></iframe>
-					<div class="fb-like" data-href="http://bttrlazyloading.julienrenaux.fr/" data-width="150" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" style="width:150px; height: 30px;"></div>
-					<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bttrlazyloading.julienrenaux.fr/" data-text="Responsive Lazy Loading plugin for JQuery." data-via="julienrenaux" data-size="large" data-hashtags="BttrLazyLoading">Tweet</a>
+					<ul class="list-inline">
+						<li>
+							<div id="github"></div>
+						</li>
+						<li>
+							<div id="facebook" class="fb-like" data-href="http://bttrlazyloading.julienrenaux.fr/" data-width="150" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+						</li>
+						<li>
+							<div id="google-plus" class="g-plusone" data-size="tall" data-annotation="inline" data-width="150" data-href="http://bttrlazyloading.julienrenaux.fr"></div>
+						</li>
+						<li>
+							<a id="twitter" href="https://twitter.com/share" class="twitter-share-button" data-url="http://bttrlazyloading.julienrenaux.fr/" data-text="Responsive Lazy Loading plugin for JQuery." data-via="julienrenaux" data-size="large" data-hashtags="BttrLazyLoading"></a>
+						</li>
+					</ul>
 				</div>
 				<div class="btn-group btn-group-justified">
 					<a class="btn btn-info btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
@@ -1029,6 +1092,7 @@ $('#yourImageId').bttrlazyloading({
 				<div class="page-header">
 					<h2>Feedback</h2>
 				</div>
+				<p>In order to bring the best features to this plugin I encourage you to post a feedback (good or bad).</p>
 				<div id="disqus_thread"></div>
 			</section>
 			<script type="text/javascript">
@@ -1086,9 +1150,9 @@ $('#yourImageId').bttrlazyloading({
 						</ul>
 					</li>
 					<li><a class="smooth-scroll" href="#tips">Tips</a></li>
+					<li><a class="smooth-scroll" href="#feedback">Feedback</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="feedback">Feedback</a></li>
 					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="http://julienrenaux.fr/"><i class="fa fa-book"></i> Blog</a></li>
 					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="https://www.facebook.com/julienrenauxblog" title="follow me on Facebook"><i class="fa fa-facebook"></i></a></li>
 					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="https://github.com/shprink" title="follow me on GitHub"><i class="fa fa-github"></i></a></li>
@@ -1099,36 +1163,38 @@ $('#yourImageId').bttrlazyloading({
 		</nav>
 		<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
 		<script type="text/javascript">
-			var disqus_shortname = 'julienrenaux';
-			var disqus_identifier = 'http://bttrlazyloading.julienrenaux.fr';
-			var disqus_url = 'http://bttrlazyloading.julienrenaux.fr';
+			var isWithinViewport = function($el) {
+				var bounds, viewport, win;
+				win = $(window);
+				viewport = {
+					top: win.scrollTop(),
+					left: win.scrollLeft()
+				};
+				viewport.right = viewport.left + win.width();
+				viewport.bottom = viewport.top + win.height();
+				bounds = $el.offset();
+				bounds.right = bounds.left + $el.outerWidth();
+				bounds.bottom = bounds.top + $el.outerHeight();
+				return !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
+			};
+			var feedbackLoad = function(e) {
+				if (isWithinViewport($('#feedback'))) {
+					$(this).off('scroll', feedbackLoad);
+					var disqus_shortname = 'julienrenaux';
+					var disqus_identifier = 'http://bttrlazyloading.julienrenaux.fr';
+					var disqus_url = 'http://bttrlazyloading.julienrenaux.fr';
 
-			/* * * DON'T EDIT BELOW THIS LINE * * */
-			(function() {
-				var dsq = document.createElement('script');
-				dsq.type = 'text/javascript';
-				dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-7727182-2']);
-			_gaq.push(['_setDomainName', 'julienrenaux.fr']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-				var ga = document.createElement('script');
-				ga.type = 'text/javascript';
-				ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(ga, s);
-			})();
-		</script>
-		<script>
-			$('#resizer button').tooltip({
-				placement: 'bottom'
-			});
+					/* * * DON'T EDIT BELOW THIS LINE * * */
+					(function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript';
+						dsq.async = true;
+						dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+					})();
+				}
+			}
+			$(window).on('scroll', feedbackLoad);
 
 			(function(i, s, o, g, r, a, m) {
 				i['GoogleAnalyticsObject'] = r;
@@ -1144,7 +1210,6 @@ $('#yourImageId').bttrlazyloading({
 
 			ga('create', 'UA-7727182-2', 'julienrenaux.fr');
 			ga('send', 'pageview');
-
 		</script>
 	</body>
 </html>
