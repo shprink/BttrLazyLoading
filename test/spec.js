@@ -32,31 +32,29 @@ var testFixture = {
 	placeholder: "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 };
 
-var img1 = document.createElement("img");
-img1.setAttribute("id", "test");
-img1.setAttribute("data-bttrlazyloading-xs-src", testFixture.xs.src);
-img1.setAttribute("data-bttrlazyloading-xs-width", testFixture.xs.width);
-img1.setAttribute("data-bttrlazyloading-xs-height", testFixture.xs.height);
-img1.setAttribute("data-bttrlazyloading-sm-src", testFixture.sm.src);
-img1.setAttribute("data-bttrlazyloading-sm-width", testFixture.sm.width);
-img1.setAttribute("data-bttrlazyloading-sm-height", testFixture.sm.height);
-img1.setAttribute("data-bttrlazyloading-md-src", testFixture.md.src);
-img1.setAttribute("data-bttrlazyloading-md-width", testFixture.md.width);
-img1.setAttribute("data-bttrlazyloading-md-height", testFixture.md.height);
-img1.setAttribute("data-bttrlazyloading-lg-src", testFixture.lg.src);
-img1.setAttribute("data-bttrlazyloading-lg-width", testFixture.lg.width);
-img1.setAttribute("data-bttrlazyloading-lg-height", testFixture.lg.height);
-img1.setAttribute("data-bttrlazyloading-animation", testFixture.animation);
-img1.setAttribute("data-bttrlazyloading-retina", testFixture.retina);
-img1.setAttribute("data-bttrlazyloading-delay", testFixture.delay);
-img1.setAttribute("data-bttrlazyloading-event", testFixture.event);
-img1.setAttribute("data-bttrlazyloading-container", testFixture.container);
-img1.setAttribute("data-bttrlazyloading-triggermanually",
-		testFixture.triggerManually);
-img1.setAttribute("data-bttrlazyloading-updatemanually",
-		testFixture.updateManually);
-img1.setAttribute("data-bttrlazyloading-threshold", testFixture.threshold);
-img1.setAttribute("data-bttrlazyloading-placeholder", testFixture.placeholder);
+var imgWithAllDataAttribute = document.createElement("img");
+imgWithAllDataAttribute.setAttribute("id", "imgWithAllDataAttribute");
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-src", testFixture.xs.src);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-width", testFixture.xs.width);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-height", testFixture.xs.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-src", testFixture.sm.src);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-width", testFixture.sm.width);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-height", testFixture.sm.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-src", testFixture.md.src);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-width", testFixture.md.width);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-height", testFixture.md.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-src", testFixture.lg.src);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-width", testFixture.lg.width);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-height", testFixture.lg.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-animation", testFixture.animation);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-retina", testFixture.retina);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-delay", testFixture.delay);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-event", testFixture.event);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-container", testFixture.container);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-triggermanually", testFixture.triggerManually);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-updatemanually", testFixture.updateManually);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-threshold", testFixture.threshold);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-placeholder", testFixture.placeholder);
 
 var img2 = document.createElement("img");
 img2.setAttribute("id", "test2");
@@ -67,49 +65,47 @@ img3.setAttribute("id", "test3");
 var img4 = document.createElement("img");
 img4.setAttribute("id", "test4");
 
-var img5 = document.createElement("img");
-img5.setAttribute("id", "test5");
-img5.setAttribute("data-bttrlazyloading-xs", '{"src": "' + testFixture.xs.src
+var imgWithDataAttributeAsObject = document.createElement("img");
+imgWithDataAttributeAsObject.setAttribute("id", "imgWithDataAttributeAsObject");
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-xs", '{"src": "' + testFixture.xs.src
 		+ '", "width" : ' + testFixture.xs.width + ',  "height" : '
 		+ testFixture.xs.height + '}');
-img5.setAttribute("data-bttrlazyloading-sm", '{"src": "' + testFixture.sm.src
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-sm", '{"src": "' + testFixture.sm.src
 		+ '", "width" : ' + testFixture.sm.width + ',  "height" : '
 		+ testFixture.sm.height + '}');
-img5.setAttribute("data-bttrlazyloading-md", '{"src": "' + testFixture.md.src
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-md", '{"src": "' + testFixture.md.src
 		+ '", "width" : ' + testFixture.md.width + ',  "height" : '
 		+ testFixture.md.height + '}');
-img5.setAttribute("data-bttrlazyloading-lg", '{"src": "' + testFixture.lg.src
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-lg", '{"src": "' + testFixture.lg.src
 		+ '", "width" : ' + testFixture.lg.width + ',  "height" : '
 		+ testFixture.lg.height + '}');
 
-var img6 = document.createElement("img");
-img6.setAttribute("id", "test6");
-img6.setAttribute("data-bttrlazyloading-xs", '{"src": "' + testFixture.xs.src
-		+ '", "width" : ' + testFixture.xs.width + ',  "height" : '
-		+ testFixture.xs.height + '}');
-img6.setAttribute("data-bttrlazyloading-sm", '{"src": "' + testFixture.sm.src
-		+ '", "width" : ' + testFixture.sm.width + ',  "height" : '
-		+ testFixture.sm.height + '}');
-img6.setAttribute("data-bttrlazyloading-md", '{"src": "' + testFixture.md.src
-		+ '", "width" : ' + testFixture.md.width + ',  "height" : '
-		+ testFixture.md.height + '}');
-img6.setAttribute("data-bttrlazyloading-lg", '{"src": "' + testFixture.lg.src
-		+ '", "width" : ' + testFixture.lg.width + ',  "height" : '
-		+ testFixture.lg.height + '}');
-img6.setAttribute("data-bttrlazyloading-triggermanually",
-		testFixture.triggerManually);
+var imgWithAllExistingSrc = document.createElement("img");
+imgWithAllExistingSrc.setAttribute("id", "imgWithAllExistingSrc");
+imgWithAllExistingSrc.setAttribute("data-bttrlazyloading-xs-src", testFixture.xs.src);
+imgWithAllExistingSrc.setAttribute("data-bttrlazyloading-sm-src", testFixture.sm.src);
+imgWithAllExistingSrc.setAttribute("data-bttrlazyloading-md-src", testFixture.md.src);
+imgWithAllExistingSrc.setAttribute("data-bttrlazyloading-lg-src", testFixture.lg.src);
 
-window.document.body.appendChild(img1);
+var imgWithOnlyOneExistingSrc = document.createElement("img");
+imgWithOnlyOneExistingSrc.setAttribute("id", "imgWithOnlyOneExistingSrc");
+imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-xs-src", 'doesnotexist.png');
+imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-sm-src", testFixture.sm.src);
+imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-md-src", 'doesnotexist.png');
+imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-lg-src", 'doesnotexist.png');
+
+window.document.body.appendChild(imgWithAllDataAttribute);
 window.document.body.appendChild(img2);
 window.document.body.appendChild(img3);
 window.document.body.appendChild(img4);
-window.document.body.appendChild(img5);
-window.document.body.appendChild(img6);
+window.document.body.appendChild(imgWithDataAttributeAsObject);
+window.document.body.appendChild(imgWithAllExistingSrc);
+window.document.body.appendChild(imgWithOnlyOneExistingSrc);
 
 describe("HTML5 data attribute", function() {
 	// LOCAL TESTS
 	it("set the right options from element", function() {
-		var obj = $("#test").bttrlazyloading().data('bttrlazyloading');
+		var obj = $("#imgWithAllDataAttribute").bttrlazyloading().data('bttrlazyloading');
 		expect(obj.options.img.xs.src).toEqual(testFixture.xs.src);
 		expect(obj.options.img.sm.src).toEqual(testFixture.sm.src);
 		expect(obj.options.img.md.src).toEqual(testFixture.md.src);
@@ -128,14 +124,14 @@ describe("HTML5 data attribute", function() {
 		expect(obj.options.event).toEqual(testFixture.event);
 		expect(obj.options.container).toEqual(testFixture.container);
 		expect(obj.options.threshold).toEqual(testFixture.threshold);
-		expect(obj.options.triggermanually)
-				.toEqual(testFixture.triggerManually);
+		expect(obj.options.triggermanually).toEqual(testFixture.triggerManually);
 		expect(obj.options.updatemanually).toEqual(testFixture.updateManually);
 		expect(obj.options.placeholder).toEqual(testFixture.placeholder);
+		obj.destroy();
 	});
 
 	it("set the right img parameter from data element object", function() {
-		var obj = $("#test5").bttrlazyloading().data('bttrlazyloading');
+		var obj = $("#imgWithDataAttributeAsObject").bttrlazyloading().data('bttrlazyloading');
 		expect(obj.options.img.xs.src).toEqual(testFixture.xs.src);
 		expect(obj.options.img.sm.src).toEqual(testFixture.sm.src);
 		expect(obj.options.img.md.src).toEqual(testFixture.md.src);
@@ -297,25 +293,50 @@ describe("jQuery Plugin", function() {
 
 	it("set the default global ranges", function() {
 		$.bttrlazyloading.setRanges({
-			'xs': 5,
-			'sm': 6,
-			'md': 7,
-			'lg': 8
+			'xs': 700,
+			'sm': 800,
+			'md': 900,
+			'lg': 1100
 		});
 		var obj3 = $("#test3").bttrlazyloading().data('bttrlazyloading');
-		expect(obj3.ranges.xs).toEqual(5);
-		expect(obj3.ranges.sm).toEqual(6);
-		expect(obj3.ranges.md).toEqual(7);
-		expect(obj3.ranges.lg).toEqual(8);
+		expect(obj3.ranges.xs).toEqual(700);
+		expect(obj3.ranges.sm).toEqual(800);
+		expect(obj3.ranges.md).toEqual(900);
+		expect(obj3.ranges.lg).toEqual(1100);
 	});
 });
 
 describe("Responsivity", function() {
 	it("should load the right image when all exist", function() {
+		$("#imgWithAllExistingSrc").bttrlazyloading({});
+		$("#imgWithAllExistingSrc").trigger('bttrlazyloading.load');
+		setTimeout(function() {
+			var obj = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+			var ww;
+			ww = window.innerWidth;
+			if (ww <= 700) {
+				expect(obj.loaded).toEqual(testFixture.xs.src);
+			} else if ((800 <= ww && ww < 900)) {
+				expect(obj.loaded).toEqual(testFixture.sm.src);
+			} else if ((900 <= ww && ww < 1100)) {
+				expect(obj.loaded).toEqual(testFixture.md.src);
+			} else if (1100 <= ww) {
+				expect(obj.loaded).toEqual(testFixture.lg.src);
+			}
+			obj.destroy();
+			$("#imgWithAllExistingSrc").attr('src', '');
+		}, 500);
 
 	});
-	it("should load the right image when one exist", function() {
-
+	it("should load the right image when only one exist", function() {
+		$("#imgWithOnlyOneExistingSrc").bttrlazyloading();
+		$("#imgWithOnlyOneExistingSrc").trigger('bttrlazyloading.load');
+		setTimeout(function() {
+			var obj = $("#imgWithOnlyOneExistingSrc").data('bttrlazyloading');
+			expect(obj.loaded).toEqual(testFixture.sm.src);
+			obj.destroy();
+			$("#imgWithOnlyOneExistingSrc").attr('src', '');
+		}, 1000);
 	});
 });
 
@@ -325,23 +346,25 @@ describe("Event", function() {
 	beforeEach(function(done) {
 		onbeforeLoadFunctionSpy = jasmine.createSpy("beforeLoadFunctionSpy")
 		onafterLoadFunctionSpy = jasmine.createSpy("afterLoadFunctionSpy")
-		$("#test6").bttrlazyloading({
+		$("#imgWithAllExistingSrc").bttrlazyloading({
 			onBeforeLoad: onbeforeLoadFunctionSpy,
 			onAfterLoad: onafterLoadFunctionSpy
 		});
 		onbeforeLoad = jasmine.createSpy("beforeLoadSpy");
 		onafterLoad = jasmine.createSpy("afterLoadSpy");
-		$("#test6").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
-		$("#test6").bind('bttrlazyloading.afterLoad', onafterLoad);
-		$("#test6").trigger('bttrlazyloading.load');
+		$("#imgWithAllExistingSrc").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
+		$("#imgWithAllExistingSrc").bind('bttrlazyloading.afterLoad', onafterLoad);
+		$("#imgWithAllExistingSrc").trigger('bttrlazyloading.load');
 		setTimeout(function() {
 			done();
-		}, 200);
+		}, 500);
 	});
 
 	afterEach(function() {
-		$("#test6").data('bttrlazyloading').destroy();
-		$("#test6").attr('src', '');
+		if ($("#imgWithAllExistingSrc").data('bttrlazyloading')) {
+			$("#imgWithAllExistingSrc").data('bttrlazyloading').destroy();
+			$("#imgWithAllExistingSrc").attr('src', '');
+		}
 	});
 
 	it("should trigger bttrlazyloading.afterLoad event", function(done) {
