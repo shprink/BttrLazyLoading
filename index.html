@@ -4,11 +4,11 @@
 		<title>Responsive Lazy Loading plugin for JQuery | BttrLazyLoading</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="BttrLazyLoading is a Jquery plugin that allows your web application to defer image loading until images are scrolled to but not only! BttrLazyLoading also allows you to have different version of an image for 4 differents screen sizes: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px).">
+		<meta name="description" content="BttrLazyLoading is a Jquery plugin that allows your web application to only load images within the viewport. It also allows you to have different version of an image for 4 differents screen sizes.">
 		<meta name="keywords" content="JavaScript, Responsive, image, images, jQuery, coffeescript, lazy loading">
 		<meta name="author" content="Julien Renaux">
 		<meta property="og:title" content="Responsive Lazy Loading plugin for JQuery | BttrLazyLoading"/>
-		<meta property="og:description" content="BttrLazyLoading is a Jquery plugin that allows your web application to defer image loading until images are scrolled to but not only! BttrLazyLoading also allows you to have different version of an image for 4 differents screen sizes: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px)."/>
+		<meta property="og:description" content="BttrLazyLoading is a Jquery plugin that allows your web application to only load images within the viewport. It also allows you to have different version of an image for 4 differents screen sizes."/>
 		<meta property="og:url" content="http://bttrlazyloading.julienrenaux.fr"/>
 		<meta property="og:site_name" content="Julien Renaux Blog"/>
 		<meta property="og:type" content="blog"/>
@@ -190,10 +190,37 @@
 		<script></script>
 		<div class="container">
 			<br/>
-			<div class="jumbotron">
-				<h1 class="break-word">BttrLazyLoading</h1>
-				<p>Responsive Lazy Loading plugin for JQuery.</p>
-				<div class="clearfix">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<div class="img-thumbnail">
+						<img id="img-not-bad" class="bttrlazyloading"
+							 data-bttrlazyloading-xs-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
+							 data-bttrlazyloading-xs-width="698"
+							 data-bttrlazyloading-xs-height="421"
+							 data-bttrlazyloading-sm-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
+							 data-bttrlazyloading-sm-width="335"
+							 data-bttrlazyloading-sm-height="202"
+							 data-bttrlazyloading-md-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
+							 data-bttrlazyloading-md-width="445"
+							 data-bttrlazyloading-md-height="268"
+							 data-bttrlazyloading-lg-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
+							 data-bttrlazyloading-lg-width="545"
+							 data-bttrlazyloading-lg-height="329"/>
+					</div>
+					<script type="text/javascript">
+						$(function() {
+							$('#img-not-bad').bttrlazyloading({
+								triggermanually: false,
+								animation: 'fadeInDown',
+								delay: 1000
+							});
+						});
+					</script>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-6">
+					<h2 class="featurette-heading break-word">BttrLazyLoading <span class="text-muted">Responsive Lazy Loading plugin for JQuery</span></h2>
+					<p class="lead">BttrLazyLoading is a Jquery plugin that allows your web application to only load images within the viewport. It also allows you to have different version of an image for 4 differents screen sizes.</p>
+					<h4>Share!</h4>
 					<ul class="list-inline">
 						<li>
 							<div id="github"></div>
@@ -208,7 +235,11 @@
 							<a id="twitter" href="https://twitter.com/share" class="twitter-share-button" data-url="http://bttrlazyloading.julienrenaux.fr/" data-text="Responsive Lazy Loading plugin for JQuery." data-via="julienrenaux" data-size="large" data-hashtags="BttrLazyLoading"></a>
 						</li>
 					</ul>
+
 				</div>
+			</div>
+			<br/>
+			<div class="well text-center">
 				<a class="btn btn-primary btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
 					<i class="fa fa-download"></i> v1.0.0-rc.1 (< 7kB)
 				</a>
