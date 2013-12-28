@@ -95,13 +95,14 @@ class BttrLazyLoading
 		@$img.on 'error', (e) =>
 			src		= @$img.attr 'src'
 			range	= @$img.data 'bttrlazyloading.range'
-			if @constructor.dpr > 1 && @options.retina && src.match(/@2x/gi)
+			if @constructor.dpr >= 2 && @options.retina && src.match(/@2x/gi)
 				@blackList.push range + '@2x'
 			else
 				@blackList.push range
 				@whiteList.splice @whiteList.indexOf(range), 1
 				if @whiteList.length is 0
 					@options.onError(@$img, this) if typeof @options.onError is 'function'
+					@$img.trigger 'bttrlazyloading.error'
 					return false
 			@$img.trigger 'bttrlazyloading.load'
 
@@ -128,7 +129,7 @@ class BttrLazyLoading
 
 	_getImageSrc = (src, range)->
 		# check if retina and not in black list
-		if @constructor.dpr > 1 && @options.retina && @blackList.indexOf(range + '@2x') is -1
+		if @constructor.dpr >= 2 && @options.retina && @blackList.indexOf(range + '@2x') is -1
 			src.replace /\.\w+$/, (match)->
 				'@2x' + match
 		else
@@ -201,6 +202,9 @@ class BttrLazyLoading
 		@$img.off 'load'
 		@$img.off 'error'
 		@$img.off 'bttrlazyloading.load'
+		@$img.off 'bttrlazyloading.beforeLoad'
+		@$img.off 'bttrlazyloading.afterLoad'
+		@$img.off 'bttrlazyloading.error'
 		@container.off @options.event
 		@$img.removeClass 'bttrlazyloading-loaded'
 		@$img.removeClass 'animated ' + @options.animation if @options.animation
@@ -212,6 +216,7 @@ class BttrLazyLoading
 			'background-repeat'		: ''
 			'background-position'	: ''
 		@$img.removeData 'bttrlazyloading'
+		return @$img
 
 $.fn.extend
 	bttrlazyloading: (options) ->

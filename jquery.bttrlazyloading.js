@@ -126,7 +126,7 @@
         var range, src;
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
-        if (_this.constructor.dpr > 1 && _this.options.retina && src.match(/@2x/gi)) {
+        if (_this.constructor.dpr >= 2 && _this.options.retina && src.match(/@2x/gi)) {
           _this.blackList.push(range + '@2x');
         } else {
           _this.blackList.push(range);
@@ -135,6 +135,7 @@
             if (typeof _this.options.onError === 'function') {
               _this.options.onError(_this.$img, _this);
             }
+            _this.$img.trigger('bttrlazyloading.error');
             return false;
           }
         }
@@ -168,7 +169,7 @@
     };
 
     _getImageSrc = function(src, range) {
-      if (this.constructor.dpr > 1 && this.options.retina && this.blackList.indexOf(range + '@2x') === -1) {
+      if (this.constructor.dpr >= 2 && this.options.retina && this.blackList.indexOf(range + '@2x') === -1) {
         return src.replace(/\.\w+$/, function(match) {
           return '@2x' + match;
         });
@@ -258,6 +259,9 @@
       this.$img.off('load');
       this.$img.off('error');
       this.$img.off('bttrlazyloading.load');
+      this.$img.off('bttrlazyloading.beforeLoad');
+      this.$img.off('bttrlazyloading.afterLoad');
+      this.$img.off('bttrlazyloading.error');
       this.container.off(this.options.event);
       this.$img.removeClass('bttrlazyloading-loaded');
       if (this.options.animation) {
@@ -271,7 +275,8 @@
         'background-repeat': '',
         'background-position': ''
       });
-      return this.$img.removeData('bttrlazyloading');
+      this.$img.removeData('bttrlazyloading');
+      return this.$img;
     };
 
     return BttrLazyLoading;
