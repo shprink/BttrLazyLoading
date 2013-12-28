@@ -124,12 +124,9 @@
       });
       this.$img.on('error', function(e) {
         var range, src;
-        console.log(_this.whiteList.length);
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
-        console.log(range);
         if (_this.constructor.dpr > 1 && _this.options.retina && src.match(/@2x/gi)) {
-          console.log('hihih');
           _this.blackList.push(range + '@2x');
         } else {
           _this.blackList.push(range);
@@ -141,12 +138,9 @@
             return false;
           }
         }
-        console.log(_this.whiteList, 'whiteList');
-        console.log(_this.blackList, 'blackList');
         return _this.$img.trigger('bttrlazyloading.load');
       });
       this.container.on(this.options.event, function() {
-        console.log('custom event');
         return _update.call(_this);
       });
       return $(window).on("resize", function() {

@@ -93,12 +93,9 @@ class BttrLazyLoading
 				, @options.delay
 
 		@$img.on 'error', (e) =>
-			console.log @whiteList.length
 			src		= @$img.attr 'src'
 			range	= @$img.data 'bttrlazyloading.range'
-			console.log range
 			if @constructor.dpr > 1 && @options.retina && src.match(/@2x/gi)
-				console.log 'hihih'
 				@blackList.push range + '@2x'
 			else
 				@blackList.push range
@@ -106,12 +103,9 @@ class BttrLazyLoading
 				if @whiteList.length is 0
 					@options.onError(@$img, this) if typeof @options.onError is 'function'
 					return false
-			console.log @whiteList, 'whiteList'
-			console.log @blackList, 'blackList'
 			@$img.trigger 'bttrlazyloading.load'
 
 		@container.on  @options.event, () =>
-			console.log 'custom event'
 			_update.call @
 
 		$(window).on "resize", () =>
