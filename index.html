@@ -16,12 +16,12 @@
 		<link rel="stylesheet" type="text/css" href="bower_components/bootswatch/yeti/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="bower_components/highlight.js/src/styles/solarized_dark.css" />
-		<link rel="stylesheet" type="text/css" href="bttrlazyloading.min.css" />
+		<link rel="stylesheet" type="text/css" href="jquery.bttrlazyloading.min.css" />
 		<script src="bower_components/jquery/jquery.min.js"></script>
 		<script src="bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="demo/js/highlight.pack.js"></script>
-		<script src="bttrlazyloading.min.js"></script>
+		<script src="jquery.bttrlazyloading.min.js"></script>
 		<style>
 			body{
 				margin-top: 46px;
@@ -65,6 +65,9 @@
 			}
 			.navbar-inverse .navbar-text{
 				color: white;
+			}
+			.panel-title{
+				font-size: 24px;
 			}
 			#facebook, #twitter, #github, #google-plus, #linkedin{
 				background-repeat: no-repeat;
@@ -206,54 +209,64 @@
 						</li>
 					</ul>
 				</div>
-				<div class="btn-group btn-group-justified">
-					<a class="btn btn-info btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
-						<span class="hidden-xs"><i class="fa fa-download"></i> Download the development version</span>
-						<span class="visible-xs"><i class="fa fa-download"></i></span>
-					</a>
-					<a class="btn btn-danger btn-lg" target="_blank" href="https://github.com/shprink/BttrLazyLoading/issues">
-						<span class="hidden-xs"><i class="fa fa-plus-square"></i> Report an issue</span>
-						<span class="visible-xs"><i class="fa fa-plus-square"></i></span>
-					</a>
-				</div>
+				<a class="btn btn-primary btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
+					<i class="fa fa-download"></i> v1.0.0-rc.1 (< 7kB)
+				</a>
+				<a class="btn btn-info btn-lg smooth-scroll" href="#demos" >
+					<i class="fa fa-play"></i> Demos
+				</a>
+				<a class="btn btn-default btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">
+					<i class="fa fa-github"></i> Project on Github
+				</a>
 			</div>
 			<div class="row">
-				<div class="col-md-6 col-sm-6 col-lg-6">
-					<div class="img-thumbnail">
-						<img id="img-not-bad" class="bttrlazyloading"
-							 data-bttrlazyloading-xs-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
-							 data-bttrlazyloading-xs-width="698"
-							 data-bttrlazyloading-xs-height="421"
-							 data-bttrlazyloading-sm-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
-							 data-bttrlazyloading-sm-width="335"
-							 data-bttrlazyloading-sm-height="202"
-							 data-bttrlazyloading-md-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
-							 data-bttrlazyloading-md-width="445"
-							 data-bttrlazyloading-md-height="268"
-							 data-bttrlazyloading-lg-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
-							 data-bttrlazyloading-lg-width="545"
-							 data-bttrlazyloading-lg-height="329"/>
+				<div class="col-md-6 col-sm-6 col-lg-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title"><i class="fa fa-spinner fa-spin"></i> Lazy loading</h3>
+						</div>
+						<div class="panel-body">
+							<p>BttrLazyLoading allows your Web application to defer image loading until images are scrolled to. That way the page loading time decreases considerably.</p>
+						</div>
 					</div>
-					<script type="text/javascript">
-						$(function() {
-							$('#img-not-bad').bttrlazyloading({
-								triggermanually: false,
-								animation: 'fadeInDown',
-								delay: 1000
-							});
-						});
-					</script>
 				</div>
-				<div class="col-md-6 col-sm-6 col-lg-6">
-
-					<p>BttrLazyLoading is a Jquery plugin that allows your Web application to defer image loading until images are scrolled to but not only! BttrLazyLoading also allows you having different versions of an image for four different screen sizes: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px).</p>
+				<div class="col-md-6 col-sm-6 col-lg-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title"><i class="fa fa-mobile"></i> <i class="fa fa-tablet"></i> <i class="fa fa-desktop"></i> Responsivity</h3>
+						</div>
+						<div class="panel-body">
+							<p>BttrLazyLoading makes sure that you always have the appropriate image loaded for any type of screen: phones (<768px), tablets (≥768px), desktops (≥992px) and large Desktops (≥1200px).</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title"><i class="fa fa-eye"></i> Retina ready</h3>
+						</div>
+						<div class="panel-body">
+							<p>BttrLazyLoading uses a naming convention <code>@2x</code> to display Retina images when the option is enabled.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-lg-3">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title"><i class="fa fa-cogs"></i> Customizable</h3>
+						</div>
+						<div class="panel-body">
+							<p>With more than 10 options (such as animations or background color) and 4 events, BttrLazyLoading is fully customizable to adapt to most needs.</p>
+						</div>
+					</div>
 				</div>
 			</div>
+
 			<section id="options">
 				<div class="page-header">
 					<h2>Options</h2>
 				</div>
-				<p>Options can be set for one or several images at the same time or for the whole page at once (using the <a class="smooth-scroll" href="#methods-setOptions">setOptions</a> global function)</p>
+				<p>Options can be set for one or several images at the same time or for the whole page at once (using the <a class="smooth-scroll" href="#global-method-setOptions">setOptions</a> global function)</p>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -442,8 +455,8 @@
 					<p><b>Plugin dependencies:</b> BttrLazyLoading depends on jQuery (meaning jQuery must be included <strong>before</strong> the plugin files).</p>
 				</div>
 				<pre><code class="html">&lt;script src=&quot;jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;bttrlazyloading.min.css&quot;&gt;
-&lt;script src=&quot;bttrlazyloading.min.js&quot;&gt;&lt;/script&gt;</pre></code>
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;jquery.bttrlazyloading.min.css&quot;&gt;
+&lt;script src=&quot;jquery.bttrlazyloading.min.js&quot;&gt;&lt;/script&gt;</pre></code>
 				<p>The following demos are using the same element attributes:</p>
 				<pre><code class="html">&lt;img id=&quot;yourImageId&quot; class=&quot;bttrlazyloading&quot;
 	data-bttrlazyloading-xs=&#39;{&quot;src&quot;: &quot;img/720x200.gif&quot;, &quot;width&quot; : 720,  &quot;height&quot; : 200}&#39;
@@ -942,7 +955,7 @@ $('#yourImageId').bttrlazyloading({
 				<div class="page-header">
 					<h2>Ranges</h2>
 				</div>
-				<p>Ranges define the size of your images for several types of screen. They can only be overwritten for the whole page (using the <a class="smooth-scroll" href="#methods-setRanges">setRanges</a> global function).</p>
+				<p>Ranges define the size of your images for several types of screen. They can only be overwritten for the whole page (using the <a class="smooth-scroll" href="#global-method-setRanges">setRanges</a> global function).</p>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -965,29 +978,44 @@ $('#yourImageId').bttrlazyloading({
 					</tbody>
 				</table>
 			</section>
-
 			<section id="methods">
 				<div class="page-header">
-					<h2>Global methods</h2>
-				</div>
-				<div class="alert alert-info">
-					<p>The BttrLazyLoading plugin does not have any public methods. Nevertheless, two global methods are available to interact with all BttrLazyLoading instances in the page.</p>
+					<h2>Destroy</h2>
 				</div>
 				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setRanges">setRanges()</h3></div>
+					<div class="panel-heading"><div class="pull-right"><b>Returns: $(img)</b></div><h3 id="method-destroy">destroy()</h3></div>
+					<div class="panel-body">
+						<p>The destroy function removes custom css, custom classes and unbind events but do not remove the image element.</p>
+						<pre><code class="javascript"># Get the BttrLazyLoading instance and destroy it.
+$('#yourImageId').data('bttrlazyloading').destroy();</pre></code>
+
+						<h3>Removing the image element</h3>
+						<pre><code class="javascript"># Get the BttrLazyLoading instance, destroy it and remove the image element.
+$('#yourImageId').data('bttrlazyloading').destroy().remove();</pre></code>
+					</div>
+				</div>
+			</section>
+			<section id="global-methods">
+				<div class="page-header">
+					<h2>Global methods (jQuery.fn)</h2>
+				</div>
+				<div class="alert alert-info">
+					<p>Two global methods are available to interact with all BttrLazyLoading instances in the page.</p>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="global-method-setRanges">setRanges()</h3></div>
 					<div class="panel-body">
 						<pre><code class="javascript">$.bttrlazyloading.setRanges({
 	xs: 767,
 	sm: 768,
 	md: 992,
 	lg: 1200
-});
-						</pre></code>
+});</pre></code>
 					</div>
 				</div>
 
 				<div class="panel panel-default">
-					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="methods-setOptions">setOptions()</h3></div>
+					<div class="panel-heading"><div class="pull-right"><b>Returns: bttrlazyloading Global</b></div><h3 id="global-method-setOptions">setOptions()</h3></div>
 					<div class="panel-body">
 						<pre><code class="javascript">$.bttrlazyloading.setOptions({
 	img: {...},
@@ -1004,8 +1032,7 @@ $('#yourImageId').bttrlazyloading({
 	},
 	onError: function($img, bttrLazyLoading) {
 	}
-});
-						</pre></code>
+});</pre></code>
 					</div>
 				</div>
 			</section>
@@ -1126,7 +1153,8 @@ $('#yourImageId').bttrlazyloading({
 						<ul class="dropdown-menu">
 							<li><a class="smooth-scroll" href="#options">Options</a></li>
 							<li><a class="smooth-scroll"  href="#ranges">Ranges</a></li>
-							<li><a class="smooth-scroll" href="#methods">Global methods</a></li>
+							<li><a class="smooth-scroll" href="#methods">Methods</a></li>
+							<li><a class="smooth-scroll" href="#global-methods">Global methods</a></li>
 							<li><a class="smooth-scroll" href="#events">Events</a></li>
 						</ul>
 					</li>

@@ -3,8 +3,8 @@ CoffeeScript 	= require 'coffee-script'
 {exec}			  = require 'child_process'
 
 FILE_COFFEE = 'BttrLazyLoading.coffee'
-FILE_COMPILED_JS = 'bttrlazyloading.js'
-FILE_COMPILED_CSS = 'bttrlazyloading.css'
+FILE_COMPILED_JS = 'jquery.bttrlazyloading.js'
+FILE_COMPILED_CSS = 'jquery.bttrlazyloading.css'
 FILE_VERSION 	= 'version'
 
 task 'tag.major', 'Major tag incrementation', ->
