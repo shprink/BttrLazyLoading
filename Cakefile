@@ -4,7 +4,7 @@ CoffeeScript 	= require 'coffee-script'
 
 FILE_COFFEE = 'BttrLazyLoading.coffee'
 FILE_COMPILED_JS = 'jquery.bttrlazyloading.js'
-FILE_COMPILED_CSS = 'jquery.bttrlazyloading.css'
+FILE_COMPILED_CSS = 'bttrlazyloading.css'
 FILE_VERSION 	= 'version'
 
 task 'tag.major', 'Major tag incrementation', ->
@@ -30,7 +30,7 @@ tag = (version) ->
 
 compressFiles = ->
 	try
-		fs.writeFileSync FILE_COMPILED_JS, CoffeeScript.compile "#{fs.readFileSync FILE_COFFEE}"
+		fs.writeFileSync FILE_COMPILED_JS, copyright + CoffeeScript.compile "#{fs.readFileSync FILE_COFFEE}"
 		unless process.env.MINIFY is 'false'
 			minifyJs FILE_COMPILED_JS
 			minifyCss FILE_COMPILED_CSS
@@ -85,7 +85,7 @@ copyright	=
 """
 /*
 BttrLazyLoading, Responsive Lazy Loading plugin for JQuery
-by Julien Renaux http://julienrenaux.fr/
+by Julien Renaux http://bttrlazyloading.julienrenaux.fr
 
 Version #{getVersion()}
 Full source at https://github.com/shprink/BttrLazyLoading
