@@ -56,14 +56,8 @@ imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-updatemanually", test
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-threshold", testFixture.threshold);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-placeholder", testFixture.placeholder);
 
-var img2 = document.createElement("img");
-img2.setAttribute("id", "test2");
-
-var img3 = document.createElement("img");
-img3.setAttribute("id", "test3");
-
-var img4 = document.createElement("img");
-img4.setAttribute("id", "test4");
+var imgWithNoDataAttribute = document.createElement("img");
+imgWithNoDataAttribute.setAttribute("id", "imgWithNoDataAttribute");
 
 var imgWithDataAttributeAsObject = document.createElement("img");
 imgWithDataAttributeAsObject.setAttribute("id", "imgWithDataAttributeAsObject");
@@ -94,15 +88,23 @@ imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-sm-src", testFixtur
 imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-md-src", 'doesnotexist.png');
 imgWithOnlyOneExistingSrc.setAttribute("data-bttrlazyloading-lg-src", 'doesnotexist.png');
 
+var imgWithNoExistingSrc = document.createElement("img");
+imgWithNoExistingSrc.setAttribute("id", "imgWithNoExistingSrc");
+imgWithNoExistingSrc.setAttribute("data-bttrlazyloading-xs-src", 'doesnotexist.png');
+imgWithNoExistingSrc.setAttribute("data-bttrlazyloading-sm-src", 'doesnotexist.png');
+imgWithNoExistingSrc.setAttribute("data-bttrlazyloading-md-src", 'doesnotexist.png');
+imgWithNoExistingSrc.setAttribute("data-bttrlazyloading-lg-src", 'doesnotexist.png');
+imgWithNoExistingSrc.setAttribute("data-bttrlazyloading-delay", 0);
+
 window.document.body.appendChild(imgWithAllDataAttribute);
-window.document.body.appendChild(img2);
-window.document.body.appendChild(img3);
-window.document.body.appendChild(img4);
+window.document.body.appendChild(imgWithNoDataAttribute);
 window.document.body.appendChild(imgWithDataAttributeAsObject);
 window.document.body.appendChild(imgWithAllExistingSrc);
 window.document.body.appendChild(imgWithOnlyOneExistingSrc);
+window.document.body.appendChild(imgWithNoExistingSrc);
 
 describe("HTML5 data attribute", function() {
+
 	// LOCAL TESTS
 	it("set the right options from element", function() {
 		var obj = $("#imgWithAllDataAttribute").bttrlazyloading().data('bttrlazyloading');
@@ -144,12 +146,19 @@ describe("HTML5 data attribute", function() {
 		expect(obj.options.img.sm.height).toEqual(testFixture.sm.height);
 		expect(obj.options.img.md.height).toEqual(testFixture.md.height);
 		expect(obj.options.img.lg.height).toEqual(testFixture.lg.height);
+		obj.destroy();
 	});
 });
 
 describe("jQuery Plugin", function() {
+	afterEach(function() {
+		if ($("#imgWithNoDataAttribute").data('bttrlazyloading')) {
+			$("#imgWithNoDataAttribute").data('bttrlazyloading').destroy();
+			$("#imgWithNoDataAttribute").attr('src', '');
+		}
+	});
 	it("set the right options from instantiation", function() {
-		var obj4 = $("#test4").bttrlazyloading({
+		var obj4 = $("#imgWithNoDataAttribute").bttrlazyloading({
 			img: {
 				xs: {
 					src: testFixture.xs.src,
@@ -263,7 +272,7 @@ describe("jQuery Plugin", function() {
 			}
 		});
 
-		var obj2 = $("#test2").bttrlazyloading().data('bttrlazyloading');
+		var obj2 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
 		expect(obj2.ranges.xs).toEqual(767);
 		expect(obj2.ranges.sm).toEqual(768);
 		expect(obj2.ranges.md).toEqual(992);
@@ -298,7 +307,7 @@ describe("jQuery Plugin", function() {
 			'md': 900,
 			'lg': 1100
 		});
-		var obj3 = $("#test3").bttrlazyloading().data('bttrlazyloading');
+		var obj3 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
 		expect(obj3.ranges.xs).toEqual(700);
 		expect(obj3.ranges.sm).toEqual(800);
 		expect(obj3.ranges.md).toEqual(900);
@@ -359,14 +368,12 @@ describe("Event", function() {
 			done();
 		}, 500);
 	});
-
 	afterEach(function() {
 		if ($("#imgWithAllExistingSrc").data('bttrlazyloading')) {
 			$("#imgWithAllExistingSrc").data('bttrlazyloading').destroy();
 			$("#imgWithAllExistingSrc").attr('src', '');
 		}
 	});
-
 	it("should trigger bttrlazyloading.afterLoad event", function(done) {
 		expect(onafterLoad).toHaveBeenCalled();
 		done();
@@ -375,9 +382,6 @@ describe("Event", function() {
 		expect(onbeforeLoad).toHaveBeenCalled();
 		done();
 	});
-//	it("should trigger bttrlazyloading.error event", function() {
-//
-//	});
 	it("should trigger onBeforeLoad function", function(done) {
 		expect(onbeforeLoadFunctionSpy).toHaveBeenCalled();
 		done();
@@ -386,7 +390,33 @@ describe("Event", function() {
 		expect(onafterLoadFunctionSpy).toHaveBeenCalled();
 		done();
 	});
-//	it("should trigger onError function", function() {
-//
-//	});
+});
+
+describe("Errors", function() {
+	beforeEach(function(done) {
+		onErrorFunctionSpy = jasmine.createSpy("errorFunctionSpy")
+		$("#imgWithNoExistingSrc").bttrlazyloading({
+			onError: onErrorFunctionSpy
+		});
+		onError = jasmine.createSpy("errorSpy");
+		$("#imgWithNoExistingSrc").bind('bttrlazyloading.error', onError);
+		$("#imgWithNoExistingSrc").trigger('bttrlazyloading.load');
+		setTimeout(function() {
+			done();
+		}, 500);
+	});
+	afterEach(function() {
+		if ($("#imgWithNoExistingSrc").data('bttrlazyloading')) {
+			$("#imgWithNoExistingSrc").data('bttrlazyloading').destroy();
+			$("#imgWithNoExistingSrc").attr('src', '');
+		}
+	});
+	it("should trigger bttrlazyloading.error event", function(done) {
+		expect(onError).toHaveBeenCalled();
+		done();
+	});
+	it("should trigger onError function", function(done) {
+		expect(onErrorFunctionSpy).toHaveBeenCalled();
+		done();
+	});
 });
