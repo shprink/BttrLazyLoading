@@ -5,6 +5,16 @@ BttrLazyLoading is a Jquery plugin that allows your web application to defer ima
 
 [Demo and Documentation](http://bttrlazyloading.julienrenaux.fr/)
 
+## Instalation
+
+BttrLazyLoading depends on jQuery (meaning jQuery must be included before the plugin files).
+
+```
+<script src="jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="bttrlazyloading.min.css" />
+<script src="jquery.bttrlazyloading.min.js"></script>
+```
+
 ## API
 
 ### Options
