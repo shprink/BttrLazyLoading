@@ -37,12 +37,23 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.whiteList = ['lg', 'md', 'sm', 'xs'];
       this.blackList = [];
       _setOptionsFromData.call(this);
+      if (this.options.wrapper) {
+        this.$wrapper = $('<div class="bttrlazyloading-wrapper">');
+        this.$img.before(this.$wrapper);
+        this.$wrapper.append(this.$img);
+      }
       imgObject = _getImgObject.call(this);
       this.$img.css({
         'width': imgObject.width,
-        'height': imgObject.height,
+        'height': imgObject.height
+      });
+      this.$wrapper.css({
         'background-color': this.options.backgroundcolor ? this.options.backgroundcolor : void 0
       });
+      if (this.$img.width() < imgObject.width) {
+        this.$wrapper.css('height', (this.$img.width() * imgObject.height) / imgObject.width);
+        this.$img.css('height', (this.$img.width() * imgObject.height) / imgObject.width);
+      }
       _setupEvents.call(this);
       setTimeout(function() {
         return _update.call(_this);
@@ -105,6 +116,10 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
               'width': imgObject.width,
               'height': imgObject.height
             });
+            if (_this.$img.width() < imgObject.width) {
+              _this.$wrapper.css('height', (_this.$img.width() * imgObject.height) / imgObject.width);
+              _this.$img.css('height', (_this.$img.width() * imgObject.height) / imgObject.width);
+            }
           } else {
             _this.$img.removeClass('bttrlazyloading-loaded');
             if (_this.options.animation) {
@@ -350,6 +365,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       threshold: 0,
       triggermanually: false,
       updatemanually: false,
+      wrapper: true,
       backgroundcolor: '#EEE',
       placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
       onBeforeLoad: null,
