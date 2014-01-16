@@ -10,10 +10,11 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 @charset "UTF-8";
 
 .bttrlazyloading-wrapper {
-
+    background-repeat: no-repeat;
+    background-position: center;
 }
-
-img.bttrlazyloading {
+.bttrlazyloading-clone,
+.bttrlazyloading {
     margin: 0;
     padding: 0;
     border: 0;

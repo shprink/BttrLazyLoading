@@ -14,12 +14,12 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _setOptionsFromData, _setupEvents, _update;
+    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _setOptionsFromData, _setupEvents, _update, _updateCanvasSize;
 
     BttrLazyLoading.dpr = 1;
 
     function BttrLazyLoading(img, options) {
-      var defaultOptions, imgObject,
+      var defaultOptions,
         _this = this;
       if (options == null) {
         options = {};
@@ -37,24 +37,20 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.whiteList = ['lg', 'md', 'sm', 'xs'];
       this.blackList = [];
       _setOptionsFromData.call(this);
-      if (this.options.wrapper) {
-        this.$wrapper = $('<div class="bttrlazyloading-wrapper">');
-        this.$img.before(this.$wrapper);
-        this.$wrapper.append(this.$img);
+      this.$wrapper = $('<div class="bttrlazyloading-wrapper">');
+      if (this.options.wrapperClasses && typeof this.options.wrapperClasses === 'string') {
+        this.$wrapper.addClass(this.options.wrapperClasses);
       }
-      imgObject = _getImgObject.call(this);
-      this.$img.css({
-        'width': imgObject.width,
-        'height': imgObject.height
-      });
-      this.$wrapper.css({
-        'background-color': this.options.backgroundcolor ? this.options.backgroundcolor : void 0
-      });
-      if (this.$img.width() < imgObject.width) {
-        this.$wrapper.css('height', (this.$img.width() * imgObject.height) / imgObject.width);
-        this.$img.css('height', (this.$img.width() * imgObject.height) / imgObject.width);
+      this.$img.before(this.$wrapper);
+      this.$clone = $('<canvas class="bttrlazyloading-clone">');
+      _updateCanvasSize.call(this);
+      this.$wrapper.append(this.$clone);
+      this.$img.hide();
+      this.$wrapper.append(this.$img);
+      if (this.options.backgroundcolor) {
+        this.$wrapper.css('background-color', this.options.backgroundcolor);
       }
-      _setupEvents.call(this);
+      _setupEvents.call(this, 'on');
       setTimeout(function() {
         return _update.call(_this);
       }, 100);
@@ -64,6 +60,13 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     	Private Functions
     */
 
+
+    _updateCanvasSize = function() {
+      var imgObject;
+      imgObject = _getImgObject.call(this);
+      this.$clone.attr('width', imgObject.width);
+      return this.$clone.attr('height', imgObject.height);
+    };
 
     _setOptionsFromData = function() {
       var _this = this;
@@ -90,9 +93,12 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       });
     };
 
-    _setupEvents = function() {
-      var _this = this;
-      this.$img.on('load', function() {
+    _setupEvents = function(onOrOff) {
+      var onBttrLoad, onError, onLoad, update,
+        _this = this;
+      onLoad = function() {
+        _this.$clone.hide();
+        _this.$img.show();
         _this.$img.addClass('bttrlazyloading-loaded');
         if (_this.options.animation) {
           _this.$img.addClass('animated ' + _this.options.animation);
@@ -102,34 +108,25 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
         if (typeof _this.options.onAfterLoad === 'function') {
           return _this.options.onAfterLoad(_this.$img, _this);
         }
-      });
-      this.$img.on('bttrlazyloading.load', function() {
+      };
+      this.$img[onOrOff]('load', onLoad);
+      onBttrLoad = function(e) {
         var imgObject;
         if (!_this.loading) {
           _this.loading = true;
           imgObject = _getImgObject.call(_this);
           if (!_this.loaded) {
-            _this.$img.css({
-              'background-image': "url('" + _this.options.placeholder + "')",
-              'background-repeat': 'no-repeat',
-              'background-position': 'center',
-              'width': imgObject.width,
-              'height': imgObject.height
-            });
-            if (_this.$img.width() < imgObject.width) {
-              _this.$wrapper.css('height', (_this.$img.width() * imgObject.height) / imgObject.width);
-              _this.$img.css('height', (_this.$img.width() * imgObject.height) / imgObject.width);
-            }
+            _this.$wrapper.css('background-image', "url('" + _this.options.placeholder + "')");
           } else {
             _this.$img.removeClass('bttrlazyloading-loaded');
             if (_this.options.animation) {
               _this.$img.removeClass('animated ' + _this.options.animation);
             }
             _this.$img.removeAttr('src');
-            _this.$img.css({
-              'width': imgObject.width,
-              'height': imgObject.height
-            });
+            _this.$img.hide();
+            _this.$clone.attr('width', imgObject.width);
+            _this.$clone.attr('height', imgObject.height);
+            _this.$clone.show();
           }
           return setTimeout(function() {
             _this.$img.trigger('bttrlazyloading.beforeLoad');
@@ -138,15 +135,12 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
             }
             _this.$img.data('bttrlazyloading.range', imgObject.range);
             _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src, imgObject.range));
-            _this.$img.css({
-              'width': '',
-              'height': ''
-            });
             return _this.loading = false;
           }, _this.options.delay);
         }
-      });
-      this.$img.on('error', function(e) {
+      };
+      this.$img[onOrOff]('bttrlazyloading.load', onBttrLoad);
+      onError = function(e) {
         var range, src;
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
@@ -164,13 +158,13 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           }
         }
         return _this.$img.trigger('bttrlazyloading.load');
-      });
-      this.container.on(this.options.event, function() {
+      };
+      this.$img[onOrOff]('error', onError);
+      update = function(e) {
         return _update.call(_this);
-      });
-      return $(window).on("resize", function() {
-        return _update.call(_this);
-      });
+      };
+      this.container[onOrOff](this.options.event, update);
+      return $(window)[onOrOff]("resize", update);
     };
 
     _getRangeFromScreenSize = function() {
@@ -233,9 +227,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _isUpdatable = function() {
       var imgObject, threshold;
-      if (this.$img.is(':hidden')) {
-        return false;
-      }
       if (!this.loaded && this.options.triggermanually) {
         return false;
       }
@@ -262,13 +253,17 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       };
       viewport.right = viewport.left + win.width();
       viewport.bottom = viewport.top + win.height();
-      bounds = this.$img.offset();
-      bounds.right = bounds.left + this.$img.outerWidth();
-      bounds.bottom = bounds.top + this.$img.outerHeight();
+      bounds = this.$wrapper.offset();
+      bounds.right = bounds.left + this.$wrapper.outerWidth();
+      bounds.bottom = bounds.top + this.$wrapper.outerHeight();
       return !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
     };
 
     _update = function() {
+      if (this.range !== _getRangeFromScreenSize.call(this)) {
+        _updateCanvasSize.call(this);
+      }
+      console.log(_isUpdatable.call(this, '_isUpdatable.call @'));
       if (_isUpdatable.call(this)) {
         return this.$img.trigger('bttrlazyloading.load');
       }
@@ -279,26 +274,27 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     */
 
 
+    BttrLazyLoading.prototype.get$Img = function() {
+      return this.$img;
+    };
+
+    BttrLazyLoading.prototype.get$Clone = function() {
+      return this.$clone;
+    };
+
+    BttrLazyLoading.prototype.get$Wrapper = function() {
+      return this.$wrapper;
+    };
+
     BttrLazyLoading.prototype.destroy = function() {
-      this.$img.off('load');
-      this.$img.off('error');
-      this.$img.off('bttrlazyloading.load');
-      this.$img.off('bttrlazyloading.beforeLoad');
-      this.$img.off('bttrlazyloading.afterLoad');
-      this.$img.off('bttrlazyloading.error');
-      this.container.off(this.options.event);
+      this.$wrapper.before(this.$img);
+      this.$wrapper.remove();
+      _setupEvents.call(this, 'off');
+      this.$img.off('bttrlazyloading');
       this.$img.removeClass('bttrlazyloading-loaded');
       if (this.options.animation) {
         this.$img.removeClass('animated ' + this.options.animation);
       }
-      this.$img.css({
-        'width': '',
-        'height': '',
-        'background-color': '',
-        'background-image': '',
-        'background-repeat': '',
-        'background-position': ''
-      });
       this.$img.removeData('bttrlazyloading');
       return this.$img;
     };
@@ -365,7 +361,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       threshold: 0,
       triggermanually: false,
       updatemanually: false,
-      wrapper: true,
+      wrapperClasses: null,
       backgroundcolor: '#EEE',
       placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
       onBeforeLoad: null,

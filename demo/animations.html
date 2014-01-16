@@ -9,7 +9,7 @@
 		<script src="../bower_components/jquery/jquery.min.js"></script>
 		<script src="../bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
 		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="../bttrlazyloading.js"></script>
+		<script src="../jquery.bttrlazyloading.min.js"></script>
 		<style>
 			#back-to-top{
 				font-size: 30px;
@@ -60,31 +60,33 @@
 				<h1>Demos</h1>
 				<p>BttrLazyLoading propose a large choice of CSS animations from <a href="https://daneden.me/animate/" target="_blank">Animate</a>.</p>
 			</div>
-			<div class="alert alert-info">A 2 secondes delay has been added to all images for the demo.</div>
-			<section id="option-retina">
-				<div class="page-header">
-					<h2>Retina display</h2>
-				</div>
-			</section>
-			<section id="option-retina">
-				<div class="page-header">
-					<h2>Global options</h2>
-				</div>
-			</section>
-			<section id="option-animation">
-				<div class="page-header">
-					<h2>Animations</h2>
-				</div>
-			</section>
-			<section id="option-event">
-				<div class="page-header">
-					<h2>Events</h2>
-				</div>
-			</section>
+			<div class="alert alert-info">A one second delay has been added to all images for the demo.</div>
 			<h3>Code</h3>
 			<pre>
 $('#yourImg').bttrlazyloading({
 	transition: 'flipInX' // Select among the {{animationCount}} CSS animations below
+        img: {
+                xs: {
+                        src: 'http://placekitten.com/800/300',
+                        width: 500,
+                        height: 300
+                },
+                sm: {
+                        src: 'http://placekitten.com/380/380',
+                        width: 380,
+                        height: 380
+                },
+                md: {
+                        src: 'http://placekitten.com/350/350',
+                        width: 350,
+                        height: 350
+                },
+                lg: {
+                        src: 'http://placekitten.com/300/300',
+                        width: 300,
+                        height: 300
+                }
+        }
 });</pre>
 			
 			<div class="row">
@@ -168,7 +170,7 @@ $('#yourImg').bttrlazyloading({
 				</div>
 			</div>
 		</div>
-		<nav class="navbar navbar-default navbar-inverse" role="navigation" data-spy="affix" data-offset-top="0">
+		<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" data-spy="affix" data-offset-top="0">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
@@ -177,24 +179,20 @@ $('#yourImg').bttrlazyloading({
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
+				<a class="navbar-brand smooth-scroll" href="#">#BttrLazyLoading</a>
 			</div>
+			<p class="navbar-text navbar-right hidden-xs hidden-sm"></p>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="navbar-menu">
-				<ul class="nav navbar-nav">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Global <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<li><a class="smooth-scroll" href="#global-options">Options</a></li>
-							<li><a class="smooth-scroll"  href="#global-ranges">Ranges</a></li>
-							<li><a class="smooth-scroll"  href="#global-methods">Methods</a></li>
-						</ul>
-					</li>
-					<li><a class="smooth-scroll" href="#options">Options</a></li>
-					<li><a class="smooth-scroll" href="#events">Events</a></li>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="http://julienrenaux.fr/"><i class="fa fa-book"></i> Blog</a></li>
+					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="https://www.facebook.com/julienrenauxblog" title="follow me on Facebook"><i class="fa fa-facebook"></i></a></li>
+					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="https://github.com/shprink" title="follow me on GitHub"><i class="fa fa-github"></i></a></li>
+					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="https://twitter.com/julienrenaux" title="follow me on Twitter"><i class="fa fa-twitter"></i></a></li>
+					<li><a data-toggle="tooltip" class="navbar-link" target="_blank" href="https://plus.google.com/+julienrenaux?rel=author" title="follow me on Google Plus"><i class="fa fa-google-plus"></i></a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
-
 		</nav>
 		<div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
 		<script type="text/javascript">
@@ -233,28 +231,27 @@ $('#yourImg').bttrlazyloading({
 				$('#' + animations[i]).after($img);
 				$img.bttrlazyloading({
 					animation: animations[i],
-					delay: 2000,
-					triggerManually: true,
+					delay: 1000,
 					img: {
 						xs: {
-							src: 'img/xs.JPG',
-							width: 538,
-							height: 498
+							src: 'http://placekitten.com/800/300',
+							width: 500,
+							height: 300
 						},
 						sm: {
-							src: 'img/sm.JPG',
-							width: 345,
-							height: 181
+							src: 'http://placekitten.com/380/380',
+							width: 380,
+							height: 380
 						},
 						md: {
-							src: 'img/md.JPG',
-							width: 293,
-							height: 156
+							src: 'http://placekitten.com/350/350',
+							width: 350,
+							height: 350
 						},
 						lg: {
-							src: 'img/lg.JPG',
-							width: 262,
-							height: 168
+							src: 'http://placekitten.com/300/300',
+							width: 300,
+							height: 300
 						}
 					}
 				});

@@ -69,6 +69,9 @@
 			.panel-title{
 				font-size: 24px;
 			}
+                        .img-thumbnail{
+                            padding: 0px;
+                        }
 			#facebook, #twitter, #github, #google-plus, #linkedin{
 				background-repeat: no-repeat;
 				width: 48px;
@@ -136,6 +139,7 @@
 						}
 					},
 					delay: 2000,
+                                        wrapperClasses : 'img-thumbnail',
 					triggermanually: true
 				});
 				hljs.initHighlightingOnLoad();
@@ -192,7 +196,6 @@
 			<br/>
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-lg-6">
-					<div class="img-thumbnail">
 						<img id="img-not-bad" class="bttrlazyloading"
 							 data-bttrlazyloading-xs-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
 							 data-bttrlazyloading-xs-width="698"
@@ -206,7 +209,6 @@
 							 data-bttrlazyloading-lg-src="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-710x428.png"
 							 data-bttrlazyloading-lg-width="545"
 							 data-bttrlazyloading-lg-height="329"/>
-					</div>
 					<script type="text/javascript">
 						$(function() {
 							$('#img-not-bad').bttrlazyloading({
@@ -509,9 +511,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<div class="img-thumbnail">
 									<img id="img-option-delay" class="bttrlazyloading"/>
-								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-delay').bttrlazyloading({
@@ -537,9 +537,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<div class="img-thumbnail">
 									<img id="img-option-threshold" class="bttrlazyloading"/>
-								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-threshold').bttrlazyloading({
@@ -574,9 +572,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-								<div class="img-thumbnail">
 									<img id="img-option-animation" class="bttrlazyloading"/>
-								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-animation').bttrlazyloading({
@@ -603,10 +599,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-
-								<div class="img-thumbnail">
 									<img id="img-option-event" class="bttrlazyloading"/>
-								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-event').bttrlazyloading({
@@ -636,10 +629,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-6 col-sm-6 col-lg-6">
-
-								<div class="img-thumbnail">
 									<img id="img-option-placeholder" class="bttrlazyloading"/>
-								</div>
 								<script type="text/javascript">
 									$(function() {
 										$('#img-option-placeholder').bttrlazyloading({
@@ -700,9 +690,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<div class="img-thumbnail">
 								<img id="img-option-retina" class="bttrlazyloading"/>
-							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-retina').bttrlazyloading({
@@ -739,9 +727,7 @@ retina: true
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<div class="img-thumbnail">
 								<img id="img-option-triggermanually" class="bttrlazyloading"/>
-							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-triggermanually').bttrlazyloading({
@@ -769,9 +755,7 @@ retina: true
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<div class="img-thumbnail">
 								<img id="img-option-updatemanually" class="bttrlazyloading"/>
-							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-updatemanually').bttrlazyloading({
@@ -804,31 +788,24 @@ retina: true
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-
-							<div class="img-thumbnail">
 								<img id="img-option-backgroundcolor-blue" class="img-option-backgroundcolor bttrlazyloading"
 									 data-bttrlazyloading-xs-src="demo/img/blue-720x200.jpg"
 									 data-bttrlazyloading-sm-src="demo/img/blue-360x200.jpg"
 									 data-bttrlazyloading-md-src="demo/img/blue-470x200.jpg"
 									 data-bttrlazyloading-lg-src="demo/img/blue-570x200.jpg"/>
-							</div>
 							<br/>
-							<div class="img-thumbnail">
 								<img id="img-option-backgroundcolor-orange" class="img-option-backgroundcolor bttrlazyloading"
 									 data-bttrlazyloading-xs-src="demo/img/orange-720x200.jpg"
 									 data-bttrlazyloading-sm-src="demo/img/orange-360x200.jpg"
 									 data-bttrlazyloading-md-src="demo/img/orange-470x200.jpg"
 									 data-bttrlazyloading-lg-src="demo/img/orange-570x200.jpg"/>
-							</div>
+							
 							<br/>
-
-							<div class="img-thumbnail">
 								<img id="img-option-backgroundcolor-green" class="img-option-backgroundcolor bttrlazyloading"
 									 data-bttrlazyloading-xs-src="demo/img/green-720x200.jpg"
 									 data-bttrlazyloading-sm-src="demo/img/green-360x200.jpg"
 									 data-bttrlazyloading-md-src="demo/img/green-470x200.jpg"
 									 data-bttrlazyloading-lg-src="demo/img/green-570x200.jpg"/>
-							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-backgroundcolor-blue').bttrlazyloading({
@@ -876,9 +853,7 @@ $('#yourImageId').bttrlazyloading({
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<div class="img-thumbnail">
 								<img id="img-option-onBeforeLoad" class="bttrlazyloading"/>
-							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-onBeforeLoad').bttrlazyloading({
@@ -910,9 +885,7 @@ $('#yourImageId').bttrlazyloading({
 					</div>
 					<div class="panel-body">
 						<div class="col-md-6 col-sm-6 col-lg-6">
-							<div class="img-thumbnail">
 								<img id="img-option-onAfterLoad" class="bttrlazyloading"/>
-							</div>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-onAfterLoad').bttrlazyloading({
@@ -943,22 +916,22 @@ $('#yourImageId').bttrlazyloading({
 						</h3>
 					</div>
 					<div class="panel-body">
-						<div class="col-md-6 col-sm-6 col-lg-6">
-							<img id="img-option-onError" class="bttrlazyloading"
-								 data-bttrlazyloading-xs-src="imageDoesNotExistXs.jpg"
-								 data-bttrlazyloading-sm-src="imageDoesNotExistSm.jpg"
-								 data-bttrlazyloading-md-src="imageDoesNotExistMd.jpg"
-								 data-bttrlazyloading-lg-src="imageDoesNotExistLg.jpg"
-								 />
+						<div class="col-md-6 col-sm-6 col-lg-6" id="img-option-onError-container">
+                                                            <img id="img-option-onError" class="bttrlazyloading"
+                                                                     data-bttrlazyloading-xs-src="imageDoesNotExistXs.jpg"
+                                                                     data-bttrlazyloading-sm-src="imageDoesNotExistSm.jpg"
+                                                                     data-bttrlazyloading-md-src="imageDoesNotExistMd.jpg"
+                                                                     data-bttrlazyloading-lg-src="imageDoesNotExistLg.jpg"
+                                                                     />
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-onError').bind('error', function() {
-										$('#img-option-onError').after('<div class="alert alert-danger">Error: ' + $(this).attr('src') + '</div>');
+										$('#img-option-onError-container').append('<div class="alert alert-danger">Error: ' + $(this).attr('src') + '</div>');
 
 									});
 									$('#img-option-onError').bttrlazyloading({
 										onError: function($img, bttrLazyLoading) {
-											$img.remove();
+                                                                                        bttrLazyLoading.$wrapper.remove();
 										},
 										retina: true
 									});
