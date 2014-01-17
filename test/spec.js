@@ -189,16 +189,7 @@ describe("jQuery Plugin", function() {
 			threshold: 666,
 			placeholder: 'test',
 			triggermanually: true,
-			updatemanually: true,
-			onBeforeLoad: function($img, bttrLazyLoading) {
-				return true;
-			},
-			onAfterLoad: function($img, bttrLazyLoading) {
-				return true;
-			},
-			onError: function($img, bttrLazyLoading) {
-				return true;
-			}
+			updatemanually: true
 		}).data('bttrlazyloading');
 		expect(obj4.ranges.xs).toEqual(767);
 		expect(obj4.ranges.sm).toEqual(768);
@@ -225,9 +216,6 @@ describe("jQuery Plugin", function() {
 		expect(obj4.options.placeholder).toEqual("test");
 		expect(obj4.options.triggermanually).toEqual(true);
 		expect(obj4.options.updatemanually).toEqual(true);
-		expect(obj4.options.onBeforeLoad()).toEqual(true);
-		expect(obj4.options.onAfterLoad()).toEqual(true);
-		expect(obj4.options.onError()).toEqual(true);
 	});
 
 	// GLOBAL TESTS
@@ -263,13 +251,7 @@ describe("jQuery Plugin", function() {
 			threshold: 666,
 			placeholder: 'test',
 			triggermanually: true,
-			updatemanually: true,
-			onBeforeLoad: function($img, bttrLazyLoading) {
-			},
-			onAfterLoad: function($img, bttrLazyLoading) {
-			},
-			onError: function($img, bttrLazyLoading) {
-			}
+			updatemanually: true
 		});
 
 		var obj2 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
@@ -350,17 +332,14 @@ describe("Responsivity", function() {
 });
 
 describe("Event", function() {
-	var onbeforeLoad, onafterLoad, onbeforeLoadFunctionSpy, onafterLoadFunctionSpy;
+	var onbeforeLoad, onafterLoad, onError;
 
 	beforeEach(function(done) {
-		onbeforeLoadFunctionSpy = jasmine.createSpy("beforeLoadFunctionSpy")
-		onafterLoadFunctionSpy = jasmine.createSpy("afterLoadFunctionSpy")
-		$("#imgWithAllExistingSrc").bttrlazyloading({
-			onBeforeLoad: onbeforeLoadFunctionSpy,
-			onAfterLoad: onafterLoadFunctionSpy
-		});
+		$("#imgWithAllExistingSrc").bttrlazyloading();
 		onbeforeLoad = jasmine.createSpy("beforeLoadSpy");
 		onafterLoad = jasmine.createSpy("afterLoadSpy");
+		onError = jasmine.createSpy("errorSpy");
+		$("#imgWithAllExistingSrc").bind('bttrlazyloading.error', onError);
 		$("#imgWithAllExistingSrc").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
 		$("#imgWithAllExistingSrc").bind('bttrlazyloading.afterLoad', onafterLoad);
 		$("#imgWithAllExistingSrc").trigger('bttrlazyloading.load');
@@ -382,22 +361,16 @@ describe("Event", function() {
 		expect(onbeforeLoad).toHaveBeenCalled();
 		done();
 	});
-	it("should trigger onBeforeLoad function", function(done) {
-		expect(onbeforeLoadFunctionSpy).toHaveBeenCalled();
-		done();
-	});
-	it("should trigger onAfterLoad function", function(done) {
-		expect(onafterLoadFunctionSpy).toHaveBeenCalled();
+	it("should trigger bttrlazyloading.error event", function(done) {
+		expect(onError).not.toHaveBeenCalled();
 		done();
 	});
 });
 
-describe("Errors", function() {
+describe("Error", function() {
+	var onError;
 	beforeEach(function(done) {
-		onErrorFunctionSpy = jasmine.createSpy("errorFunctionSpy")
-		$("#imgWithNoExistingSrc").bttrlazyloading({
-			onError: onErrorFunctionSpy
-		});
+		$("#imgWithNoExistingSrc").bttrlazyloading();
 		onError = jasmine.createSpy("errorSpy");
 		$("#imgWithNoExistingSrc").bind('bttrlazyloading.error', onError);
 		$("#imgWithNoExistingSrc").trigger('bttrlazyloading.load');
@@ -413,10 +386,6 @@ describe("Errors", function() {
 	});
 	it("should trigger bttrlazyloading.error event", function(done) {
 		expect(onError).toHaveBeenCalled();
-		done();
-	});
-	it("should trigger onError function", function(done) {
-		expect(onErrorFunctionSpy).toHaveBeenCalled();
 		done();
 	});
 });

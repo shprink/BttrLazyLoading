@@ -28,7 +28,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.loaded = false;
       this.loading = false;
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
-      this.options = $.extend(defaultOptions, options);
+      this.options = $.extend(true, defaultOptions, options);
       this.ranges = $.bttrlazyloading.constructor.ranges;
       this.container = $(this.options.container);
       if (typeof window.devicePixelRatio === 'number') {
@@ -104,10 +104,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           _this.$img.addClass('animated ' + _this.options.animation);
         }
         _this.loaded = _this.$img.attr('src');
-        _this.$img.trigger('bttrlazyloading.afterLoad');
-        if (typeof _this.options.onAfterLoad === 'function') {
-          return _this.options.onAfterLoad(_this.$img, _this);
-        }
+        return _this.$img.trigger('bttrlazyloading.afterLoad');
       };
       this.$img[onOrOff]('load', onLoad);
       onBttrLoad = function(e) {
@@ -130,9 +127,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           }
           return setTimeout(function() {
             _this.$img.trigger('bttrlazyloading.beforeLoad');
-            if (typeof _this.options.onBeforeLoad === 'function') {
-              _this.options.onBeforeLoad(_this.$img, _this);
-            }
             _this.$img.data('bttrlazyloading.range', imgObject.range);
             _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src, imgObject.range));
             return _this.loading = false;
@@ -150,9 +144,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           _this.blackList.push(range);
           _this.whiteList.splice(_this.whiteList.indexOf(range), 1);
           if (_this.whiteList.length === 0) {
-            if (typeof _this.options.onError === 'function') {
-              _this.options.onError(_this.$img, _this);
-            }
             _this.$img.trigger('bttrlazyloading.error');
             return false;
           }
@@ -363,10 +354,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       updatemanually: false,
       wrapperClasses: null,
       backgroundcolor: '#EEE',
-      placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
-      onBeforeLoad: null,
-      onAfterLoad: null,
-      onError: null
+      placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
     };
 
     BttrLazyLoadingGlobal.prototype.setOptions = function(object) {
