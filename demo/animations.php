@@ -1,3 +1,6 @@
+<?php
+define('DEMO', 'animations');
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,8 +12,13 @@
         <script src="../bower_components/jquery/jquery.min.js"></script>
         <script src="../bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
         <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../bower_components/highlight.js/src/styles/solarized_dark.css" />
+        <script src="js/highlight.pack.js"></script>
         <script src="../jquery.bttrlazyloading.min.js"></script>
         <style>
+            body{
+                margin-top: 58px;
+            }
             #back-to-top{
                 font-size: 30px;
                 position: fixed;
@@ -18,57 +26,28 @@
                 right: 20px;
                 cursor: pointer;
             }
-            .panel-heading h3{
-                margin: 0px;
-            }
-
-            .panel-heading .pull-right{
-                margin-top: 4px;
-            }
-            .navbar.affix {
-                position: fixed;
-                top: 0;
-                width: 100%;
-            }
             .alert {
                 font-size: 15px;
                 font-weight: 500;
             }
         </style>
-        <script type="text/javascript">
-            $(function() {
-                $('#back-to-top').click(function(event) {
-                    $.smoothScroll({
-                        scrollTarget: 'body'
-                    });
-                });
-                $('.smooth-scroll').click(function(event) {
-                    event.preventDefault();
-                    var link = this;
-                    $.smoothScroll({
-                        scrollTarget: link.hash,
-                        offset: -60
-                    });
-                });
-            });
-        </script>
     </head>
     <body>
         <div class="container">
-            <br/><br/><br/>
             <div class="jumbotron">
                 <h1>Animations</h1>
                 <p>BttrLazyLoading propose a large choice of CSS animations from <a href="https://daneden.me/animate/" target="_blank">Animate</a>.</p>
             </div>
             <div class="alert alert-info">A one second delay has been added to all images for the demo.</div>
             <h3>Code</h3>
+
             <pre>
 $('#yourImg').bttrlazyloading({
 	transition: 'flipInX' // Select among the {{animationCount}} CSS animations below
         img: {
                 xs: {
                         src: 'http://placekitten.com/800/300',
-                        width: 500,
+                        width: 800,
                         height: 300
                 },
                 sm: {
@@ -89,6 +68,9 @@ $('#yourImg').bttrlazyloading({
         }
 });</pre>
 
+            <div class="page-header">
+                <h2>Demo</h2>
+            </div>
             <div class="row">
                 <div class=" col-sm-6 col-md-4 col-lg-3">
                     <h2 id="flipInX">flipInX</h2>
@@ -169,70 +151,83 @@ $('#yourImg').bttrlazyloading({
                     <h2 id="rollIn">rollIn</h2>
                 </div>
             </div>
+            <div class="page-header">
+                <h2>Mode Demos</h2>
+            </div>
+            <?php include 'more-demo.php'; ?>
         </div>
         <?php include 'menu.php'; ?>
-        <div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
         <script type="text/javascript">
-            var animations = [
-                'flipInX',
-                'flipInY',
-                'fadeIn',
-                'fadeInUp',
-                'fadeInDown',
-                'fadeInLeft',
-                'fadeInRight',
-                'fadeInUpBig',
-                'fadeInDownBig',
-                'fadeInLeftBig',
-                'fadeInRightBig',
-                'slideInDown',
-                'slideInLeft',
-                'slideInRight',
-                'bounceIn',
-                'bounceInDown',
-                'bounceInUp',
-                'bounceInLeft',
-                'bounceInRight',
-                'rotateIn',
-                'rotateInDownLeft',
-                'rotateInDownRight',
-                'rotateInUpLeft',
-                'rotateInUpRight',
-                'lightSpeedIn',
-                'rollIn'
-            ];
-            $('pre').text($('pre').text().replace('{{animationCount}}', animations.length));
-            for (var i = 0; i < animations.length; i++)
-            {
-                var $img = $('<img class="bttrlazyloading">');
-                $('#' + animations[i]).after($img);
-                $img.bttrlazyloading({
-                    animation: animations[i],
-                    delay: 1000,
-                    img: {
-                        xs: {
-                            src: 'img/800x300.jpg',
-                            width: 500,
-                            height: 300
-                        },
-                        sm: {
-                            src: 'img/380x380.jpg',
-                            width: 380,
-                            height: 380
-                        },
-                        md: {
-                            src: 'img/350x350.jpg',
-                            width: 350,
-                            height: 350
-                        },
-                        lg: {
-                            src: 'img/300x300.jpg',
-                            width: 300,
-                            height: 300
-                        }
-                    }
-                });
+$(function($, hljs) {
+    $('#back-to-top').click(function(event) {
+        $.smoothScroll({
+            scrollTarget: 'body'
+        });
+    });
+    hljs.initHighlightingOnLoad();
+
+    /* DEMO */
+    var animations = [
+        'flipInX',
+        'flipInY',
+        'fadeIn',
+        'fadeInUp',
+        'fadeInDown',
+        'fadeInLeft',
+        'fadeInRight',
+        'fadeInUpBig',
+        'fadeInDownBig',
+        'fadeInLeftBig',
+        'fadeInRightBig',
+        'slideInDown',
+        'slideInLeft',
+        'slideInRight',
+        'bounceIn',
+        'bounceInDown',
+        'bounceInUp',
+        'bounceInLeft',
+        'bounceInRight',
+        'rotateIn',
+        'rotateInDownLeft',
+        'rotateInDownRight',
+        'rotateInUpLeft',
+        'rotateInUpRight',
+        'lightSpeedIn',
+        'rollIn'
+    ];
+    $('pre').text($('pre').text().replace('{{animationCount}}', animations.length));
+    for (var i = 0; i < animations.length; i++)
+    {
+        var $img = $('<img class="bttrlazyloading">');
+        $('#' + animations[i]).after($img);
+        $img.bttrlazyloading({
+            animation: animations[i],
+            delay: 1000,
+            img: {
+                xs: {
+                    src: 'img/800x300.jpg',
+                    width: 500,
+                    height: 300
+                },
+                sm: {
+                    src: 'img/380x380.jpg',
+                    width: 380,
+                    height: 380
+                },
+                md: {
+                    src: 'img/350x350.jpg',
+                    width: 350,
+                    height: 350
+                },
+                lg: {
+                    src: 'img/300x300.jpg',
+                    width: 300,
+                    height: 300
+                }
             }
+        });
+    }
+}(jQuery, hljs));
         </script>
     </body>
 </html>

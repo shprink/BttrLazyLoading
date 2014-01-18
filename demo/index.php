@@ -46,24 +46,7 @@
     </head>
     <body>
         <div class="container">
-            <section id="option-retina">
-                <div class="page-header">
-                    <h2><a href="basic.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Basic <small>When you know nothing but the path to your images.</small></h2>
-                </div>
-                <div class="page-header">
-                    <h2><a href="basic-one-image.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Basic one image <small>When you know nothing but the path to only one image.</small></h2>
-                </div>
-                <div class="page-header">
-                    <h2><a href="complete.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Complete <small>When you know the path and the size of all images.</small></h2>
-                </div>
-                <div class="page-header">
-                    <h2><a href="animations.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Animations <small>BttrLazyLoading propose a large choice of CSS animations from <a href="https://daneden.me/animate/" target="_blank">Animate</a>.</small></h2>
-                </div>
-                <div class="page-header">
-                    <h2><a href="default.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Dynamic loading <small>When you create BttrLazyLoading images on the fly.</small></h2>
-                </div>
-            </section>
-
+            <?php include 'more-demo.php'; ?>
         </div>
         <?php include 'menu.php'; ?>
         <div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
