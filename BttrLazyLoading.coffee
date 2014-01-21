@@ -17,7 +17,7 @@ class BttrLazyLoading
 
 		@$container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
-		
+
 		@whiteList = ['lg', 'md', 'sm', 'xs']
 		@blackList = []
 
@@ -44,7 +44,7 @@ class BttrLazyLoading
 	###
 	Private Functions
 	###
-	_updateCanvasSize = () -> 
+	_updateCanvasSize = () ->
 		imgObject = _getImgObject.call @
 		@$clone.attr 'width', imgObject.width
 		@$clone.attr 'height', imgObject.height
@@ -63,7 +63,7 @@ class BttrLazyLoading
 					if typeof v is 'object'
 						$.extend(@options[i[0]], v)
 					else
-						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
+						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
 
 	_setupEvents = (onOrOff) ->
 		onLoad = () =>
@@ -89,7 +89,7 @@ class BttrLazyLoading
 					@$img.hide()
 					@$clone.attr 'width', imgObject.width
 					@$clone.attr 'height', imgObject.height
-					@$clone.show()		
+					@$clone.show()
 
 				setTimeout () =>
 					@$img.trigger 'bttrlazyloading.beforeLoad'
@@ -175,18 +175,18 @@ class BttrLazyLoading
 
 		if @loaded && @options.updatemanually
 			return false
-			
+
 		imgObject = _getImgObject.call @
 		if !imgObject.src or @loaded is _getImageSrc.call @, imgObject.src, imgObject.range
 			return false
 
 		threshold = 0
-		if !@loaded 
+		if !@loaded
 			threshold = @options.threshold
 		return _isWithinViewport.call @, threshold
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
-	_isWithinViewport = (threshold) -> 
+	_isWithinViewport = (threshold) ->
 		isWindow = (@options.container is window)
 		viewport =
 			top : (if isWindow then @$container.scrollTop() else @$container.offset().top) + threshold
@@ -198,7 +198,7 @@ class BttrLazyLoading
 		bounds.right = bounds.left + @$wrapper.outerWidth()
 		bounds.bottom = bounds.top + @$wrapper.outerHeight()
 
-		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom))
 
 	_update = () ->
 		# If the range changed (window resize) we update the canvas size
@@ -248,8 +248,8 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.0-rc.2'	
-	@ranges = 
+	version : '1.0.0-rc.2'
+	@ranges =
 		xs : 767
 		sm : 768
 		md : 992
@@ -293,4 +293,3 @@ class BttrLazyLoadingGlobal
 		this
 
 $.bttrlazyloading = new BttrLazyLoadingGlobal()
-	
