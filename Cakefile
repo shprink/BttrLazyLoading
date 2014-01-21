@@ -32,7 +32,7 @@ tag = (version) ->
 		fs.writeFileSync FILE_VERSION, version
 
 runLinting = ->
-  exec './node_modules/.bin/coffeelint ' + [FILE_COFFEE], (err, stdout, stderr) ->
+  exec './node_modules/.bin/coffeelint -f coffeelint.json ' + [FILE_COFFEE], (err, stdout, stderr) ->
     console.log stderr
     console.log stdout
 
