@@ -38,35 +38,64 @@ define('DEMO', 'animations');
                 <h1>Animations</h1>
                 <p>BttrLazyLoading propose a large choice of CSS animations from <a href="https://daneden.me/animate/" target="_blank">Animate</a>.</p>
             </div>
-            <div class="alert alert-info">A one second delay has been added to all images for the demo.</div>
-            <h3>Code</h3>
-
-            <pre>
-$('#yourImg').bttrlazyloading({
-	transition: 'flipInX' // Select among the {{animationCount}} CSS animations below
-        img: {
-                xs: {
-                        src: 'http://placekitten.com/800/300',
-                        width: 800,
-                        height: 300
-                },
-                sm: {
-                        src: 'http://placekitten.com/380/380',
-                        width: 380,
-                        height: 380
-                },
-                md: {
-                        src: 'http://placekitten.com/350/350',
-                        width: 350,
-                        height: 350
-                },
-                lg: {
-                        src: 'http://placekitten.com/300/300',
-                        width: 300,
-                        height: 300
-                }
-        }
-});</pre>
+			<div class="row">
+                <div class="col-md-6">
+                    <h2>HTML</h2>
+                    <pre><code class="html">&lt;img id=&quot;yourImg&quot; class=&quot;bttrlazyloading&quot;
+    data-bttrlazyloading-xs-src=&quot;img/800x300.jpg&quot;
+    data-bttrlazyloading-xs-width=&quot;800&quot;
+    data-bttrlazyloading-xs-height=&quot;300&quot;
+    data-bttrlazyloading-sm-src=&quot;img/380x380.jpg&quot;
+    data-bttrlazyloading-sm-width=&quot;380&quot;
+    data-bttrlazyloading-sm-height=&quot;380&quot;
+    data-bttrlazyloading-md-src=&quot;img/350x350.jpg&quot;
+    data-bttrlazyloading-md-width=&quot;350&quot;
+    data-bttrlazyloading-md-height=&quot;350&quot;
+    data-bttrlazyloading-lg-src=&quot;img/300x300.jpg&quot;
+    data-bttrlazyloading-lg-width=&quot;300&quot;
+    data-bttrlazyloading-lg-height=&quot;300&quot;
+/&gt;</pre></code>
+                </div>
+                <div class="col-md-6">
+                    <h2>JavaScript</h2>
+                    <pre><code class="javascript">$('#yourImg').bttrlazyloading();</pre></code>
+                </div>
+            </div>
+            <div class="alert alert-info text-center"><b>OR</b></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>HTML</h2>
+                    <pre><code class="html">&lt;img id=&quot;yourImg&quot; class=&quot;bttrlazyloading&quot; /&gt;</pre></code>
+                </div>
+                <div class="col-md-6">
+                    <h2>JavaScript</h2>
+                    <pre><code class="javascript">$('#yourImg').bttrlazyloading({
+transition: 'flipInX' // Select among the CSS animations below
+	img: {
+		xs: {
+			src: 'http://placekitten.com/800/300',
+			width: 800,
+			height: 300
+		},
+		sm: {
+			src: 'http://placekitten.com/380/380',
+			width: 380,
+			height: 380
+		},
+		md: {
+			src: 'http://placekitten.com/350/350',
+			width: 350,
+			height: 350
+		},
+		lg: {
+			src: 'http://placekitten.com/300/300',
+			width: 300,
+			height: 300
+		}
+	}
+});</pre></code>
+                </div>
+            </div>
 
             <div class="page-header">
                 <h2>Demo</h2>
@@ -154,79 +183,78 @@ $('#yourImg').bttrlazyloading({
             <div class="page-header">
                 <h2>Mode Demos</h2>
             </div>
-            <?php include 'more-demo.php'; ?>
+			<?php include 'more-demo.php'; ?>
         </div>
-        <?php include 'menu.php'; ?>
+		<?php include 'menu.php'; ?>
         <script type="text/javascript">
 $(function($, hljs) {
-    $('#back-to-top').click(function(event) {
-        $.smoothScroll({
-            scrollTarget: 'body'
-        });
-    });
-    hljs.initHighlightingOnLoad();
+	$('#back-to-top').click(function(event) {
+		$.smoothScroll({
+			scrollTarget: 'body'
+		});
+	});
+	hljs.initHighlightingOnLoad();
 
-    /* DEMO */
-    var animations = [
-        'flipInX',
-        'flipInY',
-        'fadeIn',
-        'fadeInUp',
-        'fadeInDown',
-        'fadeInLeft',
-        'fadeInRight',
-        'fadeInUpBig',
-        'fadeInDownBig',
-        'fadeInLeftBig',
-        'fadeInRightBig',
-        'slideInDown',
-        'slideInLeft',
-        'slideInRight',
-        'bounceIn',
-        'bounceInDown',
-        'bounceInUp',
-        'bounceInLeft',
-        'bounceInRight',
-        'rotateIn',
-        'rotateInDownLeft',
-        'rotateInDownRight',
-        'rotateInUpLeft',
-        'rotateInUpRight',
-        'lightSpeedIn',
-        'rollIn'
-    ];
-    $('pre').text($('pre').text().replace('{{animationCount}}', animations.length));
-    for (var i = 0; i < animations.length; i++)
-    {
-        var $img = $('<img class="bttrlazyloading">');
-        $('#' + animations[i]).after($img);
-        $img.bttrlazyloading({
-            animation: animations[i],
-            delay: 1000,
-            img: {
-                xs: {
-                    src: 'img/800x300.jpg',
-                    width: 500,
-                    height: 300
-                },
-                sm: {
-                    src: 'img/380x380.jpg',
-                    width: 380,
-                    height: 380
-                },
-                md: {
-                    src: 'img/350x350.jpg',
-                    width: 350,
-                    height: 350
-                },
-                lg: {
-                    src: 'img/300x300.jpg',
-                    width: 300,
-                    height: 300
-                }
-            }
-        });
-    }
+	/* DEMO */
+	var animations = [
+		'flipInX',
+		'flipInY',
+		'fadeIn',
+		'fadeInUp',
+		'fadeInDown',
+		'fadeInLeft',
+		'fadeInRight',
+		'fadeInUpBig',
+		'fadeInDownBig',
+		'fadeInLeftBig',
+		'fadeInRightBig',
+		'slideInDown',
+		'slideInLeft',
+		'slideInRight',
+		'bounceIn',
+		'bounceInDown',
+		'bounceInUp',
+		'bounceInLeft',
+		'bounceInRight',
+		'rotateIn',
+		'rotateInDownLeft',
+		'rotateInDownRight',
+		'rotateInUpLeft',
+		'rotateInUpRight',
+		'lightSpeedIn',
+		'rollIn'
+	];
+	for (var i = 0; i < animations.length; i++)
+	{
+		var $img = $('<img class="bttrlazyloading">');
+		$('#' + animations[i]).after($img);
+		$img.bttrlazyloading({
+			animation: animations[i],
+			delay: 1000,
+			img: {
+				xs: {
+					src: 'img/800x300.jpg',
+					width: 500,
+					height: 300
+				},
+				sm: {
+					src: 'img/380x380.jpg',
+					width: 380,
+					height: 380
+				},
+				md: {
+					src: 'img/350x350.jpg',
+					width: 350,
+					height: 350
+				},
+				lg: {
+					src: 'img/300x300.jpg',
+					width: 300,
+					height: 300
+				}
+			}
+		});
+	}
 }(jQuery, hljs));
         </script>
     </body>
