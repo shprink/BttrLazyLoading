@@ -6,6 +6,9 @@
   "devDependencies": {
     "coffee-script" : "~1.6",
     "uglify-js" : "~2.4",
-    "clean-css" : "1.x"
+    "clean-css" : "1.x",
+    "coffeelint" : "~1.0",
+    "cakepop": "0.1.2",
+    "flour" : "~0.5"
   }
 }
