@@ -1,6 +1,6 @@
 fs				    = require 'fs'
 CoffeeScript 	= require 'coffee-script'
-{exec}			  = require 'child_process'
+{exec}       = require 'child_process'
 
 FILE_COFFEE = 'BttrLazyLoading.coffee'
 FILE_COMPILED_JS = 'jquery.bttrlazyloading.js'
@@ -19,6 +19,9 @@ task 'tag.patch', 'Patch tag incrementation', ->
 task 'build', 'Compile and uglify BttrLazyLoading.coffee', ->
 	compressFiles()
 
+task 'lint', 'Run linting for CoffeeScripts', ->
+  runLinting()
+
 tag = (version) ->
 	# Preparing
 	console.log "Increasing from #{getVersion()} to #{version}..."
@@ -27,6 +30,11 @@ tag = (version) ->
 	run 'git', ['tag', '-a', '-m', "\"Version #{version}\"", version], () ->
 		# Save the new version within the version file if success
 		fs.writeFileSync FILE_VERSION, version
+
+runLinting = ->
+  exec './node_modules/.bin/coffeelint -f coffeelint.json ' + [FILE_COFFEE], (err, stdout, stderr) ->
+    console.log stderr
+    console.log stdout
 
 compressFiles = ->
 	try
@@ -50,7 +58,7 @@ run = (cmd, args, successCallback) ->
 	console.log "command used: #{cmd} #{args.join(' ')}"
 
 	# Execute the command
-	child = spawn cmd, args
+	child = exec cmd, args
 
 	child.on 'exit', (code) ->
 		# Success

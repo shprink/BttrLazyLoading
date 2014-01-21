@@ -17,7 +17,7 @@ class BttrLazyLoading
 
 		@container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
-		
+
 		@whiteList = ['lg', 'md', 'sm', 'xs']
 		@blackList = []
 
@@ -52,7 +52,7 @@ class BttrLazyLoading
 					if $.inArray(i[0], @whiteList) > -1 and typeof v is 'object'
 						$.extend(@options.img[i[0]], v)
 					else
-						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
+						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
 
 	_setupEvents = () ->
 		@$img.on 'load', () =>
@@ -79,7 +79,7 @@ class BttrLazyLoading
 					@$img.removeAttr 'src'
 					@$img.css
 						'width'		: imgObject.width
-						'height'	: imgObject.height		
+						'height'	: imgObject.height
 
 				setTimeout () =>
 					@$img.trigger 'bttrlazyloading.beforeLoad'
@@ -166,18 +166,18 @@ class BttrLazyLoading
 
 		if @loaded && @options.updatemanually
 			return false
-			
+
 		imgObject = _getImgObject.call @
 		if !imgObject.src or @loaded is _getImageSrc.call @, imgObject.src, imgObject.range
 			return false
 
 		threshold = 0
-		if !@loaded 
+		if !@loaded
 			threshold = @options.threshold
 		return _isWithinViewport.call @, threshold
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
-	_isWithinViewport = (threshold) -> 
+	_isWithinViewport = (threshold) ->
 		win = $(window)
 		viewport =
 			top : win.scrollTop() + threshold
@@ -189,7 +189,7 @@ class BttrLazyLoading
 		bounds.right = bounds.left + @$img.outerWidth()
 		bounds.bottom = bounds.top + @$img.outerHeight()
 
-		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom))
 
 	_update = () ->
 		if _isUpdatable.call @
@@ -231,15 +231,15 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.0-rc.1'	
-	@ranges = 
+	version : '1.0.0-rc.1'
+	@ranges =
 		xs : 767
 		sm : 768
 		md : 992
 		lg : 1200
 
 	@options =
-		img: 
+		img:
 			xs :
 				src : null
 				width : 100
@@ -278,8 +278,7 @@ class BttrLazyLoadingGlobal
 		this
 
 	setRanges : (object = {}) ->
-		$.extend true, this.constructor.ranges, object
-		this
+	$.extend true, this.constructor.ranges, object
+	this
 
 $.bttrlazyloading = new BttrLazyLoadingGlobal()
-	
