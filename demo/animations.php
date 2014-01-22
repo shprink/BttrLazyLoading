@@ -234,7 +234,7 @@ $(function($, hljs) {
 			img: {
 				xs: {
 					src: 'img/800x300.jpg',
-					width: 500,
+					width: 800,
 					height: 300
 				},
 				sm: {
