@@ -233,10 +233,10 @@
 			</div>
 			<br/>
 			<div class="well text-center">
-				<a class="btn btn-primary btn-lg" target="_blank" title="Download" href="http://bit.ly/KbLaTc">
-					<i class="fa fa-download"></i> v1.0.0-rc.1 (< 7kB)
+				<a class="btn btn-primary btn-lg" target="_blank" title="Download" href="http://bit.ly/KIEGeD">
+					<i class="fa fa-download"></i> Develop (< 8kB)
 				</a>
-				<a class="btn btn-info btn-lg smooth-scroll" href="/demo" >
+				<a class="btn btn-info btn-lg" href="/demo" >
 					<i class="fa fa-play"></i> Demos
 				</a>
 				<a class="btn btn-default btn-lg" target="_blank" title="Download" href="https://github.com/shprink/BttrLazyLoading">

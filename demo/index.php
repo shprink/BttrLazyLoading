@@ -48,7 +48,7 @@
         <div class="container">
             <?php include 'more-demo.php'; ?>
         </div>
-        <?php include 'menu.php'; ?>
+        <?php include '../menu.php'; ?>
         <div class="label label-primary" id="back-to-top"><i class="fa fa-caret-square-o-up"></i></div>
     </body>
 </html>
