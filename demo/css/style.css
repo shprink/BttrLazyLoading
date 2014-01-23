@@ -1,0 +1,17 @@
+body{
+	margin-top: 58px;
+}
+#back-to-top{
+	font-size: 30px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	cursor: pointer;
+}
+.alert {
+	font-size: 15px;
+	font-weight: 500;
+}
+#loading-area > div{
+	margin-bottom: 15px;
+}

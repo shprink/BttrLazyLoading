@@ -37,7 +37,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.whiteList = ['lg', 'md', 'sm', 'xs'];
       this.blackList = [];
       _setOptionsFromData.call(this);
-      this.$wrapper = $('<div class="bttrlazyloading-wrapper">');
+      this.$wrapper = $('<span class="bttrlazyloading-wrapper">');
       if (this.options.wrapperClasses && typeof this.options.wrapperClasses === 'string') {
         this.$wrapper.addClass(this.options.wrapperClasses);
       }
@@ -77,12 +77,12 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           }
           i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
           if (i.length > 1) {
-            if (typeof _this.options.img[i[0]][i[1]] !== 'undefined') {
-              return _this.options.img[i[0]][i[1]] = v;
+            if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
+              return _this.options[i[0]][i[1]] = v;
             }
           } else {
-            if ($.inArray(i[0], _this.whiteList) > -1 && typeof v === 'object') {
-              return $.extend(_this.options.img[i[0]], v);
+            if (typeof v === 'object') {
+              return $.extend(_this.options[i[0]], v);
             } else {
               if (typeof _this.options[i[0]] !== 'undefined') {
                 return _this.options[i[0]] = v;
@@ -155,6 +155,9 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
         return _update.call(_this);
       };
       this.container[onOrOff](this.options.event, update);
+      if (this.options.container !== window) {
+        $(window)[onOrOff](this.options.event, update);
+      }
       return $(window)[onOrOff]("resize", update);
     };
 
@@ -188,8 +191,8 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     _getImgObjectPerRange = function(range) {
-      if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
-        return this.options.img[range];
+      if (typeof this.options[range].src !== 'undefined' && this.options[range].src !== null) {
+        return this.options[range];
       }
       return null;
     };
@@ -254,7 +257,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       if (this.range !== _getRangeFromScreenSize.call(this)) {
         _updateCanvasSize.call(this);
       }
-      console.log(_isUpdatable.call(this, '_isUpdatable.call @'));
       if (_isUpdatable.call(this)) {
         return this.$img.trigger('bttrlazyloading.load');
       }
@@ -322,27 +324,25 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     BttrLazyLoadingGlobal.options = {
-      img: {
-        xs: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        sm: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        md: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        lg: {
-          src: null,
-          width: 100,
-          height: 100
-        }
+      xs: {
+        src: null,
+        width: 100,
+        height: 100
+      },
+      sm: {
+        src: null,
+        width: 100,
+        height: 100
+      },
+      md: {
+        src: null,
+        width: 100,
+        height: 100
+      },
+      lg: {
+        src: null,
+        width: 100,
+        height: 100
       },
       retina: false,
       animation: 'bounceIn',

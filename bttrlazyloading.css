@@ -12,6 +12,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 .bttrlazyloading-wrapper {
     background-repeat: no-repeat;
     background-position: center;
+	display: table;
 }
 .bttrlazyloading-clone,
 .bttrlazyloading {

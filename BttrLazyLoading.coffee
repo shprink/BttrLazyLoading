@@ -23,7 +23,7 @@ class BttrLazyLoading
 
 		_setOptionsFromData.call @
 
-		@$wrapper = $ '<div class="bttrlazyloading-wrapper">'
+		@$wrapper = $ '<span class="bttrlazyloading-wrapper">'
 		@$wrapper.addClass @options.wrapperClasses if @options.wrapperClasses and typeof @options.wrapperClasses is 'string'
 		@$img.before @$wrapper
 		# The easier way to simulate a responsive image is to use canvas
@@ -58,10 +58,10 @@ class BttrLazyLoading
 					false
 				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
 				if i.length > 1
-					@options.img[i[0]][i[1]] = v if typeof @options.img[i[0]][i[1]] isnt 'undefined'
+					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
 				else
-					if $.inArray(i[0], @whiteList) > -1 and typeof v is 'object'
-						$.extend(@options.img[i[0]], v)
+					if typeof v is 'object'
+						$.extend(@options[i[0]], v)
 					else
 						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
 
@@ -119,6 +119,8 @@ class BttrLazyLoading
 			_update.call @
 
 		@container[onOrOff]  @options.event, update
+		# making sure we laod image within a container not in the viewport
+		$(window)[onOrOff]  @options.event, update if @options.container isnt window
 		$(window)[onOrOff] "resize", update
 
 	_getRangeFromScreenSize = () ->
@@ -145,8 +147,8 @@ class BttrLazyLoading
 			src
 
 	_getImgObjectPerRange = (range)->
-		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
-			return @options.img[range]
+		if typeof @options[range].src isnt 'undefined' and @options[range].src isnt null
+			return @options[range]
 		return null
 
 	_getLargestImgObject =  () ->
@@ -204,7 +206,6 @@ class BttrLazyLoading
 		# If the range changed (window resize) we update the canvas size
 		if @range isnt _getRangeFromScreenSize.call @
 			_updateCanvasSize.call @
-		console.log _isUpdatable.call @, '_isUpdatable.call @'
 		if _isUpdatable.call @
 			@$img.trigger 'bttrlazyloading.load'
 
@@ -251,23 +252,22 @@ class BttrLazyLoadingGlobal
 		lg : 1200
 
 	@options =
-		img: 
-			xs :
-				src : null
-				width : 100
-				height : 100
-			sm :
-				src : null
-				width : 100
-				height : 100
-			md :
-				src : null
-				width : 100
-				height : 100
-			lg :
-				src : null
-				width : 100
-				height : 100
+		xs :
+			src : null
+			width : 100
+			height : 100
+		sm :
+			src : null
+			width : 100
+			height : 100
+		md :
+			src : null
+			width : 100
+			height : 100
+		lg :
+			src : null
+			width : 100
+			height : 100
 		retina : false
 		animation: 'bounceIn'
 		delay: 0

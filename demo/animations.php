@@ -9,28 +9,13 @@ define('DEMO', 'animations');
         <link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script src="../bower_components/jquery/jquery.min.js"></script>
         <script src="../bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
         <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../bower_components/highlight.js/src/styles/solarized_dark.css" />
         <script src="js/highlight.pack.js"></script>
         <script src="../jquery.bttrlazyloading.min.js"></script>
-        <style>
-            body{
-                margin-top: 58px;
-            }
-            #back-to-top{
-                font-size: 30px;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                cursor: pointer;
-            }
-            .alert {
-                font-size: 15px;
-                font-weight: 500;
-            }
-        </style>
     </head>
     <body>
         <div class="container">
@@ -42,6 +27,7 @@ define('DEMO', 'animations');
                 <div class="col-md-6">
                     <h2>HTML</h2>
                     <pre><code class="html">&lt;img id=&quot;yourImg&quot; class=&quot;bttrlazyloading&quot;
+    data-bttrlazyloading-xs-transition=&quot;flipInX&quot;
     data-bttrlazyloading-xs-src=&quot;img/800x300.jpg&quot;
     data-bttrlazyloading-xs-width=&quot;800&quot;
     data-bttrlazyloading-xs-height=&quot;300&quot;
@@ -70,28 +56,26 @@ define('DEMO', 'animations');
                 <div class="col-md-6">
                     <h2>JavaScript</h2>
                     <pre><code class="javascript">$('#yourImg').bttrlazyloading({
-transition: 'flipInX' // Select among the CSS animations below
-	img: {
-		xs: {
-			src: 'http://placekitten.com/800/300',
-			width: 800,
-			height: 300
-		},
-		sm: {
-			src: 'http://placekitten.com/380/380',
-			width: 380,
-			height: 380
-		},
-		md: {
-			src: 'http://placekitten.com/350/350',
-			width: 350,
-			height: 350
-		},
-		lg: {
-			src: 'http://placekitten.com/300/300',
-			width: 300,
-			height: 300
-		}
+	transition: 'flipInX' // Select among the CSS animations below
+	xs: {
+		src: 'http://placekitten.com/800/300',
+		width: 800,
+		height: 300
+	},
+	sm: {
+		src: 'http://placekitten.com/380/380',
+		width: 380,
+		height: 380
+	},
+	md: {
+		src: 'http://placekitten.com/350/350',
+		width: 350,
+		height: 350
+	},
+	lg: {
+		src: 'http://placekitten.com/300/300',
+		width: 300,
+		height: 300
 	}
 });</pre></code>
                 </div>
@@ -185,7 +169,7 @@ transition: 'flipInX' // Select among the CSS animations below
             </div>
 			<?php include 'more-demo.php'; ?>
         </div>
-		<?php include 'menu.php'; ?>
+		<?php include '../menu.php'; ?>
         <script type="text/javascript">
 $(function($, hljs) {
 	$('#back-to-top').click(function(event) {
@@ -231,27 +215,25 @@ $(function($, hljs) {
 		$img.bttrlazyloading({
 			animation: animations[i],
 			delay: 1000,
-			img: {
-				xs: {
-					src: 'img/800x300.jpg',
-					width: 800,
-					height: 300
-				},
-				sm: {
-					src: 'img/380x380.jpg',
-					width: 380,
-					height: 380
-				},
-				md: {
-					src: 'img/350x350.jpg',
-					width: 350,
-					height: 350
-				},
-				lg: {
-					src: 'img/300x300.jpg',
-					width: 300,
-					height: 300
-				}
+			xs: {
+				src: 'img/800x300.jpg',
+				width: 800,
+				height: 300
+			},
+			sm: {
+				src: 'img/380x380.jpg',
+				width: 380,
+				height: 380
+			},
+			md: {
+				src: 'img/350x350.jpg',
+				width: 350,
+				height: 350
+			},
+			lg: {
+				src: 'img/300x300.jpg',
+				width: 300,
+				height: 300
 			}
 		});
 	}

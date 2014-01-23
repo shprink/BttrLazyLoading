@@ -108,18 +108,18 @@ describe("HTML5 data attribute", function() {
 	// LOCAL TESTS
 	it("set the right options from element", function() {
 		var obj = $("#imgWithAllDataAttribute").bttrlazyloading().data('bttrlazyloading');
-		expect(obj.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj.options.img.xs.width).toEqual(testFixture.xs.width);
-		expect(obj.options.img.sm.width).toEqual(testFixture.sm.width);
-		expect(obj.options.img.md.width).toEqual(testFixture.md.width);
-		expect(obj.options.img.lg.width).toEqual(testFixture.lg.width);
-		expect(obj.options.img.xs.height).toEqual(testFixture.xs.height);
-		expect(obj.options.img.sm.height).toEqual(testFixture.sm.height);
-		expect(obj.options.img.md.height).toEqual(testFixture.md.height);
-		expect(obj.options.img.lg.height).toEqual(testFixture.lg.height);
+		expect(obj.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj.options.md.src).toEqual(testFixture.md.src);
+		expect(obj.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj.options.xs.width).toEqual(testFixture.xs.width);
+		expect(obj.options.sm.width).toEqual(testFixture.sm.width);
+		expect(obj.options.md.width).toEqual(testFixture.md.width);
+		expect(obj.options.lg.width).toEqual(testFixture.lg.width);
+		expect(obj.options.xs.height).toEqual(testFixture.xs.height);
+		expect(obj.options.sm.height).toEqual(testFixture.sm.height);
+		expect(obj.options.md.height).toEqual(testFixture.md.height);
+		expect(obj.options.lg.height).toEqual(testFixture.lg.height);
 		expect(obj.options.retina).toEqual(testFixture.retina);
 		expect(obj.options.animation).toEqual(testFixture.animation);
 		expect(obj.options.delay).toEqual(testFixture.delay);
@@ -134,18 +134,18 @@ describe("HTML5 data attribute", function() {
 
 	it("set the right img parameter from data element object", function() {
 		var obj = $("#imgWithDataAttributeAsObject").bttrlazyloading().data('bttrlazyloading');
-		expect(obj.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj.options.img.xs.width).toEqual(testFixture.xs.width);
-		expect(obj.options.img.sm.width).toEqual(testFixture.sm.width);
-		expect(obj.options.img.md.width).toEqual(testFixture.md.width);
-		expect(obj.options.img.lg.width).toEqual(testFixture.lg.width);
-		expect(obj.options.img.xs.height).toEqual(testFixture.xs.height);
-		expect(obj.options.img.sm.height).toEqual(testFixture.sm.height);
-		expect(obj.options.img.md.height).toEqual(testFixture.md.height);
-		expect(obj.options.img.lg.height).toEqual(testFixture.lg.height);
+		expect(obj.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj.options.md.src).toEqual(testFixture.md.src);
+		expect(obj.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj.options.xs.width).toEqual(testFixture.xs.width);
+		expect(obj.options.sm.width).toEqual(testFixture.sm.width);
+		expect(obj.options.md.width).toEqual(testFixture.md.width);
+		expect(obj.options.lg.width).toEqual(testFixture.lg.width);
+		expect(obj.options.xs.height).toEqual(testFixture.xs.height);
+		expect(obj.options.sm.height).toEqual(testFixture.sm.height);
+		expect(obj.options.md.height).toEqual(testFixture.md.height);
+		expect(obj.options.lg.height).toEqual(testFixture.lg.height);
 		obj.destroy();
 	});
 });
@@ -159,27 +159,25 @@ describe("jQuery Plugin", function() {
 	});
 	it("set the right options from instantiation", function() {
 		var obj4 = $("#imgWithNoDataAttribute").bttrlazyloading({
-			img: {
-				xs: {
-					src: testFixture.xs.src,
-					width: 111,
-					height: 222
-				},
-				sm: {
-					src: testFixture.sm.src,
-					width: 333,
-					height: 444
-				},
-				md: {
-					src: testFixture.md.src,
-					width: 555,
-					height: 666
-				},
-				lg: {
-					src: testFixture.lg.src,
-					width: 777,
-					height: 888
-				}
+			xs: {
+				src: testFixture.xs.src,
+				width: 111,
+				height: 222
+			},
+			sm: {
+				src: testFixture.sm.src,
+				width: 333,
+				height: 444
+			},
+			md: {
+				src: testFixture.md.src,
+				width: 555,
+				height: 666
+			},
+			lg: {
+				src: testFixture.lg.src,
+				width: 777,
+				height: 888
 			},
 			retina: true,
 			animation: 'fadeInUp',
@@ -195,18 +193,18 @@ describe("jQuery Plugin", function() {
 		expect(obj4.ranges.sm).toEqual(768);
 		expect(obj4.ranges.md).toEqual(992);
 		expect(obj4.ranges.lg).toEqual(1200);
-		expect(obj4.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj4.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj4.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj4.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj4.options.img.xs.width).toEqual(111);
-		expect(obj4.options.img.sm.width).toEqual(333);
-		expect(obj4.options.img.md.width).toEqual(555);
-		expect(obj4.options.img.lg.width).toEqual(777);
-		expect(obj4.options.img.xs.height).toEqual(222);
-		expect(obj4.options.img.sm.height).toEqual(444);
-		expect(obj4.options.img.md.height).toEqual(666);
-		expect(obj4.options.img.lg.height).toEqual(888);
+		expect(obj4.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj4.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj4.options.md.src).toEqual(testFixture.md.src);
+		expect(obj4.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj4.options.xs.width).toEqual(111);
+		expect(obj4.options.sm.width).toEqual(333);
+		expect(obj4.options.md.width).toEqual(555);
+		expect(obj4.options.lg.width).toEqual(777);
+		expect(obj4.options.xs.height).toEqual(222);
+		expect(obj4.options.sm.height).toEqual(444);
+		expect(obj4.options.md.height).toEqual(666);
+		expect(obj4.options.lg.height).toEqual(888);
 		expect(obj4.options.retina).toEqual(true);
 		expect(obj4.options.animation).toEqual('fadeInUp');
 		expect(obj4.options.delay).toEqual(1000);
@@ -221,27 +219,25 @@ describe("jQuery Plugin", function() {
 	// GLOBAL TESTS
 	it("set the default global options", function() {
 		$.bttrlazyloading.setOptions({
-			img: {
-				xs: {
-					src: testFixture.xs.src,
-					width: 111,
-					height: 222
-				},
-				sm: {
-					src: testFixture.sm.src,
-					width: 333,
-					height: 444
-				},
-				md: {
-					src: testFixture.md.src,
-					width: 555,
-					height: 666
-				},
-				lg: {
-					src: testFixture.lg.src,
-					width: 777,
-					height: 888
-				}
+			xs: {
+				src: testFixture.xs.src,
+				width: 111,
+				height: 222
+			},
+			sm: {
+				src: testFixture.sm.src,
+				width: 333,
+				height: 444
+			},
+			md: {
+				src: testFixture.md.src,
+				width: 555,
+				height: 666
+			},
+			lg: {
+				src: testFixture.lg.src,
+				width: 777,
+				height: 888
 			},
 			retina: true,
 			animation: 'fadeInUp',
@@ -259,18 +255,18 @@ describe("jQuery Plugin", function() {
 		expect(obj2.ranges.sm).toEqual(768);
 		expect(obj2.ranges.md).toEqual(992);
 		expect(obj2.ranges.lg).toEqual(1200);
-		expect(obj2.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj2.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj2.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj2.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj2.options.img.xs.width).toEqual(111);
-		expect(obj2.options.img.sm.width).toEqual(333);
-		expect(obj2.options.img.md.width).toEqual(555);
-		expect(obj2.options.img.lg.width).toEqual(777);
-		expect(obj2.options.img.xs.height).toEqual(222);
-		expect(obj2.options.img.sm.height).toEqual(444);
-		expect(obj2.options.img.md.height).toEqual(666);
-		expect(obj2.options.img.lg.height).toEqual(888);
+		expect(obj2.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj2.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj2.options.md.src).toEqual(testFixture.md.src);
+		expect(obj2.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj2.options.xs.width).toEqual(111);
+		expect(obj2.options.sm.width).toEqual(333);
+		expect(obj2.options.md.width).toEqual(555);
+		expect(obj2.options.lg.width).toEqual(777);
+		expect(obj2.options.xs.height).toEqual(222);
+		expect(obj2.options.sm.height).toEqual(444);
+		expect(obj2.options.md.height).toEqual(666);
+		expect(obj2.options.lg.height).toEqual(888);
 		expect(obj2.options.retina).toEqual(true);
 		expect(obj2.options.animation).toEqual('fadeInUp');
 		expect(obj2.options.delay).toEqual(100);
@@ -389,3 +385,16 @@ describe("Error", function() {
 		done();
 	});
 });
+
+//describe("Method", function() {
+//	var onbeforeLoad, onafterLoad, onError;
+//	it("Destroy should unbind events", function() {
+//		$("#imgWithAllExistingSrc").bttrlazyloading();
+//		onbeforeLoad = jasmine.createSpy("beforeLoadSpy");
+//		onafterLoad = jasmine.createSpy("afterLoadSpy");
+//		onError = jasmine.createSpy("errorSpy");
+//		$("#imgWithAllExistingSrc").bind('bttrlazyloading.error', onError);
+//		$("#imgWithAllExistingSrc").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
+//		$("#imgWithAllExistingSrc").bind('bttrlazyloading.afterLoad', onafterLoad);
+//	});
+//});
