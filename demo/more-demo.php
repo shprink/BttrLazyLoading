@@ -11,7 +11,7 @@
     <?php endif; ?>
     <?php if (DEMO !== 'different-sizes'): ?>
     <div class="page-header">
-        <h2><a href="different-sizes.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Different size <small>BttrLazyLoading works even better when image sizes are defined. See for yourself!</small></h2>
+        <h2><a href="different-sizes.php" class="btn btn-md btn-primary"><i class="fa fa-play"></i></a> Different sizes <small>BttrLazyLoading works even better when image sizes are defined. See for yourself!</small></h2>
     </div>
     <?php endif; ?>
     <?php if (DEMO !== 'animations'): ?>

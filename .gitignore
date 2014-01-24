@@ -4,3 +4,4 @@
 .project
 .settings
 /node_modules
+/demo/js/analytics.js

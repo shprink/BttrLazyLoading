@@ -6,6 +6,7 @@ define('DEMO', 'animations');
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
@@ -239,5 +240,6 @@ $(function($, hljs) {
 	}
 }(jQuery, hljs));
         </script>
+		<script src="js/analytics.js"></script>
     </body>
 </html>

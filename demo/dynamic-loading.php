@@ -6,6 +6,7 @@ define('DEMO', 'dynamic-loading');
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
@@ -27,7 +28,7 @@ define('DEMO', 'dynamic-loading');
         <div class="container">
             <div class="jumbotron">
                 <h1>Dynamic loading</h1>
-                <p>BttrLazyLoading works even better when image sizes are defined. See for yourself!</p>
+                <p>When you create BttrLazyLoading images on the fly.</p>
             </div>
 			<h2>JavaScript</h2>
 			<pre><code class="javascript">var load = function() {
@@ -127,5 +128,6 @@ load();</pre></code>
 			load();
 		}(jQuery, hljs));
 	</script>
+	<script src="js/analytics.js"></script>
 </body>
 </html>
