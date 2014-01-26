@@ -152,10 +152,8 @@ describe("HTML5 data attribute", function() {
 
 describe("jQuery Plugin", function() {
 	afterEach(function() {
-		if ($("#imgWithNoDataAttribute").data('bttrlazyloading')) {
-			$("#imgWithNoDataAttribute").data('bttrlazyloading').destroy();
-			$("#imgWithNoDataAttribute").attr('src', '');
-		}
+		$("#imgWithNoDataAttribute").bttrlazyloading('destroy');
+		$("#imgWithNoDataAttribute").attr('src', '');
 	});
 	it("set the right options from instantiation", function() {
 		var obj4 = $("#imgWithNoDataAttribute").bttrlazyloading({
@@ -344,10 +342,8 @@ describe("Event", function() {
 		}, 500);
 	});
 	afterEach(function() {
-		if ($("#imgWithAllExistingSrc").data('bttrlazyloading')) {
-			$("#imgWithAllExistingSrc").data('bttrlazyloading').destroy();
-			$("#imgWithAllExistingSrc").attr('src', '');
-		}
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		$("#imgWithAllExistingSrc").attr('src', '');
 	});
 	it("should trigger bttrlazyloading.afterLoad event", function(done) {
 		expect(onafterLoad).toHaveBeenCalled();
@@ -357,7 +353,7 @@ describe("Event", function() {
 		expect(onbeforeLoad).toHaveBeenCalled();
 		done();
 	});
-	it("should trigger bttrlazyloading.error event", function(done) {
+	it("should not trigger bttrlazyloading.error event", function(done) {
 		expect(onError).not.toHaveBeenCalled();
 		done();
 	});
@@ -375,10 +371,8 @@ describe("Error", function() {
 		}, 500);
 	});
 	afterEach(function() {
-		if ($("#imgWithNoExistingSrc").data('bttrlazyloading')) {
-			$("#imgWithNoExistingSrc").data('bttrlazyloading').destroy();
-			$("#imgWithNoExistingSrc").attr('src', '');
-		}
+		$("#imgWithNoExistingSrc").bttrlazyloading('destroy');
+		$("#imgWithNoExistingSrc").attr('src', '');
 	});
 	it("should trigger bttrlazyloading.error event", function(done) {
 		expect(onError).toHaveBeenCalled();
@@ -386,15 +380,42 @@ describe("Error", function() {
 	});
 });
 
-//describe("Method", function() {
-//	var onbeforeLoad, onafterLoad, onError;
-//	it("Destroy should unbind events", function() {
-//		$("#imgWithAllExistingSrc").bttrlazyloading();
-//		onbeforeLoad = jasmine.createSpy("beforeLoadSpy");
-//		onafterLoad = jasmine.createSpy("afterLoadSpy");
-//		onError = jasmine.createSpy("errorSpy");
-//		$("#imgWithAllExistingSrc").bind('bttrlazyloading.error', onError);
-//		$("#imgWithAllExistingSrc").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
-//		$("#imgWithAllExistingSrc").bind('bttrlazyloading.afterLoad', onafterLoad);
-//	});
-//});
+describe("Method", function() {
+
+	beforeEach(function(done) {
+		$("#imgWithAllExistingSrc").bttrlazyloading();
+		$("#imgWithAllExistingSrc").trigger('bttrlazyloading.load');
+
+		setTimeout(function() {
+			done();
+		}, 100);
+	});
+	afterEach(function() {
+		$("#imgWithNoExistingSrc").bttrlazyloading('destroy');
+		$("#imgWithNoExistingSrc").attr('src', '');
+	});
+
+	it("Destroy should remove Wrapper", function(done) {
+		var instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		var $wrapper = instance.get$Wrapper();
+		expect($wrapper.is(":visible")).toEqual(true);
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		expect($wrapper.is(":visible")).toEqual(false);
+		done();
+	});
+	it("Destroy should remove Clone", function(done) {
+		var instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		var $clone = instance.get$Clone();
+		expect($clone.length).toEqual(1);
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		expect($clone.is(":visible")).toEqual(false);
+		done();
+	});
+	it("Destroy should delete instance", function(done) {
+		var instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		expect(instance).toEqual(undefined);
+		done();
+	});
+});

@@ -15,7 +15,7 @@ class BttrLazyLoading
 		@options	= $.extend true, defaultOptions, options
 		@ranges		= $.bttrlazyloading.constructor.ranges
 
-		@container = $(@options.container)
+		@$container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
 		
 		@whiteList = ['lg', 'md', 'sm', 'xs']
@@ -118,7 +118,7 @@ class BttrLazyLoading
 		update = (e)=>
 			_update.call @
 
-		@container[onOrOff]  @options.event, update
+		@$container[onOrOff]  @options.event, update
 		# making sure we laod image within a container not in the viewport
 		$(window)[onOrOff]  @options.event, update if @options.container isnt window
 		$(window)[onOrOff] "resize", update
@@ -169,7 +169,8 @@ class BttrLazyLoading
 		return ''
 
 	_isUpdatable = () ->
-#		if @$img.is ':hidden'
+#		console.log(@$wrapper.is ':hidden', "@$wrapper.is ':hidden'")
+#		if @$wrapper.is ':hidden'
 #			return false
 
 		if !@loaded && @options.triggermanually
@@ -185,16 +186,17 @@ class BttrLazyLoading
 		threshold = 0
 		if !@loaded 
 			threshold = @options.threshold
+		console.log(_isWithinViewport.call @, threshold, "_isWithinViewport.call @, threshold")
 		return _isWithinViewport.call @, threshold
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
 	_isWithinViewport = (threshold) -> 
-		win = $(window)
+		isWindow = (@options.container is window)
 		viewport =
-			top : win.scrollTop() + threshold
-			left : win.scrollLeft()
-		viewport.right = viewport.left + win.width()
-		viewport.bottom = viewport.top + win.height()
+			top : (if isWindow then @$container.scrollTop() else @$container.offset().top) + threshold
+			left : (if isWindow then @$container.scrollLeft() else @$container.offset().left)
+		viewport.right = viewport.left + @$container.width()
+		viewport.bottom = viewport.top + @$container.height()
 
 		bounds = @$wrapper.offset()
 		bounds.right = bounds.left + @$wrapper.outerWidth()
@@ -235,16 +237,22 @@ $.fn.extend
 	bttrlazyloading: (options) ->
 		return this.each () ->
 			$this = $(this)
+			data = $this.data('bttrlazyloading')
 			# Already instanciated?
-			if typeof $this.data('bttrlazyloading') is 'undefined'
-				instance = new BttrLazyLoading this, options
-				$this.data 'bttrlazyloading', instance
+			if typeof data is 'undefined'
+				data = new BttrLazyLoading this, options
+				$this.data 'bttrlazyloading', data
+
+			# Ability to call public methods directly
+			# using .bttrlazyloading('methodName')
+			if typeof options is 'string' and typeof data[options] isnt	'undefined'
+				data[options].call data
 
 $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.0-rc.1'	
+	version : '1.0.0-rc.2'	
 	@ranges = 
 		xs : 767
 		sm : 768

@@ -30,7 +30,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
       this.options = $.extend(true, defaultOptions, options);
       this.ranges = $.bttrlazyloading.constructor.ranges;
-      this.container = $(this.options.container);
+      this.$container = $(this.options.container);
       if (typeof window.devicePixelRatio === 'number') {
         this.constructor.dpr = window.devicePixelRatio;
       }
@@ -154,7 +154,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       update = function(e) {
         return _update.call(_this);
       };
-      this.container[onOrOff](this.options.event, update);
+      this.$container[onOrOff](this.options.event, update);
       if (this.options.container !== window) {
         $(window)[onOrOff](this.options.event, update);
       }
@@ -235,18 +235,19 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       if (!this.loaded) {
         threshold = this.options.threshold;
       }
+      console.log(_isWithinViewport.call(this, threshold, "_isWithinViewport.call @, threshold"));
       return _isWithinViewport.call(this, threshold);
     };
 
     _isWithinViewport = function(threshold) {
-      var bounds, viewport, win;
-      win = $(window);
+      var bounds, isWindow, viewport;
+      isWindow = this.options.container === window;
       viewport = {
-        top: win.scrollTop() + threshold,
-        left: win.scrollLeft()
+        top: (isWindow ? this.$container.scrollTop() : this.$container.offset().top) + threshold,
+        left: (isWindow ? this.$container.scrollLeft() : this.$container.offset().left)
       };
-      viewport.right = viewport.left + win.width();
-      viewport.bottom = viewport.top + win.height();
+      viewport.right = viewport.left + this.$container.width();
+      viewport.bottom = viewport.top + this.$container.height();
       bounds = this.$wrapper.offset();
       bounds.right = bounds.left + this.$wrapper.outerWidth();
       bounds.bottom = bounds.top + this.$wrapper.outerHeight();
@@ -299,11 +300,15 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   $.fn.extend({
     bttrlazyloading: function(options) {
       return this.each(function() {
-        var $this, instance;
+        var $this, data;
         $this = $(this);
-        if (typeof $this.data('bttrlazyloading') === 'undefined') {
-          instance = new BttrLazyLoading(this, options);
-          return $this.data('bttrlazyloading', instance);
+        data = $this.data('bttrlazyloading');
+        if (typeof data === 'undefined') {
+          data = new BttrLazyLoading(this, options);
+          $this.data('bttrlazyloading', data);
+        }
+        if (typeof options === 'string' && typeof data[options] !== 'undefined') {
+          return data[options].call(data);
         }
       });
     }
@@ -314,7 +319,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '1.0.0-rc.1';
+    BttrLazyLoadingGlobal.prototype.version = '1.0.0-rc.2';
 
     BttrLazyLoadingGlobal.ranges = {
       xs: 767,
