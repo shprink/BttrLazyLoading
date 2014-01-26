@@ -62,6 +62,7 @@ define('DEMO', 'one-image');
             <div class="page-header">
                 <h2>Demo</h2>
             </div>
+			<div class="alert alert-warning">You may notice that the image placeholder (grey background that wait for the images to load) does not have the size of the image loaded. This is perfectly normal, indeed this demo does not define image 'width' and 'height' that are necessary for an optimized user experience (the plugin cannot know the dimensions of your images before they load). Check out the <a href="different-sizes.php">Different sizes</a> demo to see the difference.</div>
             <div class="row" id="loading-area"></div>
             <div class="page-header">
                 <h2>Mode Demos</h2>
