@@ -233,8 +233,8 @@
 			</div>
 			<br/>
 			<div class="well text-center">
-				<a class="btn btn-primary btn-lg" target="_blank" title="Download" href="http://bit.ly/KIEGeD">
-					<i class="fa fa-download"></i> Develop (< 8kB)
+				<a class="btn btn-primary btn-lg" target="_blank" title="Download" href="http://bit.ly/M116sq">
+					<i class="fa fa-download"></i> v1.0.0 RC2 (< 8kB)
 				</a>
 				<a class="btn btn-info btn-lg" href="/demo" >
 					<i class="fa fa-play"></i> Demos
