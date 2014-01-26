@@ -19,7 +19,6 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 
 ### Options
 
-* img: the images object (see example below)
 * delay: Adds delay to the image loading time.
 * threshold: By default images are loaded when they appear on the screen. If you want images to load earlier use threshold parameter. Setting threshold to 200 causes image to load 200 pixels before it appears on viewport.
 * animation: Adds an animation when the image loads. Animations available: ['flipInX', 'flipInY', 'fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUpBig', 'fadeInDownBig', 'fadeInLeftBig', 'fadeInRightBig', 'slideInDown', 'slideInLeft', 'slideInRight', 'bounceIn', 'bounceInDown', 'bounceInUp', 'bounceInLeft', 'bounceInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'lightSpeedIn', 'rollIn']
@@ -30,6 +29,10 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 * triggermanually: Whether or not to trigger the first image load manually.
 * updatemanually: Whether or not to trigger the image update (needed when the window resizes for example) manually.
 * backgroundcolor: The background color of your images that are not loaded yet.
+* xs: Image Object for Mobile
+* sm: Image Object for Tablet
+* md: Image Object for Desktop
+* lg: Image Object for Large Desktop
 
 ### Events
 
@@ -101,27 +104,25 @@ Only one image size needed! BttrLazyLoading always try to load the biggest versi
 
 ```
 $("#yourImageId").bttrlazyloading({
-	img: {
-		xs: {
-			src: "img/720x200.gif",
-			width: 720,
-			height: 200
-		},
-		sm: {
-			src: "img/360x200.gif",
-			width: 360,
-			height: 200
-		},
-		md: {
-			src: "img/470x200.gif",
-			width: 470,
-			height: 200
-		},
-		lg: {
-			src: "img/570x200.gif",
-			width: 570,
-			height: 200
-		}
+	xs: {
+		src: "img/720x200.gif",
+		width: 720,
+		height: 200
+	},
+	sm: {
+		src: "img/360x200.gif",
+		width: 360,
+		height: 200
+	},
+	md: {
+		src: "img/470x200.gif",
+		width: 470,
+		height: 200
+	},
+	lg: {
+		src: "img/570x200.gif",
+		width: 570,
+		height: 200
 	},
 	retina: true,
 	transition: 'fadeInUp',
