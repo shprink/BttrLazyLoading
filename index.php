@@ -878,11 +878,11 @@ $('#yourImageId').bttrlazyloading({
 					<div class="panel-body">
 						<p>The destroy function removes custom css, custom classes and unbind events but do not remove the image element.</p>
 						<pre><code class="javascript"># Get the BttrLazyLoading instance and destroy it.
-$('#yourImageId').data('bttrlazyloading').destroy();</pre></code>
+$('#yourImageId').bttrlazyloading('destroy');</pre></code>
 
 						<h3>Removing the image element</h3>
 						<pre><code class="javascript"># Get the BttrLazyLoading instance, destroy it and remove the image element.
-$('#yourImageId').data('bttrlazyloading').destroy().remove();</pre></code>
+$('#yourImageId').bttrlazyloading('destroy').remove();</pre></code>
 					</div>
 				</div>
 			</section>
