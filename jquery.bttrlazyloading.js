@@ -2,7 +2,7 @@
 BttrLazyLoading, Responsive Lazy Loading plugin for JQuery
 by Julien Renaux http://bttrlazyloading.julienrenaux.fr
 
-Version 1.0.0-rc.1
+Version 1.0.0-rc.2
 Full source at https://github.com/shprink/BttrLazyLoading
 
 MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
@@ -14,12 +14,12 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _setOptionsFromData, _setupEvents, _update;
+    var _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _setOptionsFromData, _setupEvents, _update, _updateCanvasSize;
 
     BttrLazyLoading.dpr = 1;
 
     function BttrLazyLoading(img, options) {
-      var defaultOptions, imgObject,
+      var defaultOptions,
         _this = this;
       if (options == null) {
         options = {};
@@ -28,22 +28,29 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.loaded = false;
       this.loading = false;
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
-      this.options = $.extend(defaultOptions, options);
+      this.options = $.extend(true, defaultOptions, options);
       this.ranges = $.bttrlazyloading.constructor.ranges;
-      this.container = $(this.options.container);
+      this.$container = $(this.options.container);
       if (typeof window.devicePixelRatio === 'number') {
         this.constructor.dpr = window.devicePixelRatio;
       }
       this.whiteList = ['lg', 'md', 'sm', 'xs'];
       this.blackList = [];
       _setOptionsFromData.call(this);
-      imgObject = _getImgObject.call(this);
-      this.$img.css({
-        'width': imgObject.width,
-        'height': imgObject.height,
-        'background-color': this.options.backgroundcolor ? this.options.backgroundcolor : void 0
-      });
-      _setupEvents.call(this);
+      this.$wrapper = $('<span class="bttrlazyloading-wrapper">');
+      if (this.options.wrapperClasses && typeof this.options.wrapperClasses === 'string') {
+        this.$wrapper.addClass(this.options.wrapperClasses);
+      }
+      this.$img.before(this.$wrapper);
+      this.$clone = $('<canvas class="bttrlazyloading-clone">');
+      _updateCanvasSize.call(this);
+      this.$wrapper.append(this.$clone);
+      this.$img.hide();
+      this.$wrapper.append(this.$img);
+      if (this.options.backgroundcolor) {
+        this.$wrapper.css('background-color', this.options.backgroundcolor);
+      }
+      _setupEvents.call(this, 'on');
       setTimeout(function() {
         return _update.call(_this);
       }, 100);
@@ -54,6 +61,13 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     */
 
 
+    _updateCanvasSize = function() {
+      var imgObject;
+      imgObject = _getImgObject.call(this);
+      this.$clone.attr('width', imgObject.width);
+      return this.$clone.attr('height', imgObject.height);
+    };
+
     _setOptionsFromData = function() {
       var _this = this;
       return $.each(this.$img.data(), function(i, v) {
@@ -63,12 +77,12 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           }
           i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
           if (i.length > 1) {
-            if (typeof _this.options.img[i[0]][i[1]] !== 'undefined') {
-              return _this.options.img[i[0]][i[1]] = v;
+            if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
+              return _this.options[i[0]][i[1]] = v;
             }
           } else {
-            if ($.inArray(i[0], _this.whiteList) > -1 && typeof v === 'object') {
-              return $.extend(_this.options.img[i[0]], v);
+            if (typeof v === 'object') {
+              return $.extend(_this.options[i[0]], v);
             } else {
               if (typeof _this.options[i[0]] !== 'undefined') {
                 return _this.options[i[0]] = v;
@@ -79,59 +93,48 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       });
     };
 
-    _setupEvents = function() {
-      var _this = this;
-      this.$img.on('load', function() {
+    _setupEvents = function(onOrOff) {
+      var onBttrLoad, onError, onLoad, update,
+        _this = this;
+      onLoad = function() {
+        _this.$clone.hide();
+        _this.$img.show();
         _this.$img.addClass('bttrlazyloading-loaded');
         if (_this.options.animation) {
           _this.$img.addClass('animated ' + _this.options.animation);
         }
         _this.loaded = _this.$img.attr('src');
-        _this.$img.trigger('bttrlazyloading.afterLoad');
-        if (typeof _this.options.onAfterLoad === 'function') {
-          return _this.options.onAfterLoad(_this.$img, _this);
-        }
-      });
-      this.$img.on('bttrlazyloading.load', function() {
+        return _this.$img.trigger('bttrlazyloading.afterLoad');
+      };
+      this.$img[onOrOff]('load', onLoad);
+      onBttrLoad = function(e) {
         var imgObject;
         if (!_this.loading) {
           _this.loading = true;
           imgObject = _getImgObject.call(_this);
           if (!_this.loaded) {
-            _this.$img.css({
-              'background-image': "url('" + _this.options.placeholder + "')",
-              'background-repeat': 'no-repeat',
-              'background-position': 'center',
-              'width': imgObject.width,
-              'height': imgObject.height
-            });
+            _this.$wrapper.css('background-image', "url('" + _this.options.placeholder + "')");
           } else {
             _this.$img.removeClass('bttrlazyloading-loaded');
             if (_this.options.animation) {
               _this.$img.removeClass('animated ' + _this.options.animation);
             }
             _this.$img.removeAttr('src');
-            _this.$img.css({
-              'width': imgObject.width,
-              'height': imgObject.height
-            });
+            _this.$img.hide();
+            _this.$clone.attr('width', imgObject.width);
+            _this.$clone.attr('height', imgObject.height);
+            _this.$clone.show();
           }
           return setTimeout(function() {
             _this.$img.trigger('bttrlazyloading.beforeLoad');
-            if (typeof _this.options.onBeforeLoad === 'function') {
-              _this.options.onBeforeLoad(_this.$img, _this);
-            }
             _this.$img.data('bttrlazyloading.range', imgObject.range);
             _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src, imgObject.range));
-            _this.$img.css({
-              'width': '',
-              'height': ''
-            });
             return _this.loading = false;
           }, _this.options.delay);
         }
-      });
-      this.$img.on('error', function(e) {
+      };
+      this.$img[onOrOff]('bttrlazyloading.load', onBttrLoad);
+      onError = function(e) {
         var range, src;
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
@@ -141,21 +144,21 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           _this.blackList.push(range);
           _this.whiteList.splice(_this.whiteList.indexOf(range), 1);
           if (_this.whiteList.length === 0) {
-            if (typeof _this.options.onError === 'function') {
-              _this.options.onError(_this.$img, _this);
-            }
             _this.$img.trigger('bttrlazyloading.error');
             return false;
           }
         }
         return _this.$img.trigger('bttrlazyloading.load');
-      });
-      this.container.on(this.options.event, function() {
+      };
+      this.$img[onOrOff]('error', onError);
+      update = function(e) {
         return _update.call(_this);
-      });
-      return $(window).on("resize", function() {
-        return _update.call(_this);
-      });
+      };
+      this.$container[onOrOff](this.options.event, update);
+      if (this.options.container !== window) {
+        $(window)[onOrOff](this.options.event, update);
+      }
+      return $(window)[onOrOff]("resize", update);
     };
 
     _getRangeFromScreenSize = function() {
@@ -188,8 +191,8 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     _getImgObjectPerRange = function(range) {
-      if (typeof this.options.img[range].src !== 'undefined' && this.options.img[range].src !== null) {
-        return this.options.img[range];
+      if (typeof this.options[range].src !== 'undefined' && this.options[range].src !== null) {
+        return this.options[range];
       }
       return null;
     };
@@ -218,9 +221,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _isUpdatable = function() {
       var imgObject, threshold;
-      if (this.$img.is(':hidden')) {
-        return false;
-      }
       if (!this.loaded && this.options.triggermanually) {
         return false;
       }
@@ -239,21 +239,24 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     _isWithinViewport = function(threshold) {
-      var bounds, viewport, win;
-      win = $(window);
+      var bounds, isWindow, viewport;
+      isWindow = this.options.container === window;
       viewport = {
-        top: win.scrollTop() + threshold,
-        left: win.scrollLeft()
+        top: (isWindow ? this.$container.scrollTop() : this.$container.offset().top) + threshold,
+        left: (isWindow ? this.$container.scrollLeft() : this.$container.offset().left)
       };
-      viewport.right = viewport.left + win.width();
-      viewport.bottom = viewport.top + win.height();
-      bounds = this.$img.offset();
-      bounds.right = bounds.left + this.$img.outerWidth();
-      bounds.bottom = bounds.top + this.$img.outerHeight();
+      viewport.right = viewport.left + this.$container.width();
+      viewport.bottom = viewport.top + this.$container.height();
+      bounds = this.$wrapper.offset();
+      bounds.right = bounds.left + this.$wrapper.outerWidth();
+      bounds.bottom = bounds.top + this.$wrapper.outerHeight();
       return !(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom);
     };
 
     _update = function() {
+      if (this.range !== _getRangeFromScreenSize.call(this)) {
+        _updateCanvasSize.call(this);
+      }
       if (_isUpdatable.call(this)) {
         return this.$img.trigger('bttrlazyloading.load');
       }
@@ -264,26 +267,27 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     */
 
 
+    BttrLazyLoading.prototype.get$Img = function() {
+      return this.$img;
+    };
+
+    BttrLazyLoading.prototype.get$Clone = function() {
+      return this.$clone;
+    };
+
+    BttrLazyLoading.prototype.get$Wrapper = function() {
+      return this.$wrapper;
+    };
+
     BttrLazyLoading.prototype.destroy = function() {
-      this.$img.off('load');
-      this.$img.off('error');
-      this.$img.off('bttrlazyloading.load');
-      this.$img.off('bttrlazyloading.beforeLoad');
-      this.$img.off('bttrlazyloading.afterLoad');
-      this.$img.off('bttrlazyloading.error');
-      this.container.off(this.options.event);
+      this.$wrapper.before(this.$img);
+      this.$wrapper.remove();
+      _setupEvents.call(this, 'off');
+      this.$img.off('bttrlazyloading');
       this.$img.removeClass('bttrlazyloading-loaded');
       if (this.options.animation) {
         this.$img.removeClass('animated ' + this.options.animation);
       }
-      this.$img.css({
-        'width': '',
-        'height': '',
-        'background-color': '',
-        'background-image': '',
-        'background-repeat': '',
-        'background-position': ''
-      });
       this.$img.removeData('bttrlazyloading');
       return this.$img;
     };
@@ -295,11 +299,15 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   $.fn.extend({
     bttrlazyloading: function(options) {
       return this.each(function() {
-        var $this, instance;
+        var $this, data;
         $this = $(this);
-        if (typeof $this.data('bttrlazyloading') === 'undefined') {
-          instance = new BttrLazyLoading(this, options);
-          return $this.data('bttrlazyloading', instance);
+        data = $this.data('bttrlazyloading');
+        if (typeof data === 'undefined') {
+          data = new BttrLazyLoading(this, options);
+          $this.data('bttrlazyloading', data);
+        }
+        if (typeof options === 'string' && typeof data[options] !== 'undefined') {
+          return data[options].call(data);
         }
       });
     }
@@ -310,7 +318,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '1.0.0-rc.1';
+    BttrLazyLoadingGlobal.prototype.version = '1.0.0-rc.2';
 
     BttrLazyLoadingGlobal.ranges = {
       xs: 767,
@@ -320,27 +328,25 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     BttrLazyLoadingGlobal.options = {
-      img: {
-        xs: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        sm: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        md: {
-          src: null,
-          width: 100,
-          height: 100
-        },
-        lg: {
-          src: null,
-          width: 100,
-          height: 100
-        }
+      xs: {
+        src: null,
+        width: 100,
+        height: 100
+      },
+      sm: {
+        src: null,
+        width: 100,
+        height: 100
+      },
+      md: {
+        src: null,
+        width: 100,
+        height: 100
+      },
+      lg: {
+        src: null,
+        width: 100,
+        height: 100
       },
       retina: false,
       animation: 'bounceIn',
@@ -350,11 +356,9 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       threshold: 0,
       triggermanually: false,
       updatemanually: false,
+      wrapperClasses: null,
       backgroundcolor: '#EEE',
-      placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA',
-      onBeforeLoad: null,
-      onAfterLoad: null,
-      onError: null
+      placeholder: 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
     };
 
     BttrLazyLoadingGlobal.prototype.setOptions = function(object) {

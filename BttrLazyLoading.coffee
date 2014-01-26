@@ -12,24 +12,30 @@ class BttrLazyLoading
 
 		defaultOptions = $.extend true, {}, $.bttrlazyloading.constructor.options
 
-		@options	= $.extend defaultOptions, options
+		@options	= $.extend true, defaultOptions, options
 		@ranges		= $.bttrlazyloading.constructor.ranges
 
-		@container = $(@options.container)
+		@$container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
-		
+
 		@whiteList = ['lg', 'md', 'sm', 'xs']
 		@blackList = []
 
 		_setOptionsFromData.call @
 
-		imgObject = _getImgObject.call @
-		@$img.css
-			'width'				: imgObject.width
-			'height'			: imgObject.height
-			'background-color'	: @options.backgroundcolor if @options.backgroundcolor
+		@$wrapper = $ '<span class="bttrlazyloading-wrapper">'
+		@$wrapper.addClass @options.wrapperClasses if @options.wrapperClasses and typeof @options.wrapperClasses is 'string'
+		@$img.before @$wrapper
+		# The easier way to simulate a responsive image is to use canvas
+		@$clone = $ '<canvas class="bttrlazyloading-clone">'
+		_updateCanvasSize.call @
 
-		_setupEvents.call @
+		@$wrapper.append @$clone
+		@$img.hide()
+		@$wrapper.append @$img
+		@$wrapper.css 'background-color', @options.backgroundcolor if @options.backgroundcolor
+
+		_setupEvents.call @, 'on'
 
 		setTimeout () =>
 			_update.call @
@@ -38,6 +44,11 @@ class BttrLazyLoading
 	###
 	Private Functions
 	###
+	_updateCanvasSize = () ->
+		imgObject = _getImgObject.call @
+		@$clone.attr 'width', imgObject.width
+		@$clone.attr 'height', imgObject.height
+
 	_setOptionsFromData = () ->
 		# Set options based on Jquery Data available
 		$.each @$img.data(), (i, v) =>
@@ -47,52 +58,49 @@ class BttrLazyLoading
 					false
 				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
 				if i.length > 1
-					@options.img[i[0]][i[1]] = v if typeof @options.img[i[0]][i[1]] isnt 'undefined'
+					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
 				else
-					if $.inArray(i[0], @whiteList) > -1 and typeof v is 'object'
-						$.extend(@options.img[i[0]], v)
+					if typeof v is 'object'
+						$.extend(@options[i[0]], v)
 					else
-						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'	
+						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
 
-	_setupEvents = () ->
-		@$img.on 'load', () =>
+	_setupEvents = (onOrOff) ->
+		onLoad = () =>
+			@$clone.hide()
+			@$img.show()
 			@$img.addClass 'bttrlazyloading-loaded'
 			@$img.addClass 'animated ' + @options.animation if @options.animation
 			@loaded = @$img.attr 'src'
 			@$img.trigger 'bttrlazyloading.afterLoad'
-			@options.onAfterLoad(@$img, @) if typeof @options.onAfterLoad is 'function'
 
-		@$img.on 'bttrlazyloading.load', () =>
+		@$img[onOrOff] 'load', onLoad
+
+		onBttrLoad = (e) =>
 			if !@loading
 				@loading = true
 				imgObject = _getImgObject.call @
 				if !@loaded
-					@$img.css
-						'background-image'		: "url('" + @options.placeholder + "')"
-						'background-repeat'		: 'no-repeat'
-						'background-position'	: 'center'
-						'width'					: imgObject.width
-						'height'				: imgObject.height
+					@$wrapper.css 'background-image', "url('" + @options.placeholder + "')"
 				else
 					@$img.removeClass 'bttrlazyloading-loaded'
 					@$img.removeClass 'animated ' + @options.animation if @options.animation
 					@$img.removeAttr 'src'
-					@$img.css
-						'width'		: imgObject.width
-						'height'	: imgObject.height		
+					@$img.hide()
+					@$clone.attr 'width', imgObject.width
+					@$clone.attr 'height', imgObject.height
+					@$clone.show()
 
 				setTimeout () =>
 					@$img.trigger 'bttrlazyloading.beforeLoad'
-					@options.onBeforeLoad(@$img, @) if typeof @options.onBeforeLoad is 'function'
 					@$img.data 'bttrlazyloading.range', imgObject.range
 					@$img.attr 'src', _getImageSrc.call @, imgObject.src, imgObject.range
-					@$img.css
-						'width'		: ''
-						'height'	: ''
 					@loading = false
 				, @options.delay
 
-		@$img.on 'error', (e) =>
+		@$img[onOrOff] 'bttrlazyloading.load', onBttrLoad
+
+		onError = (e) =>
 			src		= @$img.attr 'src'
 			range	= @$img.data 'bttrlazyloading.range'
 			if @constructor.dpr >= 2 && @options.retina && src.match(/@2x/gi)
@@ -101,16 +109,19 @@ class BttrLazyLoading
 				@blackList.push range
 				@whiteList.splice @whiteList.indexOf(range), 1
 				if @whiteList.length is 0
-					@options.onError(@$img, this) if typeof @options.onError is 'function'
 					@$img.trigger 'bttrlazyloading.error'
 					return false
 			@$img.trigger 'bttrlazyloading.load'
 
-		@container.on  @options.event, () =>
+		@$img[onOrOff] 'error', onError
+
+		update = (e)=>
 			_update.call @
 
-		$(window).on "resize", () =>
-			_update.call @
+		@$container[onOrOff]  @options.event, update
+		# making sure we laod image within a container not in the viewport
+		$(window)[onOrOff]  @options.event, update if @options.container isnt window
+		$(window)[onOrOff] "resize", update
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
@@ -136,8 +147,8 @@ class BttrLazyLoading
 			src
 
 	_getImgObjectPerRange = (range)->
-		if typeof @options.img[range].src isnt 'undefined' and @options.img[range].src isnt null
-			return @options.img[range]
+		if typeof @options[range].src isnt 'undefined' and @options[range].src isnt null
+			return @options[range]
 		return null
 
 	_getLargestImgObject =  () ->
@@ -158,63 +169,63 @@ class BttrLazyLoading
 		return ''
 
 	_isUpdatable = () ->
-		if @$img.is ':hidden'
-			return false
 
 		if !@loaded && @options.triggermanually
 			return false
 
 		if @loaded && @options.updatemanually
 			return false
-			
+
 		imgObject = _getImgObject.call @
 		if !imgObject.src or @loaded is _getImageSrc.call @, imgObject.src, imgObject.range
 			return false
 
 		threshold = 0
-		if !@loaded 
+		if !@loaded
 			threshold = @options.threshold
 		return _isWithinViewport.call @, threshold
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
-	_isWithinViewport = (threshold) -> 
-		win = $(window)
+	_isWithinViewport = (threshold) ->
+		isWindow = (@options.container is window)
 		viewport =
-			top : win.scrollTop() + threshold
-			left : win.scrollLeft()
-		viewport.right = viewport.left + win.width()
-		viewport.bottom = viewport.top + win.height()
+			top : (if isWindow then @$container.scrollTop() else @$container.offset().top) + threshold
+			left : (if isWindow then @$container.scrollLeft() else @$container.offset().left)
+		viewport.right = viewport.left + @$container.width()
+		viewport.bottom = viewport.top + @$container.height()
 
-		bounds = @$img.offset()
-		bounds.right = bounds.left + @$img.outerWidth()
-		bounds.bottom = bounds.top + @$img.outerHeight()
+		bounds = @$wrapper.offset()
+		bounds.right = bounds.left + @$wrapper.outerWidth()
+		bounds.bottom = bounds.top + @$wrapper.outerHeight()
 
-		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom))
 
 	_update = () ->
+		# If the range changed (window resize) we update the canvas size
+		if @range isnt _getRangeFromScreenSize.call @
+			_updateCanvasSize.call @
 		if _isUpdatable.call @
 			@$img.trigger 'bttrlazyloading.load'
 
 	###
 	Public Functions
 	###
+	get$Img: () ->
+		@$img
+
+	get$Clone: () ->
+		@$clone
+
+	get$Wrapper: () ->
+		@$wrapper
+
 	destroy : () ->
-		@$img.off 'load'
-		@$img.off 'error'
-		@$img.off 'bttrlazyloading.load'
-		@$img.off 'bttrlazyloading.beforeLoad'
-		@$img.off 'bttrlazyloading.afterLoad'
-		@$img.off 'bttrlazyloading.error'
-		@container.off @options.event
+		@$wrapper.before @$img
+		@$wrapper.remove()
+		_setupEvents.call @, 'off'
+		@$img.off 'bttrlazyloading'
 		@$img.removeClass 'bttrlazyloading-loaded'
 		@$img.removeClass 'animated ' + @options.animation if @options.animation
-		@$img.css
-			'width'					: ''
-			'height'				: ''
-			'background-color'		: ''
-			'background-image'		: ''
-			'background-repeat'		: ''
-			'background-position'	: ''
 		@$img.removeData 'bttrlazyloading'
 		return @$img
 
@@ -222,40 +233,45 @@ $.fn.extend
 	bttrlazyloading: (options) ->
 		return this.each () ->
 			$this = $(this)
+			data = $this.data('bttrlazyloading')
 			# Already instanciated?
-			if typeof $this.data('bttrlazyloading') is 'undefined'
-				instance = new BttrLazyLoading this, options
-				$this.data 'bttrlazyloading', instance
+			if typeof data is 'undefined'
+				data = new BttrLazyLoading this, options
+				$this.data 'bttrlazyloading', data
+
+			# Ability to call public methods directly
+			# using .bttrlazyloading('methodName')
+			if typeof options is 'string' and typeof data[options] isnt	'undefined'
+				data[options].call data
 
 $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.0-rc.1'	
-	@ranges = 
+	version : '1.0.0-rc.2'
+	@ranges =
 		xs : 767
 		sm : 768
 		md : 992
 		lg : 1200
 
 	@options =
-		img: 
-			xs :
-				src : null
-				width : 100
-				height : 100
-			sm :
-				src : null
-				width : 100
-				height : 100
-			md :
-				src : null
-				width : 100
-				height : 100
-			lg :
-				src : null
-				width : 100
-				height : 100
+		xs :
+			src : null
+			width : 100
+			height : 100
+		sm :
+			src : null
+			width : 100
+			height : 100
+		md :
+			src : null
+			width : 100
+			height : 100
+		lg :
+			src : null
+			width : 100
+			height : 100
 		retina : false
 		animation: 'bounceIn'
 		delay: 0
@@ -264,14 +280,9 @@ class BttrLazyLoadingGlobal
 		threshold : 0
 		triggermanually: false
 		updatemanually: false
+		wrapperClasses: null
 		backgroundcolor: '#EEE'
 		placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
-		#onBeforeLoad : ($img, bttrLazyLoading) ->
-		onBeforeLoad : null
-		#onAfterLoad : ($img, bttrLazyLoading) ->
-		onAfterLoad : null
-		#onError : ($img, bttrLazyLoading) ->
-		onError : null
 
 	setOptions : (object = {}) ->
 		$.extend true, this.constructor.options, object
@@ -282,4 +293,3 @@ class BttrLazyLoadingGlobal
 		this
 
 $.bttrlazyloading = new BttrLazyLoadingGlobal()
-	

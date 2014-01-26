@@ -108,18 +108,18 @@ describe("HTML5 data attribute", function() {
 	// LOCAL TESTS
 	it("set the right options from element", function() {
 		var obj = $("#imgWithAllDataAttribute").bttrlazyloading().data('bttrlazyloading');
-		expect(obj.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj.options.img.xs.width).toEqual(testFixture.xs.width);
-		expect(obj.options.img.sm.width).toEqual(testFixture.sm.width);
-		expect(obj.options.img.md.width).toEqual(testFixture.md.width);
-		expect(obj.options.img.lg.width).toEqual(testFixture.lg.width);
-		expect(obj.options.img.xs.height).toEqual(testFixture.xs.height);
-		expect(obj.options.img.sm.height).toEqual(testFixture.sm.height);
-		expect(obj.options.img.md.height).toEqual(testFixture.md.height);
-		expect(obj.options.img.lg.height).toEqual(testFixture.lg.height);
+		expect(obj.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj.options.md.src).toEqual(testFixture.md.src);
+		expect(obj.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj.options.xs.width).toEqual(testFixture.xs.width);
+		expect(obj.options.sm.width).toEqual(testFixture.sm.width);
+		expect(obj.options.md.width).toEqual(testFixture.md.width);
+		expect(obj.options.lg.width).toEqual(testFixture.lg.width);
+		expect(obj.options.xs.height).toEqual(testFixture.xs.height);
+		expect(obj.options.sm.height).toEqual(testFixture.sm.height);
+		expect(obj.options.md.height).toEqual(testFixture.md.height);
+		expect(obj.options.lg.height).toEqual(testFixture.lg.height);
 		expect(obj.options.retina).toEqual(testFixture.retina);
 		expect(obj.options.animation).toEqual(testFixture.animation);
 		expect(obj.options.delay).toEqual(testFixture.delay);
@@ -134,52 +134,48 @@ describe("HTML5 data attribute", function() {
 
 	it("set the right img parameter from data element object", function() {
 		var obj = $("#imgWithDataAttributeAsObject").bttrlazyloading().data('bttrlazyloading');
-		expect(obj.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj.options.img.xs.width).toEqual(testFixture.xs.width);
-		expect(obj.options.img.sm.width).toEqual(testFixture.sm.width);
-		expect(obj.options.img.md.width).toEqual(testFixture.md.width);
-		expect(obj.options.img.lg.width).toEqual(testFixture.lg.width);
-		expect(obj.options.img.xs.height).toEqual(testFixture.xs.height);
-		expect(obj.options.img.sm.height).toEqual(testFixture.sm.height);
-		expect(obj.options.img.md.height).toEqual(testFixture.md.height);
-		expect(obj.options.img.lg.height).toEqual(testFixture.lg.height);
+		expect(obj.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj.options.md.src).toEqual(testFixture.md.src);
+		expect(obj.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj.options.xs.width).toEqual(testFixture.xs.width);
+		expect(obj.options.sm.width).toEqual(testFixture.sm.width);
+		expect(obj.options.md.width).toEqual(testFixture.md.width);
+		expect(obj.options.lg.width).toEqual(testFixture.lg.width);
+		expect(obj.options.xs.height).toEqual(testFixture.xs.height);
+		expect(obj.options.sm.height).toEqual(testFixture.sm.height);
+		expect(obj.options.md.height).toEqual(testFixture.md.height);
+		expect(obj.options.lg.height).toEqual(testFixture.lg.height);
 		obj.destroy();
 	});
 });
 
 describe("jQuery Plugin", function() {
 	afterEach(function() {
-		if ($("#imgWithNoDataAttribute").data('bttrlazyloading')) {
-			$("#imgWithNoDataAttribute").data('bttrlazyloading').destroy();
-			$("#imgWithNoDataAttribute").attr('src', '');
-		}
+		$("#imgWithNoDataAttribute").bttrlazyloading('destroy');
+		$("#imgWithNoDataAttribute").attr('src', '');
 	});
 	it("set the right options from instantiation", function() {
 		var obj4 = $("#imgWithNoDataAttribute").bttrlazyloading({
-			img: {
-				xs: {
-					src: testFixture.xs.src,
-					width: 111,
-					height: 222
-				},
-				sm: {
-					src: testFixture.sm.src,
-					width: 333,
-					height: 444
-				},
-				md: {
-					src: testFixture.md.src,
-					width: 555,
-					height: 666
-				},
-				lg: {
-					src: testFixture.lg.src,
-					width: 777,
-					height: 888
-				}
+			xs: {
+				src: testFixture.xs.src,
+				width: 111,
+				height: 222
+			},
+			sm: {
+				src: testFixture.sm.src,
+				width: 333,
+				height: 444
+			},
+			md: {
+				src: testFixture.md.src,
+				width: 555,
+				height: 666
+			},
+			lg: {
+				src: testFixture.lg.src,
+				width: 777,
+				height: 888
 			},
 			retina: true,
 			animation: 'fadeInUp',
@@ -189,33 +185,24 @@ describe("jQuery Plugin", function() {
 			threshold: 666,
 			placeholder: 'test',
 			triggermanually: true,
-			updatemanually: true,
-			onBeforeLoad: function($img, bttrLazyLoading) {
-				return true;
-			},
-			onAfterLoad: function($img, bttrLazyLoading) {
-				return true;
-			},
-			onError: function($img, bttrLazyLoading) {
-				return true;
-			}
+			updatemanually: true
 		}).data('bttrlazyloading');
 		expect(obj4.ranges.xs).toEqual(767);
 		expect(obj4.ranges.sm).toEqual(768);
 		expect(obj4.ranges.md).toEqual(992);
 		expect(obj4.ranges.lg).toEqual(1200);
-		expect(obj4.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj4.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj4.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj4.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj4.options.img.xs.width).toEqual(111);
-		expect(obj4.options.img.sm.width).toEqual(333);
-		expect(obj4.options.img.md.width).toEqual(555);
-		expect(obj4.options.img.lg.width).toEqual(777);
-		expect(obj4.options.img.xs.height).toEqual(222);
-		expect(obj4.options.img.sm.height).toEqual(444);
-		expect(obj4.options.img.md.height).toEqual(666);
-		expect(obj4.options.img.lg.height).toEqual(888);
+		expect(obj4.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj4.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj4.options.md.src).toEqual(testFixture.md.src);
+		expect(obj4.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj4.options.xs.width).toEqual(111);
+		expect(obj4.options.sm.width).toEqual(333);
+		expect(obj4.options.md.width).toEqual(555);
+		expect(obj4.options.lg.width).toEqual(777);
+		expect(obj4.options.xs.height).toEqual(222);
+		expect(obj4.options.sm.height).toEqual(444);
+		expect(obj4.options.md.height).toEqual(666);
+		expect(obj4.options.lg.height).toEqual(888);
 		expect(obj4.options.retina).toEqual(true);
 		expect(obj4.options.animation).toEqual('fadeInUp');
 		expect(obj4.options.delay).toEqual(1000);
@@ -225,35 +212,30 @@ describe("jQuery Plugin", function() {
 		expect(obj4.options.placeholder).toEqual("test");
 		expect(obj4.options.triggermanually).toEqual(true);
 		expect(obj4.options.updatemanually).toEqual(true);
-		expect(obj4.options.onBeforeLoad()).toEqual(true);
-		expect(obj4.options.onAfterLoad()).toEqual(true);
-		expect(obj4.options.onError()).toEqual(true);
 	});
 
 	// GLOBAL TESTS
 	it("set the default global options", function() {
 		$.bttrlazyloading.setOptions({
-			img: {
-				xs: {
-					src: testFixture.xs.src,
-					width: 111,
-					height: 222
-				},
-				sm: {
-					src: testFixture.sm.src,
-					width: 333,
-					height: 444
-				},
-				md: {
-					src: testFixture.md.src,
-					width: 555,
-					height: 666
-				},
-				lg: {
-					src: testFixture.lg.src,
-					width: 777,
-					height: 888
-				}
+			xs: {
+				src: testFixture.xs.src,
+				width: 111,
+				height: 222
+			},
+			sm: {
+				src: testFixture.sm.src,
+				width: 333,
+				height: 444
+			},
+			md: {
+				src: testFixture.md.src,
+				width: 555,
+				height: 666
+			},
+			lg: {
+				src: testFixture.lg.src,
+				width: 777,
+				height: 888
 			},
 			retina: true,
 			animation: 'fadeInUp',
@@ -263,13 +245,7 @@ describe("jQuery Plugin", function() {
 			threshold: 666,
 			placeholder: 'test',
 			triggermanually: true,
-			updatemanually: true,
-			onBeforeLoad: function($img, bttrLazyLoading) {
-			},
-			onAfterLoad: function($img, bttrLazyLoading) {
-			},
-			onError: function($img, bttrLazyLoading) {
-			}
+			updatemanually: true
 		});
 
 		var obj2 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
@@ -277,18 +253,18 @@ describe("jQuery Plugin", function() {
 		expect(obj2.ranges.sm).toEqual(768);
 		expect(obj2.ranges.md).toEqual(992);
 		expect(obj2.ranges.lg).toEqual(1200);
-		expect(obj2.options.img.xs.src).toEqual(testFixture.xs.src);
-		expect(obj2.options.img.sm.src).toEqual(testFixture.sm.src);
-		expect(obj2.options.img.md.src).toEqual(testFixture.md.src);
-		expect(obj2.options.img.lg.src).toEqual(testFixture.lg.src);
-		expect(obj2.options.img.xs.width).toEqual(111);
-		expect(obj2.options.img.sm.width).toEqual(333);
-		expect(obj2.options.img.md.width).toEqual(555);
-		expect(obj2.options.img.lg.width).toEqual(777);
-		expect(obj2.options.img.xs.height).toEqual(222);
-		expect(obj2.options.img.sm.height).toEqual(444);
-		expect(obj2.options.img.md.height).toEqual(666);
-		expect(obj2.options.img.lg.height).toEqual(888);
+		expect(obj2.options.xs.src).toEqual(testFixture.xs.src);
+		expect(obj2.options.sm.src).toEqual(testFixture.sm.src);
+		expect(obj2.options.md.src).toEqual(testFixture.md.src);
+		expect(obj2.options.lg.src).toEqual(testFixture.lg.src);
+		expect(obj2.options.xs.width).toEqual(111);
+		expect(obj2.options.sm.width).toEqual(333);
+		expect(obj2.options.md.width).toEqual(555);
+		expect(obj2.options.lg.width).toEqual(777);
+		expect(obj2.options.xs.height).toEqual(222);
+		expect(obj2.options.sm.height).toEqual(444);
+		expect(obj2.options.md.height).toEqual(666);
+		expect(obj2.options.lg.height).toEqual(888);
 		expect(obj2.options.retina).toEqual(true);
 		expect(obj2.options.animation).toEqual('fadeInUp');
 		expect(obj2.options.delay).toEqual(100);
@@ -350,17 +326,14 @@ describe("Responsivity", function() {
 });
 
 describe("Event", function() {
-	var onbeforeLoad, onafterLoad, onbeforeLoadFunctionSpy, onafterLoadFunctionSpy;
+	var onbeforeLoad, onafterLoad, onError;
 
 	beforeEach(function(done) {
-		onbeforeLoadFunctionSpy = jasmine.createSpy("beforeLoadFunctionSpy")
-		onafterLoadFunctionSpy = jasmine.createSpy("afterLoadFunctionSpy")
-		$("#imgWithAllExistingSrc").bttrlazyloading({
-			onBeforeLoad: onbeforeLoadFunctionSpy,
-			onAfterLoad: onafterLoadFunctionSpy
-		});
+		$("#imgWithAllExistingSrc").bttrlazyloading();
 		onbeforeLoad = jasmine.createSpy("beforeLoadSpy");
 		onafterLoad = jasmine.createSpy("afterLoadSpy");
+		onError = jasmine.createSpy("errorSpy");
+		$("#imgWithAllExistingSrc").bind('bttrlazyloading.error', onError);
 		$("#imgWithAllExistingSrc").bind('bttrlazyloading.beforeLoad', onbeforeLoad);
 		$("#imgWithAllExistingSrc").bind('bttrlazyloading.afterLoad', onafterLoad);
 		$("#imgWithAllExistingSrc").trigger('bttrlazyloading.load');
@@ -369,10 +342,8 @@ describe("Event", function() {
 		}, 500);
 	});
 	afterEach(function() {
-		if ($("#imgWithAllExistingSrc").data('bttrlazyloading')) {
-			$("#imgWithAllExistingSrc").data('bttrlazyloading').destroy();
-			$("#imgWithAllExistingSrc").attr('src', '');
-		}
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		$("#imgWithAllExistingSrc").attr('src', '');
 	});
 	it("should trigger bttrlazyloading.afterLoad event", function(done) {
 		expect(onafterLoad).toHaveBeenCalled();
@@ -382,22 +353,16 @@ describe("Event", function() {
 		expect(onbeforeLoad).toHaveBeenCalled();
 		done();
 	});
-	it("should trigger onBeforeLoad function", function(done) {
-		expect(onbeforeLoadFunctionSpy).toHaveBeenCalled();
-		done();
-	});
-	it("should trigger onAfterLoad function", function(done) {
-		expect(onafterLoadFunctionSpy).toHaveBeenCalled();
+	it("should not trigger bttrlazyloading.error event", function(done) {
+		expect(onError).not.toHaveBeenCalled();
 		done();
 	});
 });
 
-describe("Errors", function() {
+describe("Error", function() {
+	var onError;
 	beforeEach(function(done) {
-		onErrorFunctionSpy = jasmine.createSpy("errorFunctionSpy")
-		$("#imgWithNoExistingSrc").bttrlazyloading({
-			onError: onErrorFunctionSpy
-		});
+		$("#imgWithNoExistingSrc").bttrlazyloading();
 		onError = jasmine.createSpy("errorSpy");
 		$("#imgWithNoExistingSrc").bind('bttrlazyloading.error', onError);
 		$("#imgWithNoExistingSrc").trigger('bttrlazyloading.load');
@@ -406,17 +371,51 @@ describe("Errors", function() {
 		}, 500);
 	});
 	afterEach(function() {
-		if ($("#imgWithNoExistingSrc").data('bttrlazyloading')) {
-			$("#imgWithNoExistingSrc").data('bttrlazyloading').destroy();
-			$("#imgWithNoExistingSrc").attr('src', '');
-		}
+		$("#imgWithNoExistingSrc").bttrlazyloading('destroy');
+		$("#imgWithNoExistingSrc").attr('src', '');
 	});
 	it("should trigger bttrlazyloading.error event", function(done) {
 		expect(onError).toHaveBeenCalled();
 		done();
 	});
-	it("should trigger onError function", function(done) {
-		expect(onErrorFunctionSpy).toHaveBeenCalled();
+});
+
+describe("Method", function() {
+
+	beforeEach(function(done) {
+		$("#imgWithAllExistingSrc").bttrlazyloading();
+		$("#imgWithAllExistingSrc").trigger('bttrlazyloading.load');
+
+		setTimeout(function() {
+			done();
+		}, 100);
+	});
+	afterEach(function() {
+		$("#imgWithNoExistingSrc").bttrlazyloading('destroy');
+		$("#imgWithNoExistingSrc").attr('src', '');
+	});
+
+	it("Destroy should remove Wrapper", function(done) {
+		var instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		var $wrapper = instance.get$Wrapper();
+		expect($wrapper.is(":visible")).toEqual(true);
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		expect($wrapper.is(":visible")).toEqual(false);
+		done();
+	});
+	it("Destroy should remove Clone", function(done) {
+		var instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		var $clone = instance.get$Clone();
+		expect($clone.length).toEqual(1);
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		expect($clone.is(":visible")).toEqual(false);
+		done();
+	});
+	it("Destroy should delete instance", function(done) {
+		var instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		$("#imgWithAllExistingSrc").bttrlazyloading('destroy');
+		instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
+		expect(instance).toEqual(undefined);
 		done();
 	});
 });
