@@ -169,9 +169,6 @@ class BttrLazyLoading
 		return ''
 
 	_isUpdatable = () ->
-#		console.log(@$wrapper.is ':hidden', "@$wrapper.is ':hidden'")
-#		if @$wrapper.is ':hidden'
-#			return false
 
 		if !@loaded && @options.triggermanually
 			return false
@@ -186,7 +183,6 @@ class BttrLazyLoading
 		threshold = 0
 		if !@loaded 
 			threshold = @options.threshold
-		console.log(_isWithinViewport.call @, threshold, "_isWithinViewport.call @, threshold")
 		return _isWithinViewport.call @, threshold
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen

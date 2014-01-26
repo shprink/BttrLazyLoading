@@ -30,9 +30,6 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 * triggermanually: Whether or not to trigger the first image load manually.
 * updatemanually: Whether or not to trigger the image update (needed when the window resizes for example) manually.
 * backgroundcolor: The background color of your images that are not loaded yet.
-* onBeforeLoad: Callback called just before that the image loads.
-* onAfterLoad: Callback called just after that the image loads.
-* onError: Callback called when the plugin cannot find any image src that exist.
 
 ### Events
 
@@ -132,13 +129,7 @@ $("#yourImageId").bttrlazyloading({
 	event: 'click',
 	container: 'document.body',
 	threshold: 666,
-	placeholder: 'test',
-	onBeforeLoad: function($img, bttrLazyLoading) {
-	},
-	onAfterLoad: function($img, bttrLazyLoading) {
-	},
-	onError: function($img, bttrLazyLoading) {
-	}
+	placeholder: 'test'
 })
 ```
 

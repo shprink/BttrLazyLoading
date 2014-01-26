@@ -235,7 +235,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       if (!this.loaded) {
         threshold = this.options.threshold;
       }
-      console.log(_isWithinViewport.call(this, threshold, "_isWithinViewport.call @, threshold"));
       return _isWithinViewport.call(this, threshold);
     };
 
