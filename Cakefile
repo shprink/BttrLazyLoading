@@ -26,7 +26,8 @@ task 'build:coffee', 'Build CoffeeScript', ->
 		prependCopyright FILE_MINIFIED_JS
 
 task 'build:css', 'Build CSS', ->
-	minify FILE_CSS, FILE_MINIFIED_CSS
+	minify FILE_CSS, FILE_MINIFIED_CSS, ->
+		prependCopyright FILE_MINIFIED_CSS
 
 task 'dev', 'Lints, builds and keeps watching for changes', ->
 	invoke 'build'
