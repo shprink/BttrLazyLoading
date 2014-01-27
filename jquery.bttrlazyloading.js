@@ -220,7 +220,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     _isUpdatable = function() {
-      var imgObject, threshold;
+      var imgObject, isWithinWindowViewport, threshold;
       if (!this.loaded && this.options.triggermanually) {
         return false;
       }
@@ -235,18 +235,26 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       if (!this.loaded) {
         threshold = this.options.threshold;
       }
-      return _isWithinViewport.call(this, threshold);
+      isWithinWindowViewport = _isWithinViewport.call(this, $(window), {
+        top: $(window).scrollTop() + threshold,
+        left: $(window).scrollLeft()
+      });
+      if (this.options.container !== window) {
+        return isWithinWindowViewport && _isWithinViewport.call(this, this.$container, {
+          top: this.$container.offset().top + threshold,
+          left: this.$container.offset().left
+        });
+      }
+      return isWithinWindowViewport;
     };
 
-    _isWithinViewport = function(threshold) {
-      var bounds, isWindow, viewport;
-      isWindow = this.options.container === window;
-      viewport = {
-        top: (isWindow ? this.$container.scrollTop() : this.$container.offset().top) + threshold,
-        left: (isWindow ? this.$container.scrollLeft() : this.$container.offset().left)
-      };
-      viewport.right = viewport.left + this.$container.width();
-      viewport.bottom = viewport.top + this.$container.height();
+    _isWithinViewport = function($container, viewport) {
+      var bounds;
+      if (viewport == null) {
+        viewport = {};
+      }
+      viewport.right = viewport.left + $container.width();
+      viewport.bottom = viewport.top + $container.height();
       bounds = this.$wrapper.offset();
       bounds.right = bounds.left + this.$wrapper.outerWidth();
       bounds.bottom = bounds.top + this.$wrapper.outerHeight();
