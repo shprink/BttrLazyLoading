@@ -240,7 +240,7 @@ $.fn.extend
 		return this.each () ->
 			$this = $(this)
 			data = $this.data('bttrlazyloading')
-			# Already instanciated?
+			# Already instantiated?
 			if typeof data is 'undefined'
 				data = new BttrLazyLoading this, options
 				$this.data 'bttrlazyloading', data
