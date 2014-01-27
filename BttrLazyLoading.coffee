@@ -183,16 +183,22 @@ class BttrLazyLoading
 		threshold = 0
 		if !@loaded
 			threshold = @options.threshold
-		return _isWithinViewport.call @, threshold
+
+		isWithinWindowViewport = _isWithinViewport.call @, $(window),
+			top : $(window).scrollTop() + threshold
+			left : $(window).scrollLeft()
+
+		if @options.container isnt window
+			return isWithinWindowViewport and _isWithinViewport.call @, @$container, 
+				top : @$container.offset().top + threshold
+				left : @$container.offset().left
+
+		return isWithinWindowViewport
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
-	_isWithinViewport = (threshold) ->
-		isWindow = (@options.container is window)
-		viewport =
-			top : (if isWindow then @$container.scrollTop() else @$container.offset().top) + threshold
-			left : (if isWindow then @$container.scrollLeft() else @$container.offset().left)
-		viewport.right = viewport.left + @$container.width()
-		viewport.bottom = viewport.top + @$container.height()
+	_isWithinViewport = ($container, viewport = {}) ->
+		viewport.right = viewport.left + $container.width()
+		viewport.bottom = viewport.top + $container.height()
 
 		bounds = @$wrapper.offset()
 		bounds.right = bounds.left + @$wrapper.outerWidth()

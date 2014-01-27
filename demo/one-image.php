@@ -4,9 +4,18 @@ define('DEMO', 'one-image');
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>Demo One Image | BttrLazyLoading</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="BttrLazyLoading is a Jquery plugin that allows your web application to only load images within the viewport. It also allows you to have different version of an image for 4 differents screen sizes.">
+		<meta name="keywords" content="JavaScript, Responsive, image, images, jQuery, coffeescript, lazy loading">
+		<meta name="author" content="Julien Renaux">
+		<meta property="og:title" content="Demo One Image | BttrLazyLoading"/>
+		<meta property="og:description" content="BttrLazyLoading is a Jquery plugin that allows your web application to only load images within the viewport. It also allows you to have different version of an image for 4 differents screen sizes."/>
+		<meta property="og:url" content="http://bttrlazyloading.julienrenaux.fr/demo/one-image.php"/>
+		<meta property="og:site_name" content="Julien Renaux Blog"/>
+		<meta property="og:type" content="blog"/>
+		<meta property="og:image" content="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-300x181.png">
         <link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
@@ -53,6 +62,7 @@ define('DEMO', 'one-image');
             <div class="page-header">
                 <h2>Demo</h2>
             </div>
+			<div class="alert alert-warning">You may notice that the image placeholder (grey background that wait for the images to load) does not have the size of the image loaded. This is perfectly normal, indeed this demo does not define image 'width' and 'height' that are necessary for an optimized user experience (the plugin cannot know the dimensions of your images before they load). Check out the <a href="different-sizes.php">Different sizes</a> demo to see the difference.</div>
             <div class="row" id="loading-area"></div>
             <div class="page-header">
                 <h2>Mode Demos</h2>
