@@ -6,3 +6,4 @@
 /node_modules
 /demo/js/analytics.js
 *.log
+/.idea

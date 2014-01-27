@@ -159,7 +159,7 @@ Compile and uglify BttrLazyLoading.coffee
 ```
 cake build
 ```
-If Coffe-Script isn't globally installed, use `node_modules/.bin/cake build`
+If Coffee Script isn't globally installed, use `node_modules/.bin/cake build`
 
 ### Run tests
 Open test/index.html
