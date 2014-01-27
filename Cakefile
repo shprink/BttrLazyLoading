@@ -1,12 +1,12 @@
-fs				    = require 'fs'
-{exec}        = require 'child_process'
-flour					= require 'flour'
+fs = require 'fs'
+{exec} = require 'child_process'
+flour = require 'flour'
 
 FILE_COFFEE = 'BttrLazyLoading.coffee'
 FILE_CSS = 'bttrlazyloading.css'
 FILE_MINIFIED_JS = 'jquery.bttrlazyloading.min.js'
 FILE_MINIFIED_CSS = 'bttrlazyloading.min.css'
-FILE_VERSION 	= 'version'
+FILE_VERSION = 'version'
 
 task 'tag.major', 'Major tag incrementation', ->
 	tag getIncreasedVersion 'major'
