@@ -2,7 +2,7 @@
 BttrLazyLoading, Responsive Lazy Loading plugin for JQuery
 by Julien Renaux http://bttrlazyloading.julienrenaux.fr
 
-Version 1.0.0-rc.2
+Version 1.0.0
 Full source at https://github.com/shprink/BttrLazyLoading
 
 MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
@@ -21,6 +21,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     function BttrLazyLoading(img, options) {
       var defaultOptions,
         _this = this;
+
       if (options == null) {
         options = {};
       }
@@ -63,6 +64,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _updateCanvasSize = function() {
       var imgObject;
+
       imgObject = _getImgObject.call(this);
       this.$clone.attr('width', imgObject.width);
       return this.$clone.attr('height', imgObject.height);
@@ -70,6 +72,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _setOptionsFromData = function() {
       var _this = this;
+
       return $.each(this.$img.data(), function(i, v) {
         if (v) {
           if (i.indexOf('bttrlazyloading') !== 0) {
@@ -96,6 +99,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     _setupEvents = function(onOrOff) {
       var onBttrLoad, onError, onLoad, update,
         _this = this;
+
       onLoad = function() {
         _this.$clone.hide();
         _this.$img.show();
@@ -109,6 +113,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.$img[onOrOff]('load', onLoad);
       onBttrLoad = function(e) {
         var imgObject;
+
         if (!_this.loading) {
           _this.loading = true;
           imgObject = _getImgObject.call(_this);
@@ -136,6 +141,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.$img[onOrOff]('bttrlazyloading.load', onBttrLoad);
       onError = function(e) {
         var range, src;
+
         src = _this.$img.attr('src');
         range = _this.$img.data('bttrlazyloading.range');
         if (_this.constructor.dpr >= 2 && _this.options.retina && src.match(/@2x/gi)) {
@@ -163,6 +169,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _getRangeFromScreenSize = function() {
       var ww;
+
       ww = window.innerWidth;
       if (ww <= this.ranges.xs) {
         return 'xs';
@@ -199,6 +206,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _getLargestImgObject = function() {
       var index, range, src, _i, _len, _ref;
+
       index = this.whiteList.indexOf(this.range);
       if (index > -1) {
         src = _getImgObjectPerRange.call(this, this.range);
@@ -221,6 +229,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _isUpdatable = function() {
       var imgObject, isWithinWindowViewport, threshold;
+
       if (!this.loaded && this.options.triggermanually) {
         return false;
       }
@@ -250,6 +259,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     _isWithinViewport = function($container, viewport) {
       var bounds;
+
       if (viewport == null) {
         viewport = {};
       }
@@ -308,6 +318,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     bttrlazyloading: function(options) {
       return this.each(function() {
         var $this, data;
+
         $this = $(this);
         data = $this.data('bttrlazyloading');
         if (typeof data === 'undefined') {
@@ -326,7 +337,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '1.0.0-rc.2';
+    BttrLazyLoadingGlobal.prototype.version = '1.0.0';
 
     BttrLazyLoadingGlobal.ranges = {
       xs: 767,
