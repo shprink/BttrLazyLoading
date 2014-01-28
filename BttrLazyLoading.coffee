@@ -254,7 +254,7 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.0-rc.2'
+	version : '1.0.0'
 	@ranges =
 		xs : 767
 		sm : 768
