@@ -142,7 +142,7 @@ $("#yourImageId").bttrlazyloading({
 #### Prerequisites
 + [Node JS](http://julienrenaux.fr/2013/05/16/how-to-install-node-js-coffeescript-less-and-uglify-js-on-ubuntu/)
 + [Bower](http://julienrenaux.fr/2013/09/12/bower/)
-+ Coffee Script (Global installation, `$ sudo npm install -g coffee-script`, is optional but convenient in the build step)
++ CoffeeScript (Global installation, `$ sudo npm install -g coffee-script`, is optional but convenient in the build step)
 
 #### Clone the repository
 `$ git clone https://github.com/shprink/BttrLazyLoading`
@@ -155,11 +155,17 @@ $ npm install
 ```
 
 ### Build
-Compile and uglify BttrLazyLoading.coffee
+Compiles and minifies BttrLazyLoading.coffee and bttrlazyloading.css.
 ```
 cake build
 ```
-If Coffe-Script isn't globally installed, use `node_modules/.bin/cake build`
+If CoffeeScript isn't globally installed, use `node_modules/.bin/cake build`
+
+### Develop
+Builds CoffeeScript and CSS, and runs linting and build steps if any changes occur to important files. This allows you to rerun the tests immidiately after you've changed the CoffeeScript, without having to lint and recompile. Of course, any changes that breaks the CoffeeScript will be prompted on the command line.
+```
+cake dev
+```
 
 ### Run tests
 Open test/index.html
@@ -170,6 +176,3 @@ You are now good to go ;)
 
 * [Julien Renaux](https://github.com/shprink)
 * [Michael Thelin](https://github.com/thelinmichael)
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/shprink/bttrlazyloading/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

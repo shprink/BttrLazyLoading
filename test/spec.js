@@ -61,18 +61,18 @@ imgWithNoDataAttribute.setAttribute("id", "imgWithNoDataAttribute");
 
 var imgWithDataAttributeAsObject = document.createElement("img");
 imgWithDataAttributeAsObject.setAttribute("id", "imgWithDataAttributeAsObject");
-imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-xs", '{"src": "' + testFixture.xs.src
-		+ '", "width" : ' + testFixture.xs.width + ',  "height" : '
-		+ testFixture.xs.height + '}');
-imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-sm", '{"src": "' + testFixture.sm.src
-		+ '", "width" : ' + testFixture.sm.width + ',  "height" : '
-		+ testFixture.sm.height + '}');
-imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-md", '{"src": "' + testFixture.md.src
-		+ '", "width" : ' + testFixture.md.width + ',  "height" : '
-		+ testFixture.md.height + '}');
-imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-lg", '{"src": "' + testFixture.lg.src
-		+ '", "width" : ' + testFixture.lg.width + ',  "height" : '
-		+ testFixture.lg.height + '}');
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-xs", '{"src": "' + testFixture.xs.src +
+		'", "width" : ' + testFixture.xs.width + ',  "height" : ' +
+		testFixture.xs.height + '}');
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-sm", '{"src": "' + testFixture.sm.src +
+		'", "width" : ' + testFixture.sm.width + ',  "height" : ' +
+		testFixture.sm.height + '}');
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-md", '{"src": "' + testFixture.md.src +
+		'", "width" : ' + testFixture.md.width + ',  "height" : ' +
+		testFixture.md.height + '}');
+imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-lg", '{"src": "' + testFixture.lg.src +
+		'", "width" : ' + testFixture.lg.width + ',  "height" : ' +
+		testFixture.lg.height + '}');
 
 var imgWithAllExistingSrc = document.createElement("img");
 imgWithAllExistingSrc.setAttribute("id", "imgWithAllExistingSrc");
@@ -359,25 +359,34 @@ describe("Event", function() {
 	});
 });
 
+/* TODO: This test sometimes fails due to a race condition. Increased
+   the timeout, but the beforeEach method should finish when it 'knows'
+   that BttrLazyLoading has finished loading. */
 describe("Error", function() {
 	var onError;
+
 	beforeEach(function(done) {
-		$("#imgWithNoExistingSrc").bttrlazyloading();
 		onError = jasmine.createSpy("errorSpy");
+
+		$("#imgWithNoExistingSrc").bttrlazyloading();
 		$("#imgWithNoExistingSrc").bind('bttrlazyloading.error', onError);
 		$("#imgWithNoExistingSrc").trigger('bttrlazyloading.load');
+
 		setTimeout(function() {
 			done();
-		}, 500);
+		}, 1000);
 	});
+
 	afterEach(function() {
 		$("#imgWithNoExistingSrc").bttrlazyloading('destroy');
 		$("#imgWithNoExistingSrc").attr('src', '');
 	});
+
 	it("should trigger bttrlazyloading.error event", function(done) {
 		expect(onError).toHaveBeenCalled();
 		done();
 	});
+
 });
 
 describe("Method", function() {
