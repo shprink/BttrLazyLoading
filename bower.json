@@ -1,6 +1,6 @@
 {
 	"name": "BttrLazyLoading",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"license": "MIT",
 	"main": ["./jquery.bttrlazyloading.min.js", "./bttrlazyloading.css"],
 	"author": "Julien Renaux",
@@ -14,7 +14,7 @@
 		"tests"
 	],
 	"dependencies": {
-		"jquery": ">2.0.0"
+		"jquery": ">=1.5"
 	},
 	"devDependencies": {
 		"bootstrap": ">=3.0.0",
