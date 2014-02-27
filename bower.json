@@ -1,8 +1,8 @@
 {
 	"name": "BttrLazyLoading",
-	"version": "0.0.0",
+	"version": "1.0.3",
 	"license": "MIT",
-	"main": ["./bttrlazyloading.js", "./bttrlazyloading.css"],
+	"main": ["./jquery.bttrlazyloading.min.js", "./bttrlazyloading.css"],
 	"author": "Julien Renaux",
 	"homepage": "http://bttrlazyloading.julienrenaux.fr",
 	"ignore": [
@@ -14,13 +14,14 @@
 		"tests"
 	],
 	"dependencies": {
-		"jquery": ">2.0.0",
+		"jquery": ">2.0.0"
+	},
+	"devDependencies": {
 		"bootstrap": ">=3.0.0",
 		"font-awesome": ">4.0.0",
 		"jasmine": "~2.0",
 		"jquery.smooth-scroll": ">= 1.4.12",
 		"bootswatch": "> 3.0.0",
-		"animate.css": ">= 3.0.0",
-		"highlight.js" : ">=7.3"
+		"highlight.js": ">=7.3"
 	}
 }
