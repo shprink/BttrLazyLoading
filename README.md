@@ -53,7 +53,7 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 	data-bttrlazyloading-sm-src="img/345x250.gif"
 	data-bttrlazyloading-md-src="img/455x350.gif"
 	data-bttrlazyloading-lg-src="img/360x300.gif"
-	data-bttrlazyloading-transition="rotatedIn"
+	data-bttrlazyloading-animation="rotatedIn"
 	data-bttrlazyloading-retina="true"
 	data-bttrlazyloading-delay="2000"
 	data-bttrlazyloading-event="mouseover"
@@ -125,7 +125,7 @@ $("#yourImageId").bttrlazyloading({
 		height: 200
 	},
 	retina: true,
-	transition: 'fadeInUp',
+	animation: 'fadeInUp',
 	delay: 1000,
 	event: 'click',
 	container: 'document.body',
