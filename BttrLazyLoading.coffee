@@ -23,11 +23,11 @@ class BttrLazyLoading
 
 		_setOptionsFromData.call @
 
-		@$wrapper = $ '<span class="bttrlazyloading-wrapper">'
+		@$wrapper = $ '<span class="bttrlazyloading-wrapper"></span>'
 		@$wrapper.addClass @options.wrapperClasses if @options.wrapperClasses and typeof @options.wrapperClasses is 'string'
 		@$img.before @$wrapper
 		# The easier way to simulate a responsive image is to use canvas
-		@$clone = $ '<canvas class="bttrlazyloading-clone">'
+		@$clone = $ '<canvas class="bttrlazyloading-clone"></canvas>'
 		_updateCanvasSize.call @
 
 		@$wrapper.append @$clone
