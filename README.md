@@ -172,6 +172,10 @@ Open test/index.html
 
 You are now good to go ;)
 
+### Browser Compatibility
+IE9+ 
+BttrLazyLoading relies on array.indexOf which was not introduced until IE9. There is a poly fill for this function available here however, it does not help with IE8 support completely.
+
 ### Contributors
 
 * [Julien Renaux](https://github.com/shprink)
