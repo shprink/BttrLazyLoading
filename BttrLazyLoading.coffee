@@ -73,6 +73,7 @@ class BttrLazyLoading
 			@$img.addClass 'animated ' + @options.animation if @options.animation			
 			@loaded = @$img.attr 'src'
 			@$wrapper.css 'background-color', @options.loadedColor
+			@$wrapper.css 'background-image', ""
 			@$img.trigger 'bttrlazyloading.afterLoad'
 
 		@$img[onOrOff] 'load', onLoad
