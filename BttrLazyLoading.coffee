@@ -23,11 +23,11 @@ class BttrLazyLoading
 
 		_setOptionsFromData.call @
 
-		@$wrapper = $ '<span class="bttrlazyloading-wrapper">'
+		@$wrapper = $ '<span class="bttrlazyloading-wrapper"></span>'
 		@$wrapper.addClass @options.wrapperClasses if @options.wrapperClasses and typeof @options.wrapperClasses is 'string'
 		@$img.before @$wrapper
 		# The easier way to simulate a responsive image is to use canvas
-		@$clone = $ '<canvas class="bttrlazyloading-clone">'
+		@$clone = $ '<canvas class="bttrlazyloading-clone"></canvas>'
 		_updateCanvasSize.call @
 
 		@$wrapper.append @$clone
@@ -70,8 +70,9 @@ class BttrLazyLoading
 			@$clone.hide()
 			@$img.show()
 			@$img.addClass 'bttrlazyloading-loaded'
-			@$img.addClass 'animated ' + @options.animation if @options.animation
+			@$img.addClass 'animated ' + @options.animation if @options.animation			
 			@loaded = @$img.attr 'src'
+			@$wrapper.css 'background-color', @options.loadedColor
 			@$img.trigger 'bttrlazyloading.afterLoad'
 
 		@$img[onOrOff] 'load', onLoad
@@ -284,6 +285,7 @@ class BttrLazyLoadingGlobal
 		event : 'scroll'
 		container : window
 		threshold : 0
+		loadedColor: '#fff'
 		triggermanually: false
 		updatemanually: false
 		wrapperClasses: null
