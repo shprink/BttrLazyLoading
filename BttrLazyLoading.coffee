@@ -70,8 +70,10 @@ class BttrLazyLoading
 			@$clone.hide()
 			@$img.show()
 			@$img.addClass 'bttrlazyloading-loaded'
-			@$img.addClass 'animated ' + @options.animation if @options.animation
+			@$img.addClass 'animated ' + @options.animation if @options.animation			
 			@loaded = @$img.attr 'src'
+			@$wrapper.css 'background-color', @options.loadedColor
+			@$wrapper.css 'background-image', ""
 			@$img.trigger 'bttrlazyloading.afterLoad'
 
 		@$img[onOrOff] 'load', onLoad
@@ -284,6 +286,7 @@ class BttrLazyLoadingGlobal
 		event : 'scroll'
 		container : window
 		threshold : 0
+		loadedColor: '#fff'
 		triggermanually: false
 		updatemanually: false
 		wrapperClasses: null
