@@ -6,12 +6,19 @@
 	"author": "Julien Renaux",
 	"homepage": "http://bttrlazyloading.julienrenaux.fr",
 	"ignore": [
-		"**/.*",
-		"node_modules",
-		"bower_components",
-		"test",
-		"demo",
-		"tests"
+		"node_modules/",
+		"bower_components/",
+		"test/",
+		"demo/",
+		"test/",
+		"LICENSE",
+		"README.md",
+		"package.json",
+		"menu.php",
+		"coffeelint.json",
+		"bttrlazyloading.jquery.json",
+		"BttrLazyLoading.coffee",
+		"Cakefile"
 	],
 	"dependencies": {
 		"jquery": ">=1.5"
