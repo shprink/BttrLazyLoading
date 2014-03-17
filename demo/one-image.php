@@ -18,14 +18,14 @@ define('DEMO', 'one-image');
 		<meta property="og:image" content="http://julienrenaux.fr/wp-content/uploads/2013/12/bttrlazyloading-300x181.png">
         <link rel="stylesheet" type="text/css" href="../bower_components/bootswatch/yeti/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" type="text/css" href="../bttrlazyloading.min.css" />
+        <link rel="stylesheet" type="text/css" href="../build/bttrlazyloading.min.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script src="../bower_components/jquery/jquery.min.js"></script>
         <script src="../bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
         <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../bower_components/highlight.js/src/styles/solarized_dark.css" />
         <script src="js/highlight.pack.js"></script>
-        <script src="../jquery.bttrlazyloading.min.js"></script>
+        <script src="../build/jquery.bttrlazyloading.min.js"></script>
     </head>
     <body>
         <div class="container">

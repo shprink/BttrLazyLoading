@@ -16,12 +16,12 @@
 		<link rel="stylesheet" type="text/css" href="bower_components/bootswatch/yeti/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css" />
 		<link rel="stylesheet" type="text/css" href="bower_components/highlight.js/src/styles/solarized_dark.css" />
-		<link rel="stylesheet" type="text/css" href="bttrlazyloading.min.css" />
+		<link rel="stylesheet" type="text/css" href="build/bttrlazyloading.min.css" />
 		<script src="bower_components/jquery/jquery.min.js"></script>
 		<script src="bower_components/jquery.smooth-scroll/jquery.smooth-scroll.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="demo/js/highlight.pack.js"></script>
-		<script src="jquery.bttrlazyloading.min.js"></script>
+		<script src="build/jquery.bttrlazyloading.min.js"></script>
 		<style>
 			body{
 				margin-top: 46px;
@@ -373,7 +373,7 @@
 src : null,
 width : 100,
 height : 100
-}</pre></code>					
+}</pre></code>
 							</td>
 							<td><p>Image Object for Mobile</p></td>
 						</tr>
@@ -385,7 +385,7 @@ height : 100
 src : null,
 width : 100,
 height : 100
-}</pre></code>					
+}</pre></code>
 							</td>
 							<td><p>Image Object for Tablet</p></td>
 						</tr>
@@ -397,7 +397,7 @@ height : 100
 src : null,
 width : 100,
 height : 100
-}</pre></code>					
+}</pre></code>
 							</td>
 							<td><p>Image Object for Desktop</p></td>
 						</tr>
@@ -409,7 +409,7 @@ height : 100
 src : null,
 width : 100,
 height : 100
-}</pre></code>					
+}</pre></code>
 							</td>
 							<td><p>Image Object for Large Desktop</p></td>
 						</tr>
@@ -805,6 +805,13 @@ retina: true
 								 data-bttrlazyloading-sm-src="demo/img/green-360x200.jpg"
 								 data-bttrlazyloading-md-src="demo/img/green-470x200.jpg"
 								 data-bttrlazyloading-lg-src="demo/img/green-570x200.jpg"/>
+
+                            <h3>PNG support (transparent background)</h3>
+							<img id="img-option-backgroundcolor-transparent" class="img-option-backgroundcolor bttrlazyloading"
+								 data-bttrlazyloading-xs-src="demo/img/transparent-720x200.png"
+								 data-bttrlazyloading-sm-src="demo/img/transparent-360x200.png"
+								 data-bttrlazyloading-md-src="demo/img/transparent-470x200.png"
+								 data-bttrlazyloading-lg-src="demo/img/transparent-570x200.png"/>
 							<script type="text/javascript">
 								$(function() {
 									$('#img-option-backgroundcolor-blue').bttrlazyloading({
@@ -817,6 +824,10 @@ retina: true
 									});
 									$('#img-option-backgroundcolor-green').bttrlazyloading({
 										backgroundcolor: '#8FA92D',
+										animation: 'fadeIn'
+									});
+									$('#img-option-backgroundcolor-transparent').bttrlazyloading({
+										backgroundcolor: 'transparent',
 										animation: 'fadeIn'
 									});
 									$('button.demo-play.img-option-backgroundcolor').click(function(e) {
@@ -836,6 +847,10 @@ $('#yourImageId').bttrlazyloading({
 });
 $('#yourImageId').bttrlazyloading({
 	backgroundcolor: '#8FA92D',
+	animation: 'fadeIn'
+});
+$('#yourImageId').bttrlazyloading({
+	backgroundcolor: 'transparent',
 	animation: 'fadeIn'
 });</pre></code>
 						</div>
