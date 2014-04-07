@@ -24,11 +24,6 @@
 		"jquery": ">=1.5"
 	},
 	"devDependencies": {
-		"bootstrap": ">=3.0.0",
-		"font-awesome": ">4.0.0",
-		"jasmine": "~2.0",
-		"jquery.smooth-scroll": ">= 1.4.12",
-		"bootswatch": "> 3.0.0",
-		"highlight.js": ">=7.3"
+		"jasmine": "~2.0"
 	}
 }
