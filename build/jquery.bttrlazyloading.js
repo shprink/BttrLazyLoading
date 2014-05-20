@@ -2,7 +2,7 @@
 BttrLazyLoading, Responsive Lazy Loading plugin for JQuery
 by Julien Renaux http://bttrlazyloading.julienrenaux.fr
 
-Version 1.0.4
+Version: 1.0.4
 Full source at https://github.com/shprink/BttrLazyLoading
 
 MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
@@ -19,8 +19,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     BttrLazyLoading.dpr = 1;
 
     function BttrLazyLoading(img, options) {
-      var defaultOptions,
-        _this = this;
+      var defaultOptions;
       if (options == null) {
         options = {};
       }
@@ -51,15 +50,17 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
         this.$wrapper.css('background-color', this.options.backgroundcolor);
       }
       _setupEvents.call(this, 'on');
-      setTimeout(function() {
-        return _update.call(_this);
-      }, 100);
+      setTimeout((function(_this) {
+        return function() {
+          return _update.call(_this);
+        };
+      })(this), 100);
     }
+
 
     /*
     	Private Functions
-    */
-
+     */
 
     _updateCanvasSize = function() {
       var imgObject;
@@ -69,91 +70,99 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     _setOptionsFromData = function() {
-      var _this = this;
-      return $.each(this.$img.data(), function(i, v) {
-        if (v) {
-          if (i.indexOf('bttrlazyloading') !== 0) {
-            false;
-          }
-          i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
-          if (i.length > 1) {
-            if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
-              return _this.options[i[0]][i[1]] = v;
+      return $.each(this.$img.data(), (function(_this) {
+        return function(i, v) {
+          if (v) {
+            if (i.indexOf('bttrlazyloading') !== 0) {
+              false;
             }
-          } else {
-            if (typeof v === 'object') {
-              return $.extend(_this.options[i[0]], v);
+            i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
+            if (i.length > 1) {
+              if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
+                return _this.options[i[0]][i[1]] = v;
+              }
             } else {
-              if (typeof _this.options[i[0]] !== 'undefined') {
-                return _this.options[i[0]] = v;
+              if (typeof v === 'object') {
+                return $.extend(_this.options[i[0]], v);
+              } else {
+                if (typeof _this.options[i[0]] !== 'undefined') {
+                  return _this.options[i[0]] = v;
+                }
               }
             }
           }
-        }
-      });
+        };
+      })(this));
     };
 
     _setupEvents = function(onOrOff) {
-      var onBttrLoad, onError, onLoad, update,
-        _this = this;
-      onLoad = function() {
-        _this.$clone.hide();
-        _this.$img.show();
-        _this.$img.addClass('bttrlazyloading-loaded');
-        if (_this.options.animation) {
-          _this.$img.addClass('animated ' + _this.options.animation);
-        }
-        _this.loaded = _this.$img.attr('src');
-        return _this.$img.trigger('bttrlazyloading.afterLoad');
-      };
+      var onBttrLoad, onError, onLoad, update;
+      onLoad = (function(_this) {
+        return function() {
+          _this.$clone.hide();
+          _this.$img.show();
+          _this.$img.addClass('bttrlazyloading-loaded');
+          if (_this.options.animation) {
+            _this.$img.addClass('animated ' + _this.options.animation);
+          }
+          _this.loaded = _this.$img.attr('src');
+          return _this.$img.trigger('bttrlazyloading.afterLoad');
+        };
+      })(this);
       this.$img[onOrOff]('load', onLoad);
-      onBttrLoad = function(e) {
-        var imgObject;
-        if (!_this.loading) {
-          _this.loading = true;
-          imgObject = _getImgObject.call(_this);
-          if (!_this.loaded) {
-            _this.$wrapper.css('background-image', "url('" + _this.options.placeholder + "')");
-          } else {
-            _this.$img.removeClass('bttrlazyloading-loaded');
-            if (_this.options.animation) {
-              _this.$img.removeClass('animated ' + _this.options.animation);
+      onBttrLoad = (function(_this) {
+        return function(e) {
+          var imgObject;
+          if (!_this.loading) {
+            _this.loading = true;
+            imgObject = _getImgObject.call(_this);
+            if (!_this.loaded) {
+              _this.$wrapper.css('background-image', "url('" + _this.options.placeholder + "')");
+            } else {
+              _this.$img.removeClass('bttrlazyloading-loaded');
+              if (_this.options.animation) {
+                _this.$img.removeClass('animated ' + _this.options.animation);
+              }
+              _this.$img.removeAttr('src');
+              _this.$img.hide();
+              _this.$clone.attr('width', imgObject.width);
+              _this.$clone.attr('height', imgObject.height);
+              _this.$clone.show();
             }
-            _this.$img.removeAttr('src');
-            _this.$img.hide();
-            _this.$clone.attr('width', imgObject.width);
-            _this.$clone.attr('height', imgObject.height);
-            _this.$clone.show();
+            return setTimeout(function() {
+              _this.$img.trigger('bttrlazyloading.beforeLoad');
+              _this.$img.data('bttrlazyloading.range', imgObject.range);
+              _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src, imgObject.range));
+              return _this.loading = false;
+            }, _this.options.delay);
           }
-          return setTimeout(function() {
-            _this.$img.trigger('bttrlazyloading.beforeLoad');
-            _this.$img.data('bttrlazyloading.range', imgObject.range);
-            _this.$img.attr('src', _getImageSrc.call(_this, imgObject.src, imgObject.range));
-            return _this.loading = false;
-          }, _this.options.delay);
-        }
-      };
+        };
+      })(this);
       this.$img[onOrOff]('bttrlazyloading.load', onBttrLoad);
-      onError = function(e) {
-        var range, src;
-        src = _this.$img.attr('src');
-        range = _this.$img.data('bttrlazyloading.range');
-        if (_this.constructor.dpr >= 2 && _this.options.retina && src.match(/@2x/gi)) {
-          _this.blackList.push(range + '@2x');
-        } else {
-          _this.blackList.push(range);
-          _this.whiteList.splice(_this.whiteList.indexOf(range), 1);
-          if (_this.whiteList.length === 0) {
-            _this.$img.trigger('bttrlazyloading.error');
-            return false;
+      onError = (function(_this) {
+        return function(e) {
+          var range, src;
+          src = _this.$img.attr('src');
+          range = _this.$img.data('bttrlazyloading.range');
+          if (_this.constructor.dpr >= 2 && _this.options.retina && src.match(/@2x/gi)) {
+            _this.blackList.push(range + '@2x');
+          } else {
+            _this.blackList.push(range);
+            _this.whiteList.splice(_this.whiteList.indexOf(range), 1);
+            if (_this.whiteList.length === 0) {
+              _this.$img.trigger('bttrlazyloading.error');
+              return false;
+            }
           }
-        }
-        return _this.$img.trigger('bttrlazyloading.load');
-      };
+          return _this.$img.trigger('bttrlazyloading.load');
+        };
+      })(this);
       this.$img[onOrOff]('error', onError);
-      update = function(e) {
-        return _update.call(_this);
-      };
+      update = (function(_this) {
+        return function(e) {
+          return _update.call(_this);
+        };
+      })(this);
       this.$container[onOrOff](this.options.event, update);
       if (this.options.container !== window) {
         $(window)[onOrOff](this.options.event, update);
@@ -270,10 +279,10 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       }
     };
 
+
     /*
     	Public Functions
-    */
-
+     */
 
     BttrLazyLoading.prototype.get$Img = function() {
       return this.$img;
