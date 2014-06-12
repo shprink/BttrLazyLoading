@@ -1,6 +1,6 @@
 {
 	"name": "BttrLazyLoading",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"license": "MIT",
 	"main": ["./jquery.bttrlazyloading.min.js", "./bttrlazyloading.css"],
 	"author": "Julien Renaux",
