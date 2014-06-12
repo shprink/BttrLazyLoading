@@ -3,9 +3,10 @@ fs = require 'fs'
 flour = require 'flour'
 
 FILE_COFFEE = 'BttrLazyLoading.coffee'
+FILE_JS = 'build/jquery.bttrlazyloading.js'
+FILE_MINIFIED_JS = 'build/jquery.bttrlazyloading.min.js'
 FILE_CSS = 'bttrlazyloading.css'
-FILE_MINIFIED_JS = 'jquery.bttrlazyloading.min.js'
-FILE_MINIFIED_CSS = 'bttrlazyloading.min.css'
+FILE_MINIFIED_CSS = 'build/bttrlazyloading.min.css'
 FILE_VERSION = 'version'
 
 task 'build', 'Compile and minify', ->
@@ -13,10 +14,14 @@ task 'build', 'Compile and minify', ->
 	invoke 'build:css'
 
 task 'build:coffee', 'Build CoffeeScript', ->
+	compile FILE_COFFEE, FILE_JS, ->
+		prependCopyright FILE_JS
 	bundle FILE_COFFEE, FILE_MINIFIED_JS, ->
 		prependCopyright FILE_MINIFIED_JS
 
 task 'build:css', 'Build CSS', ->
+	cssContent = fs.readFileSync(FILE_CSS, { "encoding" : "utf8" })
+	fs.writeFile "build/" + FILE_CSS, copyright + cssContent
 	minify FILE_CSS, FILE_MINIFIED_CSS, ->
 		prependCopyright FILE_MINIFIED_CSS
 
@@ -39,9 +44,9 @@ task 'watch', 'Watch for changes', ->
 
 prependCopyright = (file) ->
 	try
-		minifiedJs = fs.readFileSync(file, { "encoding" : "utf8" })
-		fs.writeFile file, copyright + minifiedJs, () ->
-			console.log "Copyright added successfully"
+		fileContent = fs.readFileSync(file, { "encoding" : "utf8" })
+		fs.writeFile file, copyright + fileContent, () ->
+		console.log "Copyright added successfully"
 	catch e
 		console.warn "Failed to prepend copyright"
 

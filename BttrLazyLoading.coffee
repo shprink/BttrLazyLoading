@@ -23,11 +23,11 @@ class BttrLazyLoading
 
 		_setOptionsFromData.call @
 
-		@$wrapper = $ '<span class="bttrlazyloading-wrapper">'
+		@$wrapper = $ '<span class="bttrlazyloading-wrapper"></span>'
 		@$wrapper.addClass @options.wrapperClasses if @options.wrapperClasses and typeof @options.wrapperClasses is 'string'
 		@$img.before @$wrapper
 		# The easier way to simulate a responsive image is to use canvas
-		@$clone = $ '<canvas class="bttrlazyloading-clone">'
+		@$clone = $ '<canvas class="bttrlazyloading-clone"></canvas>'
 		_updateCanvasSize.call @
 
 		@$wrapper.append @$clone
@@ -69,7 +69,7 @@ class BttrLazyLoading
 		onLoad = () =>
 			@$clone.hide()
 			@$img.show()
-			@$img.addClass 'bttrlazyloading-loaded'
+			@$wrapper.addClass 'bttrlazyloading-loaded'
 			@$img.addClass 'animated ' + @options.animation if @options.animation
 			@loaded = @$img.attr 'src'
 			@$img.trigger 'bttrlazyloading.afterLoad'
@@ -83,7 +83,7 @@ class BttrLazyLoading
 				if !@loaded
 					@$wrapper.css 'background-image', "url('" + @options.placeholder + "')"
 				else
-					@$img.removeClass 'bttrlazyloading-loaded'
+					@$wrapper.removeClass 'bttrlazyloading-loaded'
 					@$img.removeClass 'animated ' + @options.animation if @options.animation
 					@$img.removeAttr 'src'
 					@$img.hide()
@@ -230,7 +230,7 @@ class BttrLazyLoading
 		@$wrapper.remove()
 		_setupEvents.call @, 'off'
 		@$img.off 'bttrlazyloading'
-		@$img.removeClass 'bttrlazyloading-loaded'
+		@$wrapper.removeClass 'bttrlazyloading-loaded'
 		@$img.removeClass 'animated ' + @options.animation if @options.animation
 		@$img.removeData 'bttrlazyloading'
 		return @$img

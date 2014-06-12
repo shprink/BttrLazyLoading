@@ -7,11 +7,12 @@ BttrLazyLoading is a Jquery plugin that allows your web application to defer ima
 
 ## Installation
 
-BttrLazyLoading depends on jQuery (meaning jQuery must be included before the plugin files).
+BttrLazyLoading depends on jQuery (meaning jQuery must be included before the plugin files) and [Animate.css](https://github.com/daneden/animate.css) (optional) for animations.
 
 ```
 <script src="jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="bttrlazyloading.min.css" />
+<link rel="stylesheet" type="text/css" href="animate.min.css" />
 <script src="jquery.bttrlazyloading.min.js"></script>
 ```
 
@@ -53,7 +54,7 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 	data-bttrlazyloading-sm-src="img/345x250.gif"
 	data-bttrlazyloading-md-src="img/455x350.gif"
 	data-bttrlazyloading-lg-src="img/360x300.gif"
-	data-bttrlazyloading-transition="rotatedIn"
+	data-bttrlazyloading-animation="rotatedIn"
 	data-bttrlazyloading-retina="true"
 	data-bttrlazyloading-delay="2000"
 	data-bttrlazyloading-event="mouseover"
@@ -125,7 +126,7 @@ $("#yourImageId").bttrlazyloading({
 		height: 200
 	},
 	retina: true,
-	transition: 'fadeInUp',
+	animation: 'fadeInUp',
 	delay: 1000,
 	event: 'click',
 	container: 'document.body',
@@ -171,6 +172,10 @@ cake dev
 Open test/index.html
 
 You are now good to go ;)
+
+### Browser Compatibility
+IE9+ 
+BttrLazyLoading relies on array.indexOf which was not introduced until IE9. There is a poly fill for this function available here however, it does not help with IE8 support completely.
 
 ### Contributors
 
