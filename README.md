@@ -7,11 +7,12 @@ BttrLazyLoading is a Jquery plugin that allows your web application to defer ima
 
 ## Installation
 
-BttrLazyLoading depends on jQuery (meaning jQuery must be included before the plugin files).
+BttrLazyLoading depends on jQuery (meaning jQuery must be included before the plugin files) and [Animate.css](https://github.com/daneden/animate.css) (optional) for animations.
 
 ```
 <script src="jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="bttrlazyloading.min.css" />
+<link rel="stylesheet" type="text/css" href="animate.min.css" />
 <script src="jquery.bttrlazyloading.min.js"></script>
 ```
 

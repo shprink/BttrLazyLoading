@@ -69,7 +69,7 @@ class BttrLazyLoading
 		onLoad = () =>
 			@$clone.hide()
 			@$img.show()
-			@$img.addClass 'bttrlazyloading-loaded'
+			@$wrapper.addClass 'bttrlazyloading-loaded'
 			@$img.addClass 'animated ' + @options.animation if @options.animation
 			@loaded = @$img.attr 'src'
 			@$img.trigger 'bttrlazyloading.afterLoad'
@@ -83,7 +83,7 @@ class BttrLazyLoading
 				if !@loaded
 					@$wrapper.css 'background-image', "url('" + @options.placeholder + "')"
 				else
-					@$img.removeClass 'bttrlazyloading-loaded'
+					@$wrapper.removeClass 'bttrlazyloading-loaded'
 					@$img.removeClass 'animated ' + @options.animation if @options.animation
 					@$img.removeAttr 'src'
 					@$img.hide()
@@ -230,7 +230,7 @@ class BttrLazyLoading
 		@$wrapper.remove()
 		_setupEvents.call @, 'off'
 		@$img.off 'bttrlazyloading'
-		@$img.removeClass 'bttrlazyloading-loaded'
+		@$wrapper.removeClass 'bttrlazyloading-loaded'
 		@$img.removeClass 'animated ' + @options.animation if @options.animation
 		@$img.removeData 'bttrlazyloading'
 		return @$img

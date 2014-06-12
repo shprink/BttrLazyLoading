@@ -101,7 +101,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
         return function() {
           _this.$clone.hide();
           _this.$img.show();
-          _this.$img.addClass('bttrlazyloading-loaded');
+          _this.$wrapper.addClass('bttrlazyloading-loaded');
           if (_this.options.animation) {
             _this.$img.addClass('animated ' + _this.options.animation);
           }
@@ -119,7 +119,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
             if (!_this.loaded) {
               _this.$wrapper.css('background-image', "url('" + _this.options.placeholder + "')");
             } else {
-              _this.$img.removeClass('bttrlazyloading-loaded');
+              _this.$wrapper.removeClass('bttrlazyloading-loaded');
               if (_this.options.animation) {
                 _this.$img.removeClass('animated ' + _this.options.animation);
               }
@@ -301,7 +301,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.$wrapper.remove();
       _setupEvents.call(this, 'off');
       this.$img.off('bttrlazyloading');
-      this.$img.removeClass('bttrlazyloading-loaded');
+      this.$wrapper.removeClass('bttrlazyloading-loaded');
       if (this.options.animation) {
         this.$img.removeClass('animated ' + this.options.animation);
       }
