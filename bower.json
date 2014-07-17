@@ -1,29 +1,31 @@
 {
-	"name": "BttrLazyLoading",
-	"version": "1.0.5",
-	"license": "MIT",
-	"main": ["./jquery.bttrlazyloading.min.js", "./bttrlazyloading.css"],
-	"author": "Julien Renaux",
-	"homepage": "http://bttrlazyloading.julienrenaux.fr",
-	"ignore": [
-		"node_modules/",
-		"bower_components/",
-		"test/",
-		"demo/",
-		"test/",
-		"LICENSE",
-		"README.md",
-		"package.json",
-		"menu.php",
-		"coffeelint.json",
-		"bttrlazyloading.jquery.json",
-		"BttrLazyLoading.coffee",
-		"Cakefile"
-	],
-	"dependencies": {
-		"jquery": ">=1.5"
-	},
-	"devDependencies": {
-		"jasmine": "~2.0"
-	}
+    "name": "BttrLazyLoading",
+    "version": "1.0.6",
+    "license": "MIT",
+    "main": [
+        "dist/jquery.bttrlazyloading.min.js",
+        "dist/bttrlazyloading.min.css"
+    ],
+    "author": "Julien Renaux",
+    "homepage": "http://bttrlazyloading.julienrenaux.fr",
+    "ignore": [
+        "node_modules/",
+        "bower_components/",
+        "src/",
+        "dist/",
+        "test/",
+        "LICENSE",
+        "README.md",
+        "copyright",
+        "version",
+        "gulpfile.js",
+        "package.json",
+        "bttrlazyloading.jquery.json"
+    ],
+    "dependencies": {
+        "jquery": ">=1.5"
+    },
+    "devDependencies": {
+        "jasmine": "~2.0"
+    }
 }

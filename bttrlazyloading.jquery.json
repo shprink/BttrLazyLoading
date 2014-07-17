@@ -1,29 +1,29 @@
 {
-	"name": "bttrlazyloading",
-	"version": "1.0.5",
-	"description": "BttrLazyLoading is a jQuery plugin that allows your web application to only load images within the viewport. It also multi serves responsive images for 4 differents screen sizes.",
-	"keywords": [
-		"lazy-loading",
-		"responsive",
-		"multi-serving",
-		"image",
-		"images"
-	],
-	"bugs": "https://github.com/shprink/BttrLazyLoading/issues",
-	"homepage": "http://bttrlazyloading.julienrenaux.fr/",
-	"title": "BttrLazyLoading jQuery plugin",
-	"author": {
-		"name": "Julien Renaux",
-		"email": "contact@julienrenaux.fr",
-		"url": "http://julienrenaux.fr/"
-	},
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "http://opensource.org/licenses/MIT"
-		}
-	],
-	"dependencies": {
-		"jquery": ">=1.5"
-	}
+    "name": "bttrlazyloading",
+    "version": "1.0.6",
+    "description": "BttrLazyLoading is a jQuery plugin that allows your web application to only load images within the viewport. It also multi serves responsive images for 4 differents screen sizes.",
+    "keywords": [
+        "lazy-loading",
+        "responsive",
+        "multi-serving",
+        "image",
+        "images"
+    ],
+    "bugs": "https://github.com/shprink/BttrLazyLoading/issues",
+    "homepage": "http://bttrlazyloading.julienrenaux.fr/",
+    "title": "BttrLazyLoading jQuery plugin",
+    "author": {
+        "name": "Julien Renaux",
+        "email": "contact@julienrenaux.fr",
+        "url": "http://julienrenaux.fr/"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.5"
+    }
 }
