@@ -158,14 +158,14 @@ $ npm install
 ### Build
 Compiles and minifies BttrLazyLoading.coffee and bttrlazyloading.css.
 ```
-cake build
+gulp
 ```
 If CoffeeScript isn't globally installed, use `node_modules/.bin/cake build`
 
 ### Develop
 Builds CoffeeScript and CSS, and runs linting and build steps if any changes occur to important files. This allows you to rerun the tests immidiately after you've changed the CoffeeScript, without having to lint and recompile. Of course, any changes that breaks the CoffeeScript will be prompted on the command line.
 ```
-cake dev
+gulp watch (coming)
 ```
 
 ### Run tests

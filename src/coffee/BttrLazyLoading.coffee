@@ -55,7 +55,7 @@ class BttrLazyLoading
 			if v
 				# making sure we only use bttrlazyloading data
 				if i.indexOf('bttrlazyloading') isnt 0
-					false
+					return false
 				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
 				if i.length > 1
 					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
