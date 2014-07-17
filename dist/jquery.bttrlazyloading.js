@@ -74,7 +74,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
         return function(i, v) {
           if (v) {
             if (i.indexOf('bttrlazyloading') !== 0) {
-              false;
+              return false;
             }
             i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
             if (i.length > 1) {

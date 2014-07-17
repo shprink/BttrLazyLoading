@@ -9,11 +9,11 @@ var gulp = require('gulp')
         , gutil = require('gulp-util');
 
 var path = {
-    coffee: 'BttrLazyLoading.coffee'
+    coffee: 'src/coffee/BttrLazyLoading.coffee'
     , copyright: 'copyright'
     , version: 'version'
-    , css: 'bttrlazyloading.css'
-    , build: 'build/'
+    , css: 'src/css/bttrlazyloading.css'
+    , build: 'dist/'
 };
 
 var name = {
