@@ -1,4 +1,4 @@
-var IMAGE_DIR = "../demo/img/";
+var IMAGE_DIR = "img/";
 
 var testFixture = {
 	xs: {
