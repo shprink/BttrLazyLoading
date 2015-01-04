@@ -51,19 +51,17 @@ class BttrLazyLoading
 
 	_setOptionsFromData = () ->
 		# Set options based on Jquery Data available
-		$.each @$img.data(), (i, v) =>
-			if v
-				# making sure we only use bttrlazyloading data
-				if i.indexOf('bttrlazyloading') isnt 0
-					return false
-				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
-				if i.length > 1
-					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
+		for own i, v of @$img.data()
+			if v? && i.indexOf('bttrlazyloading') isnt 0
+				continue
+			i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
+			if i.length > 1
+				@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
+			else
+				if typeof v is 'object'
+					$.extend(@options[i[0]], v)
 				else
-					if typeof v is 'object'
-						$.extend(@options[i[0]], v)
-					else
-						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
+					@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
 
 	_setupEvents = (onOrOff) ->
 		onLoad = () =>

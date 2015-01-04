@@ -9,7 +9,8 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 */
 (function() {
   "use strict";
-  var $, BttrLazyLoading, BttrLazyLoadingGlobal;
+  var $, BttrLazyLoading, BttrLazyLoadingGlobal,
+    __hasProp = {}.hasOwnProperty;
 
   $ = jQuery;
 
@@ -70,29 +71,35 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     };
 
     _setOptionsFromData = function() {
-      return $.each(this.$img.data(), (function(_this) {
-        return function(i, v) {
-          if (v) {
-            if (i.indexOf('bttrlazyloading') !== 0) {
-              return false;
-            }
-            i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
-            if (i.length > 1) {
-              if (typeof _this.options[i[0]][i[1]] !== 'undefined') {
-                return _this.options[i[0]][i[1]] = v;
-              }
+      var i, v, _ref, _results;
+      _ref = this.$img.data();
+      _results = [];
+      for (i in _ref) {
+        if (!__hasProp.call(_ref, i)) continue;
+        v = _ref[i];
+        if ((v != null) && i.indexOf('bttrlazyloading') !== 0) {
+          continue;
+        }
+        i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split('-');
+        if (i.length > 1) {
+          if (typeof this.options[i[0]][i[1]] !== 'undefined') {
+            _results.push(this.options[i[0]][i[1]] = v);
+          } else {
+            _results.push(void 0);
+          }
+        } else {
+          if (typeof v === 'object') {
+            _results.push($.extend(this.options[i[0]], v));
+          } else {
+            if (typeof this.options[i[0]] !== 'undefined') {
+              _results.push(this.options[i[0]] = v);
             } else {
-              if (typeof v === 'object') {
-                return $.extend(_this.options[i[0]], v);
-              } else {
-                if (typeof _this.options[i[0]] !== 'undefined') {
-                  return _this.options[i[0]] = v;
-                }
-              }
+              _results.push(void 0);
             }
           }
-        };
-      })(this));
+        }
+      }
+      return _results;
     };
 
     _setupEvents = function(onOrOff) {

@@ -8,11 +8,10 @@ Full source at https://github.com/shprink/BttrLazyLoading
 MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 */
 @charset "UTF-8";
-
 .bttrlazyloading-wrapper {
     background-repeat: no-repeat;
     background-position: center;
-    display: table;
+    display: block;
 }
 .bttrlazyloading-clone,
 .bttrlazyloading {
@@ -23,7 +22,6 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     height: auto;
     max-width: 100%;
 }
-
 .bttrlazyloading-loaded {
     background-image: none !important;
 }

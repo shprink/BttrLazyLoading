@@ -1,9 +1,8 @@
 @charset "UTF-8";
-
 .bttrlazyloading-wrapper {
     background-repeat: no-repeat;
     background-position: center;
-    display: table;
+    display: block;
 }
 .bttrlazyloading-clone,
 .bttrlazyloading {
@@ -14,7 +13,6 @@
     height: auto;
     max-width: 100%;
 }
-
 .bttrlazyloading-loaded {
     background-image: none !important;
 }
