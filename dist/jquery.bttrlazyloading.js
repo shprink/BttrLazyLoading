@@ -335,7 +335,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '1.0.3';
+    BttrLazyLoadingGlobal.prototype.version = '1.0.7';
 
     BttrLazyLoadingGlobal.ranges = {
       xs: 767,
