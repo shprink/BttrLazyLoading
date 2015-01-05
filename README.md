@@ -38,7 +38,7 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 ### Events
 
 * bttrlazyloading.beforeLoad: This event is triggered just before the "bttrlazyloading.load" event.
-* bttrlazyloading.load: This event is triggered when the image loading is triggered. 
+* bttrlazyloading.load: This event is triggered when the image loading is triggered.
 * bttrlazyloading.afterLoad: This event is triggered just after the "bttrlazyloading.load" event.
 * bttrlazyloading.error: This event is triggered when none of the images (xs, sm, md and lg) exist. The classic "error" event could therefore be triggered up to 8 times (4 times for a normal screen and 8 times for a retina screen) while "bttrlazyloading.error" will be triggered only once.
 
@@ -135,6 +135,16 @@ $("#yourImageId").bttrlazyloading({
 })
 ```
 
+## Common problems
+
+### HTML5 Doctype
+
+The HTML5 doctype is require to work correctly.
+
+```<!DOCTYPE html>```
+
+[More information](http://www.w3schools.com/tags/tag_doctype.asp)
+
 
 ## Contribute!
 
@@ -174,7 +184,7 @@ Open test/index.html
 You are now good to go ;)
 
 ### Browser Compatibility
-IE9+ 
+IE9+
 BttrLazyLoading relies on array.indexOf which was not introduced until IE9. There is a poly fill for this function available here however, it does not help with IE8 support completely.
 
 ### Contributors

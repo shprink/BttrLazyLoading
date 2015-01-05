@@ -5,15 +5,15 @@ $ = jQuery
 class BttrLazyLoading
 	@dpr = 1
 
-	constructor: (img, options = {}) ->
-		@$img		= $(img)
-		@loaded		= false
-		@loading	= false
+	constructor: (img, options = {} ) ->
+		@$img		 = $(img)
+		@loaded		 = false
+		@loading	 = false
 
-		defaultOptions = $.extend true, {}, $.bttrlazyloading.constructor.options
+		defaultOptions = $.extend true, {} , $.bttrlazyloading.constructor.options
 
-		@options	= $.extend true, defaultOptions, options
-		@ranges		= $.bttrlazyloading.constructor.ranges
+		@options	 = $.extend true, defaultOptions, options
+		@ranges		 = $.bttrlazyloading.constructor.ranges
 
 		@$container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
@@ -51,19 +51,17 @@ class BttrLazyLoading
 
 	_setOptionsFromData = () ->
 		# Set options based on Jquery Data available
-		$.each @$img.data(), (i, v) =>
-			if v
-				# making sure we only use bttrlazyloading data
-				if i.indexOf('bttrlazyloading') isnt 0
-					return false
-				i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
-				if i.length > 1
-					@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
+		for own i, v of @$img.data()
+			if v? && i.indexOf('bttrlazyloading') isnt 0
+				continue
+			i = i.replace('bttrlazyloading', '').replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase().split '-'
+			if i.length > 1
+				@options[i[0]][i[1]] = v if typeof @options[i[0]][i[1]] isnt 'undefined'
+			else
+				if typeof v is 'object'
+					$.extend(@options[i[0]], v)
 				else
-					if typeof v is 'object'
-						$.extend(@options[i[0]], v)
-					else
-						@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
+					@options[i[0]] = v if typeof @options[i[0]] isnt 'undefined'
 
 	_setupEvents = (onOrOff) ->
 		onLoad = () =>
@@ -101,8 +99,8 @@ class BttrLazyLoading
 		@$img[onOrOff] 'bttrlazyloading.load', onBttrLoad
 
 		onError = (e) =>
-			src		= @$img.attr 'src'
-			range	= @$img.data 'bttrlazyloading.range'
+			src		 = @$img.attr 'src'
+			range	 = @$img.data 'bttrlazyloading.range'
 			if @constructor.dpr >= 2 && @options.retina && src.match(/@2x/gi)
 				@blackList.push range + '@2x'
 			else
@@ -115,12 +113,12 @@ class BttrLazyLoading
 
 		@$img[onOrOff] 'error', onError
 
-		update = (e)=>
+		update = (e) =>
 			_update.call @
 
-		@$container[onOrOff]  @options.event, update
+		@$container[onOrOff] @options.event, update
 		# making sure we laod image within a container not in the viewport
-		$(window)[onOrOff]  @options.event, update if @options.container isnt window
+		$(window)[onOrOff] @options.event, update if @options.container isnt window
 		$(window)[onOrOff] "resize", update
 
 	_getRangeFromScreenSize = () ->
@@ -134,28 +132,28 @@ class BttrLazyLoading
 		else if @ranges.lg <= ww
 			'lg'
 
-	_getImgObject =  () ->
+	_getImgObject = () ->
 		@range = _getRangeFromScreenSize.call @
 		_getLargestImgObject.call @
 
-	_getImageSrc = (src, range)->
+	_getImageSrc = (src, range) ->
 		# check if retina and not in black list
-		if @constructor.dpr >= 2 && @options.retina && @blackList.indexOf(range + '@2x') is -1
-			src.replace /\.\w+$/, (match)->
+		if @constructor.dpr >= 2 && @options.retina && @blackList.indexOf(range + '@2x') is - 1
+			src.replace /\.\w+$/, (match) ->
 				'@2x' + match
 		else
 			src
 
-	_getImgObjectPerRange = (range)->
+	_getImgObjectPerRange = (range) ->
 		if typeof @options[range].src isnt 'undefined' and @options[range].src isnt null
 			return @options[range]
 		return null
 
-	_getLargestImgObject =  () ->
+	_getLargestImgObject = () ->
 		index = @whiteList.indexOf(@range)
 
 		# Check if the right img exist, otherwise we find a bigger one
-		if index > -1
+		if index > - 1
 			src = _getImgObjectPerRange.call @, @range
 			if src
 				src.range = @range
@@ -189,14 +187,14 @@ class BttrLazyLoading
 			left : $(window).scrollLeft()
 
 		if @options.container isnt window
-			return isWithinWindowViewport and _isWithinViewport.call @, @$container, 
+			return isWithinWindowViewport and _isWithinViewport.call @, @$container,
 				top : @$container.offset().top + threshold
 				left : @$container.offset().left
 
 		return isWithinWindowViewport
 
 	# http://upshots.org/javascript/jquery-test-if-element-is-in-viewport-visible-on-screen
-	_isWithinViewport = ($container, viewport = {}) ->
+	_isWithinViewport = ($container, viewport = {} ) ->
 		viewport.right = viewport.left + $container.width()
 		viewport.bottom = viewport.top + $container.height()
 
@@ -254,7 +252,7 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 
 class BttrLazyLoadingGlobal
 
-	version : '1.0.3'
+	version : '@@version'
 	@ranges =
 		xs : 767
 		sm : 768
@@ -290,11 +288,11 @@ class BttrLazyLoadingGlobal
 		backgroundcolor: '#EEE'
 		placeholder : 'data:image/gif;base64,R0lGODlhEAALAPQAAP/391tbW+bf3+Da2vHq6l5dXVtbW3h2dq6qqpiVldLMzHBvb4qHh7Ovr5uYmNTOznNxcV1cXI2Kiu7n5+Xf3/fw8H58fOjh4fbv78/JycG8vNzW1vPs7AAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCwAAACwAAAAAEAALAAAFLSAgjmRpnqSgCuLKAq5AEIM4zDVw03ve27ifDgfkEYe04kDIDC5zrtYKRa2WQgAh+QQJCwAAACwAAAAAEAALAAAFJGBhGAVgnqhpHIeRvsDawqns0qeN5+y967tYLyicBYE7EYkYAgAh+QQJCwAAACwAAAAAEAALAAAFNiAgjothLOOIJAkiGgxjpGKiKMkbz7SN6zIawJcDwIK9W/HISxGBzdHTuBNOmcJVCyoUlk7CEAAh+QQJCwAAACwAAAAAEAALAAAFNSAgjqQIRRFUAo3jNGIkSdHqPI8Tz3V55zuaDacDyIQ+YrBH+hWPzJFzOQQaeavWi7oqnVIhACH5BAkLAAAALAAAAAAQAAsAAAUyICCOZGme1rJY5kRRk7hI0mJSVUXJtF3iOl7tltsBZsNfUegjAY3I5sgFY55KqdX1GgIAIfkECQsAAAAsAAAAABAACwAABTcgII5kaZ4kcV2EqLJipmnZhWGXaOOitm2aXQ4g7P2Ct2ER4AMul00kj5g0Al8tADY2y6C+4FIIACH5BAkLAAAALAAAAAAQAAsAAAUvICCOZGme5ERRk6iy7qpyHCVStA3gNa/7txxwlwv2isSacYUc+l4tADQGQ1mvpBAAIfkECQsAAAAsAAAAABAACwAABS8gII5kaZ7kRFGTqLLuqnIcJVK0DeA1r/u3HHCXC/aKxJpxhRz6Xi0ANAZDWa+kEAA7AAAAAAAAAAAA'
 
-	setOptions : (object = {}) ->
+	setOptions : (object = {} ) ->
 		$.extend true, this.constructor.options, object
 		this
 
-	setRanges : (object = {}) ->
+	setRanges : (object = {} ) ->
 		$.extend true, this.constructor.ranges, object
 		this
 
