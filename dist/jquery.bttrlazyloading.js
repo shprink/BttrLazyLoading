@@ -2,7 +2,8 @@
 BttrLazyLoading, Responsive Lazy Loading plugin for JQuery
 by Julien Renaux http://bttrlazyloading.julienrenaux.fr
 
-Version: 1.0.7
+Version: 1.0.8
+
 Full source at https://github.com/shprink/BttrLazyLoading
 
 MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
@@ -342,7 +343,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   BttrLazyLoadingGlobal = (function() {
     function BttrLazyLoadingGlobal() {}
 
-    BttrLazyLoadingGlobal.prototype.version = '1.0.7';
+    BttrLazyLoadingGlobal.prototype.version = '1.0.8';
 
     BttrLazyLoadingGlobal.ranges = {
       xs: 767,

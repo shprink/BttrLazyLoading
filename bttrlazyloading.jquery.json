@@ -1,6 +1,6 @@
 {
     "name": "bttrlazyloading",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "BttrLazyLoading is a jQuery plugin that allows your web application to only load images within the viewport. It also multi serves responsive images for 4 differents screen sizes.",
     "keywords": [
         "lazy-loading",
