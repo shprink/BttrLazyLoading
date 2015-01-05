@@ -148,6 +148,12 @@ The HTML5 doctype is require to work correctly.
 
 ## Contribute!
 
+### Issues
+
+Every issue created should have a Codepen to demonstrate the problem.
+
+You can use this Codepen boilerplate: http://codepen.io/shprink/pen/MYbQGR
+
 ### Installation
 
 #### Prerequisites
@@ -161,7 +167,6 @@ The HTML5 doctype is require to work correctly.
 #### Install dependencies
 ```
 $ cd BttrLazyLoading
-$ bower install
 $ npm install
 ```
 
