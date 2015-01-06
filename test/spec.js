@@ -62,17 +62,17 @@ imgWithNoDataAttribute.setAttribute("id", "imgWithNoDataAttribute");
 var imgWithDataAttributeAsObject = document.createElement("img");
 imgWithDataAttributeAsObject.setAttribute("id", "imgWithDataAttributeAsObject");
 imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-xs", '{"src": "' + testFixture.xs.src +
-    '", "width" : ' + testFixture.xs.width + ',  "height" : ' +
-    testFixture.xs.height + '}');
+        '", "width" : ' + testFixture.xs.width + ',  "height" : ' +
+        testFixture.xs.height + '}');
 imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-sm", '{"src": "' + testFixture.sm.src +
-    '", "width" : ' + testFixture.sm.width + ',  "height" : ' +
-    testFixture.sm.height + '}');
+        '", "width" : ' + testFixture.sm.width + ',  "height" : ' +
+        testFixture.sm.height + '}');
 imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-md", '{"src": "' + testFixture.md.src +
-    '", "width" : ' + testFixture.md.width + ',  "height" : ' +
-    testFixture.md.height + '}');
+        '", "width" : ' + testFixture.md.width + ',  "height" : ' +
+        testFixture.md.height + '}');
 imgWithDataAttributeAsObject.setAttribute("data-bttrlazyloading-lg", '{"src": "' + testFixture.lg.src +
-    '", "width" : ' + testFixture.lg.width + ',  "height" : ' +
-    testFixture.lg.height + '}');
+        '", "width" : ' + testFixture.lg.width + ',  "height" : ' +
+        testFixture.lg.height + '}');
 
 var imgWithAllExistingSrc = document.createElement("img");
 imgWithAllExistingSrc.setAttribute("id", "imgWithAllExistingSrc");
@@ -187,10 +187,10 @@ describe("jQuery Plugin", function() {
             triggermanually: true,
             updatemanually: true
         }).data('bttrlazyloading');
-        expect(obj4.ranges.xs).toEqual(767);
-        expect(obj4.ranges.sm).toEqual(768);
-        expect(obj4.ranges.md).toEqual(992);
-        expect(obj4.ranges.lg).toEqual(1200);
+        expect(obj4.breakpoints.xs).toEqual(767);
+        expect(obj4.breakpoints.sm).toEqual(768);
+        expect(obj4.breakpoints.md).toEqual(992);
+        expect(obj4.breakpoints.lg).toEqual(1200);
         expect(obj4.options.xs.src).toEqual(testFixture.xs.src);
         expect(obj4.options.sm.src).toEqual(testFixture.sm.src);
         expect(obj4.options.md.src).toEqual(testFixture.md.src);
@@ -249,10 +249,10 @@ describe("jQuery Plugin", function() {
         });
 
         var obj2 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
-        expect(obj2.ranges.xs).toEqual(767);
-        expect(obj2.ranges.sm).toEqual(768);
-        expect(obj2.ranges.md).toEqual(992);
-        expect(obj2.ranges.lg).toEqual(1200);
+        expect(obj2.breakpoints.xs).toEqual(767);
+        expect(obj2.breakpoints.sm).toEqual(768);
+        expect(obj2.breakpoints.md).toEqual(992);
+        expect(obj2.breakpoints.lg).toEqual(1200);
         expect(obj2.options.xs.src).toEqual(testFixture.xs.src);
         expect(obj2.options.sm.src).toEqual(testFixture.sm.src);
         expect(obj2.options.md.src).toEqual(testFixture.md.src);
@@ -276,7 +276,7 @@ describe("jQuery Plugin", function() {
         expect(obj2.options.updatemanually).toEqual(true);
     });
 
-    it("set the default global ranges", function() {
+    it("[DEPRECATED] set the default global ranges", function() {
         $.bttrlazyloading.setRanges({
             'xs': 700,
             'sm': 800,
@@ -284,10 +284,24 @@ describe("jQuery Plugin", function() {
             'lg': 1100
         });
         var obj3 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
-        expect(obj3.ranges.xs).toEqual(700);
-        expect(obj3.ranges.sm).toEqual(800);
-        expect(obj3.ranges.md).toEqual(900);
-        expect(obj3.ranges.lg).toEqual(1100);
+        expect(obj3.breakpoints.xs).toEqual(700);
+        expect(obj3.breakpoints.sm).toEqual(800);
+        expect(obj3.breakpoints.md).toEqual(900);
+        expect(obj3.breakpoints.lg).toEqual(1100);
+    });
+
+    it("set the default global BreakPoints", function() {
+        $.bttrlazyloading.setBreakPoints({
+            'xs': 701,
+            'sm': 801,
+            'md': 901,
+            'lg': 1101
+        });
+        var obj3 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
+        expect(obj3.breakpoints.xs).toEqual(701);
+        expect(obj3.breakpoints.sm).toEqual(801);
+        expect(obj3.breakpoints.md).toEqual(901);
+        expect(obj3.breakpoints.lg).toEqual(1101);
     });
 });
 
@@ -360,8 +374,8 @@ describe("Event", function() {
 });
 
 /* TODO: This test sometimes fails due to a race condition. Increased
-   the timeout, but the beforeEach method should finish when it 'knows'
-   that BttrLazyLoading has finished loading. */
+ the timeout, but the beforeEach method should finish when it 'knows'
+ that BttrLazyLoading has finished loading. */
 describe("Error", function() {
     var onError;
 

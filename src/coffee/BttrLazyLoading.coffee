@@ -13,7 +13,7 @@ class BttrLazyLoading
 		defaultOptions = $.extend true, {} , $.bttrlazyloading.constructor.options
 
 		@options	 = $.extend true, defaultOptions, options
-		@ranges		 = $.bttrlazyloading.constructor.ranges
+		@breakpoints		 = $.bttrlazyloading.constructor.breakpoints
 
 		@$container = $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
@@ -123,13 +123,13 @@ class BttrLazyLoading
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
-		if ww <= @ranges.xs
+		if ww <= @breakpoints.xs
 			'xs'
-		else if @ranges.sm <= ww < @ranges.md
+		else if @breakpoints.sm <= ww < @breakpoints.md
 			'sm'
-		else if @ranges.md <= ww < @ranges.lg
+		else if @breakpoints.md <= ww < @breakpoints.lg
 			'md'
-		else if @ranges.lg <= ww
+		else if @breakpoints.lg <= ww
 			'lg'
 
 	_getImgObject = () ->
@@ -253,7 +253,7 @@ $.fn.bttrlazyloading.Constructor = BttrLazyLoading
 class BttrLazyLoadingGlobal
 
 	version : '@@version'
-	@ranges =
+	@breakpoints =
 		xs : 767
 		sm : 768
 		md : 992
@@ -264,18 +264,22 @@ class BttrLazyLoadingGlobal
 			src : null
 			width : 100
 			height : 100
+			animation: null
 		sm :
 			src : null
 			width : 100
 			height : 100
+			animation: null
 		md :
 			src : null
 			width : 100
 			height : 100
+			animation: null
 		lg :
 			src : null
 			width : 100
 			height : 100
+			animation: null
 		retina : false
 		animation: 'bounceIn'
 		delay: 0
@@ -292,8 +296,13 @@ class BttrLazyLoadingGlobal
 		$.extend true, this.constructor.options, object
 		this
 
+	# DEPRECATED. Kept for backward compatibility
 	setRanges : (object = {} ) ->
-		$.extend true, this.constructor.ranges, object
+		$.extend true, this.constructor.breakpoints, object
+		this
+
+	setBreakPoints : (object = {} ) ->
+		$.extend true, this.constructor.breakpoints, object
 		this
 
 $.bttrlazyloading = new BttrLazyLoadingGlobal()

@@ -30,7 +30,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       this.loading = false;
       defaultOptions = $.extend(true, {}, $.bttrlazyloading.constructor.options);
       this.options = $.extend(true, defaultOptions, options);
-      this.ranges = $.bttrlazyloading.constructor.ranges;
+      this.breakpoints = $.bttrlazyloading.constructor.breakpoints;
       this.$container = $(this.options.container);
       if (typeof window.devicePixelRatio === 'number') {
         this.constructor.dpr = window.devicePixelRatio;
@@ -181,13 +181,13 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
     _getRangeFromScreenSize = function() {
       var ww;
       ww = window.innerWidth;
-      if (ww <= this.ranges.xs) {
+      if (ww <= this.breakpoints.xs) {
         return 'xs';
-      } else if ((this.ranges.sm <= ww && ww < this.ranges.md)) {
+      } else if ((this.breakpoints.sm <= ww && ww < this.breakpoints.md)) {
         return 'sm';
-      } else if ((this.ranges.md <= ww && ww < this.ranges.lg)) {
+      } else if ((this.breakpoints.md <= ww && ww < this.breakpoints.lg)) {
         return 'md';
-      } else if (this.ranges.lg <= ww) {
+      } else if (this.breakpoints.lg <= ww) {
         return 'lg';
       }
     };
@@ -345,7 +345,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
 
     BttrLazyLoadingGlobal.prototype.version = '1.0.8';
 
-    BttrLazyLoadingGlobal.ranges = {
+    BttrLazyLoadingGlobal.breakpoints = {
       xs: 767,
       sm: 768,
       md: 992,
@@ -356,22 +356,26 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       xs: {
         src: null,
         width: 100,
-        height: 100
+        height: 100,
+        animation: null
       },
       sm: {
         src: null,
         width: 100,
-        height: 100
+        height: 100,
+        animation: null
       },
       md: {
         src: null,
         width: 100,
-        height: 100
+        height: 100,
+        animation: null
       },
       lg: {
         src: null,
         width: 100,
-        height: 100
+        height: 100,
+        animation: null
       },
       retina: false,
       animation: 'bounceIn',
@@ -398,7 +402,15 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       if (object == null) {
         object = {};
       }
-      $.extend(true, this.constructor.ranges, object);
+      $.extend(true, this.constructor.breakpoints, object);
+      return this;
+    };
+
+    BttrLazyLoadingGlobal.prototype.setBreakPoints = function(object) {
+      if (object == null) {
+        object = {};
+      }
+      $.extend(true, this.constructor.breakpoints, object);
       return this;
     };
 

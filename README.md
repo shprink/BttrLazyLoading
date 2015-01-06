@@ -22,7 +22,7 @@ BttrLazyLoading depends on jQuery (meaning jQuery must be included before the pl
 
 * delay: Adds delay to the image loading time.
 * threshold: By default images are loaded when they appear on the screen. If you want images to load earlier use threshold parameter. Setting threshold to 200 causes image to load 200 pixels before it appears on viewport.
-* animation: Adds an animation when the image loads. Animations available: ['flipInX', 'flipInY', 'fadeIn', 'fadeInUp', 'fadeInDown', 'fadeInLeft', 'fadeInRight', 'fadeInUpBig', 'fadeInDownBig', 'fadeInLeftBig', 'fadeInRightBig', 'slideInDown', 'slideInLeft', 'slideInRight', 'bounceIn', 'bounceInDown', 'bounceInUp', 'bounceInLeft', 'bounceInRight', 'rotateIn', 'rotateInDownLeft', 'rotateInDownRight', 'rotateInUpLeft', 'rotateInUpRight', 'lightSpeedIn', 'rollIn']
+* animation: Adds an animation when the image loads. Animations available: [See list](http://daneden.github.io/animate.css/)
 * event: Defines the event that will be use to trigger the image loading/updating.
 * placeholder: Base 64 image that is used when the image loads.
 * container: You can also use this plugin for images inside scrolling container, such as div with scrollbar. By default the container is the window.
