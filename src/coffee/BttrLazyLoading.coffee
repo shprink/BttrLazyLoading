@@ -68,7 +68,7 @@ class BttrLazyLoading
 			@$clone.hide()
 			@$img.show()
 			@$wrapper.addClass 'bttrlazyloading-loaded'
-			@$img.addClass 'animated ' + @options.animation if @options.animation
+			@$img.addClass _getAnimationFromScreenSize.call @
 			@loaded = @$img.attr 'src'
 			@$img.trigger 'bttrlazyloading.afterLoad'
 
@@ -82,7 +82,7 @@ class BttrLazyLoading
 					@$wrapper.css 'background-image', "url('" + @options.placeholder + "')"
 				else
 					@$wrapper.removeClass 'bttrlazyloading-loaded'
-					@$img.removeClass 'animated ' + @options.animation if @options.animation
+					@$img.removeClass _getAnimationFromScreenSize.call @
 					@$img.removeAttr 'src'
 					@$img.hide()
 					@$clone.attr 'width', imgObject.width
@@ -120,6 +120,10 @@ class BttrLazyLoading
 		# making sure we laod image within a container not in the viewport
 		$(window)[onOrOff] @options.event, update if @options.container isnt window
 		$(window)[onOrOff] "resize", update
+
+	_getAnimationFromScreenSize = () ->
+		imgObject = _getImgObject.call @
+		if imgObject.animation then 'animated ' + imgObject.animation else 'animated ' + @options.animation
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
@@ -229,7 +233,7 @@ class BttrLazyLoading
 		_setupEvents.call @, 'off'
 		@$img.off 'bttrlazyloading'
 		@$wrapper.removeClass 'bttrlazyloading-loaded'
-		@$img.removeClass 'animated ' + @options.animation if @options.animation
+		@$img.removeClass _getAnimationFromScreenSize.call @
 		@$img.removeData 'bttrlazyloading'
 		return @$img
 
@@ -265,21 +269,25 @@ class BttrLazyLoadingGlobal
 			width : 100
 			height : 100
 			animation: null
+			backgroundcolor: null
 		sm :
 			src : null
 			width : 100
 			height : 100
 			animation: null
+			backgroundcolor: null
 		md :
 			src : null
 			width : 100
 			height : 100
 			animation: null
+			backgroundcolor: null
 		lg :
 			src : null
 			width : 100
 			height : 100
 			animation: null
+			backgroundcolor: null
 		retina : false
 		animation: 'bounceIn'
 		delay: 0

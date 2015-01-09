@@ -4,24 +4,28 @@ var testFixture = {
     xs: {
         src: IMAGE_DIR + "768x200.gif",
         width: 768,
-        height: 200
+        height: 200,
+        animation: "animationOne"
     },
     sm: {
         src: IMAGE_DIR + "345x250.gif",
         width: 345,
-        height: 250
+        height: 250,
+        animation: "animationTwo"
     },
     md: {
         src: IMAGE_DIR + "455x350.gif",
         width: 455,
-        height: 350
+        height: 350,
+        animation: "animationThree"
     },
     lg: {
         src: IMAGE_DIR + "360x300.gif",
         width: 360,
-        height: 300
+        height: 300,
+        animation: "animationFour"
     },
-    animation: "rotatedIn",
+    animation: "animationDefault",
     retina: true,
     delay: 10,
     event: "mouseover",
@@ -37,15 +41,19 @@ imgWithAllDataAttribute.setAttribute("id", "imgWithAllDataAttribute");
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-src", testFixture.xs.src);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-width", testFixture.xs.width);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-height", testFixture.xs.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-xs-animation", testFixture.xs.animation);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-src", testFixture.sm.src);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-width", testFixture.sm.width);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-height", testFixture.sm.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-sm-animation", testFixture.sm.animation);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-src", testFixture.md.src);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-width", testFixture.md.width);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-height", testFixture.md.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-md-animation", testFixture.md.animation);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-src", testFixture.lg.src);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-width", testFixture.lg.width);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-height", testFixture.lg.height);
+imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-lg-animation", testFixture.lg.animation);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-animation", testFixture.animation);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-retina", testFixture.retina);
 imgWithAllDataAttribute.setAttribute("data-bttrlazyloading-delay", testFixture.delay);
@@ -120,6 +128,10 @@ describe("HTML5 data attribute", function() {
         expect(obj.options.sm.height).toEqual(testFixture.sm.height);
         expect(obj.options.md.height).toEqual(testFixture.md.height);
         expect(obj.options.lg.height).toEqual(testFixture.lg.height);
+        expect(obj.options.xs.animation).toEqual(testFixture.xs.animation);
+        expect(obj.options.sm.animation).toEqual(testFixture.sm.animation);
+        expect(obj.options.md.animation).toEqual(testFixture.md.animation);
+        expect(obj.options.lg.animation).toEqual(testFixture.lg.animation);
         expect(obj.options.retina).toEqual(testFixture.retina);
         expect(obj.options.animation).toEqual(testFixture.animation);
         expect(obj.options.delay).toEqual(testFixture.delay);
@@ -278,20 +290,6 @@ describe("jQuery Plugin", function() {
 
     it("[DEPRECATED] set the default global ranges", function() {
         $.bttrlazyloading.setRanges({
-            'xs': 700,
-            'sm': 800,
-            'md': 900,
-            'lg': 1100
-        });
-        var obj3 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
-        expect(obj3.breakpoints.xs).toEqual(700);
-        expect(obj3.breakpoints.sm).toEqual(800);
-        expect(obj3.breakpoints.md).toEqual(900);
-        expect(obj3.breakpoints.lg).toEqual(1100);
-    });
-
-    it("set the default global BreakPoints", function() {
-        $.bttrlazyloading.setBreakPoints({
             'xs': 701,
             'sm': 801,
             'md': 901,
@@ -302,6 +300,20 @@ describe("jQuery Plugin", function() {
         expect(obj3.breakpoints.sm).toEqual(801);
         expect(obj3.breakpoints.md).toEqual(901);
         expect(obj3.breakpoints.lg).toEqual(1101);
+    });
+
+    it("set the default global BreakPoints", function() {
+        $.bttrlazyloading.setBreakPoints({
+            'xs': 700,
+            'sm': 800,
+            'md': 900,
+            'lg': 1100
+        });
+        var obj3 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
+        expect(obj3.breakpoints.xs).toEqual(700);
+        expect(obj3.breakpoints.sm).toEqual(800);
+        expect(obj3.breakpoints.md).toEqual(900);
+        expect(obj3.breakpoints.lg).toEqual(1100);
     });
 });
 
@@ -440,6 +452,38 @@ describe("Method", function() {
         instance = $("#imgWithAllExistingSrc").data('bttrlazyloading');
         expect(instance).toEqual(undefined);
         done();
+    });
+});
+
+describe("Animations", function() {
+
+    beforeEach(function(done) {
+        $("#imgWithAllDataAttribute").bttrlazyloading();
+        $("#imgWithAllDataAttribute").trigger('bttrlazyloading.load');
+
+        setTimeout(function() {
+            done();
+        }, 100);
+    });
+
+    afterEach(function() {
+        $("#imgWithAllDataAttribute").bttrlazyloading('destroy');
+        $("#imgWithAllDataAttribute").attr('src', '');
+    });
+
+    it("should load the right animation for every screen size", function() {
+        var instance = $("#imgWithAllDataAttribute").bttrlazyloading().data('bttrlazyloading');
+        ww = window.innerWidth;
+        console.log(ww, 'window.innerWidth');
+        if (ww <= 700) {
+            expect(instance.options.xs.animation).toEqual(testFixture.xs.animation);
+        } else if ((800 <= ww && ww < 900)) {
+            expect(instance.options.sm.animation).toEqual(testFixture.sm.animation);
+        } else if ((900 <= ww && ww < 1100)) {
+            expect(instance.options.md.animation).toEqual(testFixture.md.animation);
+        } else if (1100 <= ww) {
+            expect(instance.options.lg.animation).toEqual(testFixture.lg.animation);
+        }
     });
 });
 
