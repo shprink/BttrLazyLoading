@@ -6,20 +6,20 @@ class BttrLazyLoading
 	@dpr = 1
 
 	constructor: (img, options = {} ) ->
-		@$img		 = $(img)
-		@loaded		 = false
-		@loading	 = false
+		@$img		= $(img)
+		@loaded		= false
+		@loading	= false
 
-		defaultOptions = $.extend true, {} , $.bttrlazyloading.constructor.options
+		defaultOptions	= $.extend true, {} , $.bttrlazyloading.constructor.options
 
-		@options	 = $.extend true, defaultOptions, options
-		@breakpoints		 = $.bttrlazyloading.constructor.breakpoints
+		@options		= $.extend true, defaultOptions, options
+		@breakpoints	= $.bttrlazyloading.constructor.breakpoints
 
-		@$container = $(@options.container)
+		@$container	= $(@options.container)
 		@constructor.dpr = window.devicePixelRatio if typeof window.devicePixelRatio == 'number'
 
-		@whiteList = ['lg', 'md', 'sm', 'xs']
-		@blackList = []
+		@whiteList	= ['lg', 'md', 'sm', 'xs']
+		@blackList	= []
 
 		_setOptionsFromData.call @
 
@@ -68,7 +68,7 @@ class BttrLazyLoading
 			@$clone.hide()
 			@$img.show()
 			@$wrapper.addClass 'bttrlazyloading-loaded'
-			@$img.addClass _getAnimationFromScreenSize.call @
+			@$img.addClass 'animated ' + _getAnimationFromScreenSize.call @
 			@loaded = @$img.attr 'src'
 			@$img.trigger 'bttrlazyloading.afterLoad'
 
@@ -82,7 +82,7 @@ class BttrLazyLoading
 					@$wrapper.css 'background-image', "url('" + @options.placeholder + "')"
 				else
 					@$wrapper.removeClass 'bttrlazyloading-loaded'
-					@$img.removeClass _getAnimationFromScreenSize.call @
+					@$img.removeClass 'animated ' + _getAnimationList.call @
 					@$img.removeAttr 'src'
 					@$img.hide()
 					@$clone.attr 'width', imgObject.width
@@ -123,11 +123,29 @@ class BttrLazyLoading
 
 	_getAnimationFromScreenSize = () ->
 		imgObject = _getImgObject.call @
-		if imgObject.animation then 'animated ' + imgObject.animation else 'animated ' + @options.animation
+		if imgObject.animation then imgObject.animation else @options.animation
+
+	_getAnimationList = () ->
+		animations = []
+		for range, index in @whiteList
+			imgObject = _getImgObjectPerRange.call @, range
+			if imgObject.animation
+				animations.push imgObject.animation
+			else
+				animations.push @options.animation
+		animations = _removeDuplicates.call @, animations
+		animations.join(' ')
+
+	_removeDuplicates = (ar) ->
+		if ar.length == 0
+		  return []  
+		res = {}
+		res[ar[key]] = ar[key] for key in [0..ar.length-1]
+		value for key, value of res
 
 	_getRangeFromScreenSize = () ->
 		ww = window.innerWidth
-		if ww <= @breakpoints.xs
+		if ww < @breakpoints.sm
 			'xs'
 		else if @breakpoints.sm <= ww < @breakpoints.md
 			'sm'

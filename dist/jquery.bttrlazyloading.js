@@ -16,7 +16,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
   $ = jQuery;
 
   BttrLazyLoading = (function() {
-    var _getAnimationFromScreenSize, _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _setOptionsFromData, _setupEvents, _update, _updateCanvasSize;
+    var _getAnimationFromScreenSize, _getAnimationList, _getImageSrc, _getImgObject, _getImgObjectPerRange, _getLargestImgObject, _getRangeFromScreenSize, _isUpdatable, _isWithinViewport, _removeDuplicates, _setOptionsFromData, _setupEvents, _update, _updateCanvasSize;
 
     BttrLazyLoading.dpr = 1;
 
@@ -110,7 +110,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
           _this.$clone.hide();
           _this.$img.show();
           _this.$wrapper.addClass('bttrlazyloading-loaded');
-          _this.$img.addClass(_getAnimationFromScreenSize.call(_this));
+          _this.$img.addClass('animated ' + _getAnimationFromScreenSize.call(_this));
           _this.loaded = _this.$img.attr('src');
           return _this.$img.trigger('bttrlazyloading.afterLoad');
         };
@@ -126,7 +126,7 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
               _this.$wrapper.css('background-image', "url('" + _this.options.placeholder + "')");
             } else {
               _this.$wrapper.removeClass('bttrlazyloading-loaded');
-              _this.$img.removeClass(_getAnimationFromScreenSize.call(_this));
+              _this.$img.removeClass('animated ' + _getAnimationList.call(_this));
               _this.$img.removeAttr('src');
               _this.$img.hide();
               _this.$clone.attr('width', imgObject.width);
@@ -178,16 +178,50 @@ MIT License, https://github.com/shprink/BttrLazyLoading/blob/master/LICENSE
       var imgObject;
       imgObject = _getImgObject.call(this);
       if (imgObject.animation) {
-        return 'animated ' + imgObject.animation;
+        return imgObject.animation;
       } else {
-        return 'animated ' + this.options.animation;
+        return this.options.animation;
       }
+    };
+
+    _getAnimationList = function() {
+      var animations, imgObject, index, range, _i, _len, _ref;
+      animations = [];
+      _ref = this.whiteList;
+      for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
+        range = _ref[index];
+        imgObject = _getImgObjectPerRange.call(this, range);
+        if (imgObject.animation) {
+          animations.push(imgObject.animation);
+        } else {
+          animations.push(this.options.animation);
+        }
+      }
+      animations = _removeDuplicates.call(this, animations);
+      return animations.join(' ');
+    };
+
+    _removeDuplicates = function(ar) {
+      var key, res, value, _i, _ref, _results;
+      if (ar.length === 0) {
+        return [];
+      }
+      res = {};
+      for (key = _i = 0, _ref = ar.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; key = 0 <= _ref ? ++_i : --_i) {
+        res[ar[key]] = ar[key];
+      }
+      _results = [];
+      for (key in res) {
+        value = res[key];
+        _results.push(value);
+      }
+      return _results;
     };
 
     _getRangeFromScreenSize = function() {
       var ww;
       ww = window.innerWidth;
-      if (ww <= this.breakpoints.xs) {
+      if (ww < this.breakpoints.sm) {
         return 'xs';
       } else if ((this.breakpoints.sm <= ww && ww < this.breakpoints.md)) {
         return 'sm';

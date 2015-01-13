@@ -304,13 +304,13 @@ describe("jQuery Plugin", function() {
 
     it("set the default global BreakPoints", function() {
         $.bttrlazyloading.setBreakPoints({
-            'xs': 700,
+            'xs': 799,
             'sm': 800,
             'md': 900,
             'lg': 1100
         });
         var obj3 = $("#imgWithNoDataAttribute").bttrlazyloading().data('bttrlazyloading');
-        expect(obj3.breakpoints.xs).toEqual(700);
+        expect(obj3.breakpoints.xs).toEqual(799);
         expect(obj3.breakpoints.sm).toEqual(800);
         expect(obj3.breakpoints.md).toEqual(900);
         expect(obj3.breakpoints.lg).toEqual(1100);
@@ -325,7 +325,7 @@ describe("Responsivity", function() {
             var obj = $("#imgWithAllExistingSrc").data('bttrlazyloading');
             var ww;
             ww = window.innerWidth;
-            if (ww <= 700) {
+            if (ww <= 799) {
                 expect(obj.loaded).toEqual(testFixture.xs.src);
             } else if ((800 <= ww && ww < 900)) {
                 expect(obj.loaded).toEqual(testFixture.sm.src);
@@ -474,15 +474,14 @@ describe("Animations", function() {
     it("should load the right animation for every screen size", function() {
         var instance = $("#imgWithAllDataAttribute").bttrlazyloading().data('bttrlazyloading');
         ww = window.innerWidth;
-        console.log(ww, 'window.innerWidth');
-        if (ww <= 700) {
-            expect(instance.options.xs.animation).toEqual(testFixture.xs.animation);
+        if (ww <= 799) {
+            expect($("#imgWithAllDataAttribute").hasClass(testFixture.xs.animation)).toEqual(true);
         } else if ((800 <= ww && ww < 900)) {
-            expect(instance.options.sm.animation).toEqual(testFixture.sm.animation);
+            expect($("#imgWithAllDataAttribute").hasClass(testFixture.sm.animation)).toEqual(true);
         } else if ((900 <= ww && ww < 1100)) {
-            expect(instance.options.md.animation).toEqual(testFixture.md.animation);
+            expect($("#imgWithAllDataAttribute").hasClass(testFixture.md.animation)).toEqual(true);
         } else if (1100 <= ww) {
-            expect(instance.options.lg.animation).toEqual(testFixture.lg.animation);
+            expect($("#imgWithAllDataAttribute").hasClass(testFixture.lg.animation)).toEqual(true);
         }
     });
 });
