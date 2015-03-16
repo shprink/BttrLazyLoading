@@ -183,6 +183,10 @@ Builds CoffeeScript and CSS, and runs linting and build steps if any changes occ
 gulp watch (coming)
 ```
 
+### Issues
+
+For any issue a running codepen demonstrating the problem is required. You can fork this one: http://codepen.io/shprink/pen/JoeGPq
+
 ### Run tests
 Open test/index.html
 
