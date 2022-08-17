@@ -145,6 +145,8 @@ The HTML5 doctype is require to work correctly.
 
 [More information](http://www.w3schools.com/tags/tag_doctype.asp)
 
+For a HTML Doctype reference see [here](https://www.scaler.com/topics/html/doctype-html/)
+
 ## Support
 
 [![Flattr BttrLazyLoading](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=shprink&url=https%3A%2F%2Fgithub.com%2Fshprink%2FBttrLazyLoading)
